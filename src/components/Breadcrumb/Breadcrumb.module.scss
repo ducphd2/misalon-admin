@@ -1,0 +1,49 @@
+@import "../../scss/Responsive.scss";
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+  list-style: none;
+  background-color: none;
+  border-radius: 0.25rem;
+
+  @include x-small {
+    display: none;
+  }
+}
+
+.page-title {
+  color: #1f1f1f;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-family: "Roboto";
+  text-transform: capitalize;
+
+  @include x-small {
+    font-size: 18px;
+  }
+}
+
+.wrap-breakCrumb {
+  display: "flex" !important;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  text-transform: capitalize;
+}
+
+.breadcrumb-item a {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  text-transform: capitalize;
+}

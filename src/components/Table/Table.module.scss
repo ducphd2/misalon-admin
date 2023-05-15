@@ -1,0 +1,24 @@
+.table-wrapper {
+    width: 100%;
+    margin: 0;
+    font-size: .9375rem;
+    padding: 0 15px;
+    table {
+        color: #333;
+        width: 100%;
+        border-color: grey;
+        background-color: #ffffff;
+    }
+    th {
+        padding: 10px 8px;
+        border-bottom: 2px solid #dee2e6;
+    }
+    tr {
+        border: 1px solid #dee2e6;
+        box-shadow: 0 0 3px #e5e5e5;
+        padding: 30px;
+    }
+    td {
+        padding: 10px 8px;
+    }
+}

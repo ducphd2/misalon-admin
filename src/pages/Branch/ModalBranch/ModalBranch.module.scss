@@ -1,0 +1,54 @@
+.form {
+  margin-top: 30px;
+}
+.form-controls {
+  border-color: #e3e3e3;
+  box-shadow: none;
+  font-size: 15px;
+  height: 44px;
+
+  input {
+    height: 44px;
+    background-color: #fff;
+  }
+}
+.submit-section {
+  margin-top: 40px;
+}
+.btn-submit {
+  font-family: "Roboto", sans-serif;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  max-width: 200px;
+  padding: 10px 20px;
+  margin: 0 auto;
+
+  &:hover {
+    background-color: #00b7ed;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+.dropdown-skill {
+  height: 44px;
+}
+.error-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+
+  .error-message {
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+    color: #f56a6a;
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+  }
+}

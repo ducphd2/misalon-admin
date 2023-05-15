@@ -1,0 +1,38 @@
+.wrapper {
+  height: var(--header-height);
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  &.no-hover:hover {
+    background-color: transparent;
+  }
+
+  .menu-icon {
+    margin-left: 4px;
+    -webkit-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+  }
+  .rotation-arrow {
+    transform: rotateZ(-180deg);
+  }
+  .badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    background-color: #7460ee;
+  }
+}

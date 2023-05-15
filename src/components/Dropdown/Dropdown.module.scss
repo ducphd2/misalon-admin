@@ -1,0 +1,126 @@
+.dropdown-container {
+  position: relative;
+  display: block;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.25rem;
+  height: 42px;
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  align-items: center;
+}
+
+.dropdown-headerShow {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.25rem;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  height: 42px;
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  align-items: center;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+  width: 100%;
+  z-index: 1051;
+  max-width: 440px;
+  width: 100%;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+}
+
+.dropdown-option {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22.5px;
+  color: #585757 !important;
+  padding: 6px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #00c5fb;
+  }
+
+  &.active {
+    background-color: #ddd;
+
+    &:hover {
+      background-color: #00c5fb;
+    }
+  }
+}
+
+.label {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 42px;
+  color: #585757;
+  padding: 12px;
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.icon {
+  margin-right: 13px;
+
+  i {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.icondrop {
+  width: 18px;
+  height: 18px;
+}

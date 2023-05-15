@@ -1,0 +1,33 @@
+.sub-title {
+  margin-top: 10px;
+  text-align: center;
+  color: #929292;
+  font-size: 15px;
+  margin-bottom: 0;
+}
+.modal-btn {
+  margin-top: 30px;
+  .btn-confirm {
+    box-sizing: border-box;
+    background-color: #fff !important;
+    border: 1px solid #00c5fb !important;
+    border-radius: 50px !important;
+    color: #00c5fb !important;
+    display: block !important;
+    font-size: 18px !important;
+    font-weight: 600;
+    padding: 10px 20px !important;
+    width: 100% !important;
+    text-align: center !important;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    &:hover {
+      background-color: #00c5fb !important;
+      border: 1px solid #00c5fb !important;
+      color: #fff !important;
+    }
+    &:focus {
+      outline: none !important;
+    }
+  }
+}

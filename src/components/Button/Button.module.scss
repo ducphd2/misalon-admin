@@ -1,0 +1,54 @@
+.button {
+  font-family: 'Roboto', sans-serif;
+  background: #00c5fb;
+  border: 0;
+  border-radius: 4px;
+  display: block;
+  font-size: 22px;
+  padding: 10px 26px;
+  width: 100%;
+  color: #fff;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.button:hover {
+  border: 0;
+  opacity: 0.8;
+}
+
+.button:active {
+  background-color: #00b7ed;
+  border-color: #00b7ed;
+  color: #fff;
+}
+
+.button::first-letter {
+  text-transform: uppercase;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:focus-visible {
+  border: 0;
+  outline: none;
+}
+
+.styleDisable {
+  background: #e0e0e0;
+  color: #00000033;
+
+  &:hover {
+    background: #e0e0e0;
+    color: #00000033;
+  }
+}
+
+i {
+  margin-right: 5px;
+}

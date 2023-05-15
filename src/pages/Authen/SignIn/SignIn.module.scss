@@ -1,0 +1,106 @@
+@import "../../../scss/Responsive.scss";
+
+.account-page {
+  font-family: "Roboto", sans-serif;
+  color: #1f1f1f;
+  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  .account-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    @include x-small {
+      flex-direction: column;
+    }
+    .account-box {
+      padding: 20px 0;
+      .btn-apply {
+        font-family: "Roboto", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        padding: 6px 12px;
+        height: 38px;
+        border: 1px solid #00c5fb;
+        border-radius: 5px;
+        box-shadow: 0 6px 15px rgb(36 37 38 / 8%);
+        color: #fff;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+      .account-container {
+        width: 100%;
+        padding: 0 15px;
+        margin: 0 auto;
+        .account-logo {
+          margin-bottom: 30px;
+          text-align: center;
+          .logo {
+            width: 100px;
+            border-radius: 50%;
+          }
+        }
+        .account-content {
+          background-color: #fff;
+          border: 1px solid #ededed;
+          border-radius: 4px;
+          box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+          margin: 0 auto;
+          overflow: hidden;
+          width: 480px;
+          @include x-small {
+            width: 100%;
+            margin-bottom: 20px;
+          }
+          .content-inside {
+            padding: 30px;
+            @include x-small {
+              padding: 15px;
+            }
+            .account-title {
+              font-size: 26px;
+              font-weight: 500;
+              margin-bottom: 5px;
+              text-align: center;
+            }
+            .account-subtitle {
+              color: #4c4c4c;
+              font-size: 18px;
+              margin-bottom: 30px;
+              text-align: center;
+            }
+            .label {
+              margin-bottom: 25px;
+
+              .account-password {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                font-size: 16px;
+                p {
+                  margin: 0;
+                }
+                .forgot-password {
+                  color: #8e8e8e;
+                  font-size: 15px;
+                  &:hover {
+                    text-decoration: none;
+                  }
+                }
+              }
+            }
+            .btn-submit {
+              height: 53px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.dropdown-action {
+	position: absolute;
+	right: 5px;
+	text-align: right;
+	top: 10px;
+	font-size: 18px;
+	user-select: none; /* supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	.action-icon {
+		cursor: pointer;
+		svg {
+			width: 24px;
+			path {
+				fill: #777;
+			}
+		}
+	}
+	.dropdown-item-custom {
+		font-size: 13px;
+		vertical-align: middle;
+		cursor: pointer;
+		svg {
+			margin-right: 5px;
+		}
+	}
+}
+.dropdown-action .action-icon::after {
+	display: none;
+}
+.not-show {
+	display: none;
+}

@@ -1,0 +1,56 @@
+.profile-widget {
+	background-color: #fff;
+	border: 1px solid #ededed;
+	border-radius: 4px;
+	margin-bottom: 30px;
+	padding: 20px;
+	text-align: center;
+	position: relative;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	user-select: none; /* supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none;
+    .user-name {
+		margin-top: 10px;
+		overflow: hidden;
+		white-space: nowrap;
+  		text-overflow: ellipsis;
+		
+		&> a {
+        color: #333;
+        text-decoration: none;
+    }}
+    .show {
+        display: block;
+        right:0
+    }
+	.designation {
+		min-height: 18px;
+	}
+}
+
+.profile-img {
+	cursor: pointer;
+	height: 80px;
+	margin: 0 auto;
+	position: relative;
+	width: 80px;
+}
+.profile-img .avatar {
+	font-size: 24px;
+	height: 80px;
+	line-height: 80px;
+	margin: 0;
+	width: 80px;
+	img {
+		border-radius: 50%;
+		display: block;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}

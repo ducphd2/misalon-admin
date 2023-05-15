@@ -1,0 +1,30 @@
+@import "../../scss/Responsive.scss";
+
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.app {
+  flex: 1;
+  margin-top: var(--header-height);
+  margin-left: var(--sidebar-width);
+  transition: all 0.1s ease-in-out;
+  overflow-y: auto;
+  &.sm-margin {
+    margin-left: var(--sidebar-tablet-width);
+    background-color: #f7f7f7;
+    @include medium {
+      margin-left: 0;
+    }
+    @include small {
+      margin-left: 0;
+    }
+  }
+}
+
+.main {
+  background-color: #f9f6f5;
+}

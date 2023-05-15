@@ -1,0 +1,49 @@
+.pagination-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+  .list-item-paginate {
+    list-style: none;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #dee2e6;
+    color: #00c5fb;
+    margin-left: -1px;
+    line-height: 1.25;
+    min-width: 34px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .active-page {
+    background-color: #00c5fb;
+    border-color: #00c5fb;
+    color: #fff;
+  }
+  .move-page-btn {
+    padding: 0.5rem 0.75rem;
+    line-height: 1.25;
+    border: 1px solid #dee2e6;
+    color:#00c5fb;
+    outline: none;
+  }
+  .prev-btn {
+    margin-left: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+  }
+  .next-btn {
+    margin-left: -1px;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  .disabled-btn {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+  }
+}

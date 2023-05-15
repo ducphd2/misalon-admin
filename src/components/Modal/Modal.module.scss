@@ -1,0 +1,66 @@
+.modal {
+    padding-right: 17px;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 1050;
+    left: 0;
+    background: rgb(31 31 31 / 40%);
+    overflow-y:auto;
+}
+
+.modal-content {
+    border: 0;
+    border-radius: 10px;
+}
+
+.modal-header {
+    border: 0;
+    justify-content: center;
+    padding: 30px 30px 0;
+}
+
+.modal-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 22px;
+    color: rgb(31, 31, 31);
+    text-align: center;
+    font-weight: 500;
+    line-height: 33px;
+    margin-bottom: 0;
+}
+
+.close-button {
+    background: #a0a0a0;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 13px;
+    height: 20px;
+    line-height: 20px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 20px;
+    z-index: 99;
+    border: none;
+
+    &:hover {
+        opacity: .75;
+    }
+
+    &:active {
+        background: #a0a0a0;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.modal .modal-body {
+    padding: 0px 30px 30px 30px;
+}
