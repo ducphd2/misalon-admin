@@ -7,12 +7,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { AiOutlineBars } from "react-icons/ai";
-import {
-  HideMenuIcon,
-  ShowMenuIcon,
-  UserIcon,
-} from "../../assets/icons/HeaderIcons";
+import { AiOutlineBars, AiOutlineWechat } from "react-icons/ai";
+import { MdLanguage } from "react-icons/md";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { UserIcon } from "../../assets/icons/HeaderIcons";
 import DropMenu from "./DropdownMenu/DropMenu";
 import MenuItem from "./MenuItem";
 import useClickOutside from "../../hooks/useClickOutside";
@@ -117,7 +115,7 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
         <img className={cx("logo-mobile")} src={images.logoSm} alt="" />
       </div>
       <div className={cx("user-menu")}>
-        <MenuItem noHover>
+        {/* <MenuItem noHover>
           <button
             className={cx("search-btn-tablet")}
             onClick={() => setOpenSearch(!isOpenSearch)}
@@ -138,27 +136,19 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
               </button>
             </form>
           </div>
-        </MenuItem>
-        <MenuItem
-          hasArrow
-          isOpen={isOpenLanguage}
-          setOpenMenu={setOpenLanguage}
-        >
-          <div className={cx("language")}>
-            <div>English</div>
-            <DropMenu
-              isOpen={isOpenLanguage}
-              listItem={listLanguage}
-              label="name"
-            />
-          </div>
-        </MenuItem>
+        </MenuItem> */}
+
+        <div className={cx("language")}>
+          <AiOutlineWechat size={25} color="rgb(146, 147, 148)" />
+          <IoMdNotificationsOutline size={25} color="rgb(146, 147, 148)" />
+          <MdLanguage size={25} color="rgb(146, 147, 148)" />
+        </div>
         <MenuItem hasArrow isOpen={isOpenMenu} setOpenMenu={setOpenMenu}>
           <div className={cx("user")}>
             <UserIcon className={cx("user-ava")} />
             <div className={cx("username")}>
               <p className={cx("name")}>{authUser?.username}</p>
-              <span className={cx("role")}>{authUser?.role}</span>
+              {/* <span className={cx("role")}>{authUser?.role}</span> */}
             </div>
             <DropMenu
               isOpen={isOpenMenu}
