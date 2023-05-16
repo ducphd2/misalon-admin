@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
+import { AiOutlineBars } from "react-icons/ai";
 import {
   HideMenuIcon,
   ShowMenuIcon,
@@ -20,7 +21,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   resetAuthUserState,
   selectAuthUser,
-  logout
+  logout,
 } from "../../redux/slice/Authen/login";
 import { AuthUser } from "../../redux/types/Login/login";
 
@@ -35,7 +36,7 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
   const [isOpenLanguage, setOpenLanguage] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const [textSearch, setTextSearch] = useState("");
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [authUser, setAuthUser] = useState<any>({
     createdAt: "",
     email: "",
@@ -64,9 +65,9 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(textSearch !== "") {
+    if (textSearch !== "") {
       navigate(`/search?search=${textSearch}`);
-      setTextSearch("")
+      setTextSearch("");
     }
     // console.log("Submit !");
   };
@@ -88,10 +89,10 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
     const firstRoute = routes[0];
     if (path === "/setting") {
       navigate(firstRoute);
-    } else if(path === "/auth/login") {
+    } else if (path === "/auth/login") {
       navigate(path);
-      dispatch(logout())
-    }else {
+      dispatch(logout());
+    } else {
       navigate(path);
     }
   };
@@ -102,12 +103,12 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
     >
       {menuActive ? (
         <div className={cx("hide-menu")} onClick={onMenuClick}>
-          <HideMenuIcon className={cx("hide-menu-icon")} />
+          <AiOutlineBars />
           <span className={cx("hide-menu-text")}>HEALTH</span>
         </div>
       ) : (
         <div className={cx("hide-menu")} onClick={onMenuClick}>
-          <ShowMenuIcon className={cx("show-menu-icon")} />
+          <AiOutlineBars />
           <span className={cx("hide-menu-text")}>HEALTH</span>
         </div>
       )}

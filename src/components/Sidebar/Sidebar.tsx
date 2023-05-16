@@ -2,19 +2,24 @@ import classNames from "classnames/bind";
 import { Dispatch, lazy, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  CloseIcon,
-  DashboardIcon,
-  EmployeeIcon,
-  LogoutIcon,
-} from "../../assets/icons/SidebarIcons";
+  MdDashboard,
+  MdOutlineMonetizationOn,
+  MdManageAccounts,
+  MdOutlineMiscellaneousServices,
+  MdOutlineHealthAndSafety,
+} from "react-icons/md";
+import {
+  AiOutlineCalendar,
+  AiFillSetting,
+  AiOutlineBranches,
+  AiFillWechat,
+} from "react-icons/ai";
+import { RiShieldUserLine, RiShoppingCartFill } from "react-icons/ri";
+import { CloseIcon } from "../../assets/icons/SidebarIcons";
 import images from "../../assets/images";
 import styles from "./Sidebar.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGear,
-  faRocket,
-  faUserPlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faRocket } from "@fortawesome/free-solid-svg-icons";
 export type TSidebarProps = {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   onMenuClick: () => void;
@@ -36,109 +41,90 @@ interface MenuItem {
 
 const menuItem: MenuItem[] = [
   {
-    icon: <DashboardIcon className={''} />,
-    label: 'Dashboard',
-    to: '/dashboard',
+    icon: <MdDashboard />,
+    label: "Dashboard",
+    to: "/dashboard",
     id: 1,
     // isAdmin: true,
   },
   {
-    icon: <EmployeeIcon />,
-    label: 'Dịch vụ',
-    to: '/',
+    icon: <MdOutlineMiscellaneousServices />,
+    label: "Services",
+    to: "/service",
     id: 2,
-    children: [
-      {
-        label: 'Chi nhánh',
-        to: '/branch',
-        topDevider: false,
-        // isAdmin: true,
-      },
-      {
-        label: 'Nhóm dịch vụ',
-        to: '/service-group',
-        topDevider: false,
-        // isAdmin: true,
-      },
-      {
-        label: 'Dịch vụ',
-        to: '/service',
-        topDevider: false,
-        // isAdmin: true,
-      },
-    ],
   },
   {
-    icon: <DashboardIcon className={''} />,
-    label: 'Booking',
-    to: '/booking',
+    icon: <AiOutlineBranches />,
+    label: "Branch",
+    to: "/branch",
+    id: 8,
+  },
+  {
+    icon: <AiFillWechat />,
+    label: "Chat",
+    to: "/chat",
+    id: 10,
+  },
+  {
+    icon: <RiShoppingCartFill />,
+    label: "Market",
+    to: "/market",
+    id: 9,
+  },
+  {
+    icon: <MdOutlineMonetizationOn />,
+    label: "Booking",
+    to: "/booking",
     id: 1,
     // isAdmin: true,
   },
   {
-    icon: <DashboardIcon className={''} />,
-    label: 'Schedule',
-    to: '/schedule',
+    icon: <AiOutlineCalendar />,
+    label: "Schedule",
+    to: "/schedule",
     id: 1,
     // isAdmin: true,
   },
   {
-    icon: <EmployeeIcon />,
-    label: 'Profile',
-    to: '/',
+    icon: <RiShieldUserLine />,
+    label: "Profile",
+    to: "/",
     id: 3,
-    children: [
-      {
-        label: 'Profile',
-        to: '/profile',
-        topDevider: false,
-      },
-    ],
   },
   {
     icon: <FontAwesomeIcon icon={faRocket} style={{ height: 24, width: 24 }} />,
-    label: 'Projects',
-    to: '/',
+    label: "Projects",
+    to: "/",
     id: 4,
     isAdmin: true,
     children: [
       {
-        label: 'Projects',
-        to: '/projects',
+        label: "Projects",
+        to: "/projects",
         topDevider: false,
       },
     ],
   },
   {
-    icon: (
-      <FontAwesomeIcon
-        icon={faUserPlus}
-        style={{ color: '#b7c0cd', width: '24px', height: '24px' }}
-      />
-    ),
-    label: 'User Management',
-    to: '/user-management',
+    icon: <MdManageAccounts />,
+    label: "User Management",
+    to: "/user-management",
     id: 6,
   },
   {
-    icon: (
-      <FontAwesomeIcon
-        icon={faGear}
-        style={{ color: '#b7c0cd', width: '24px', height: '24px' }}
-      />
-    ),
-    label: 'Setting',
-    to: '/',
+    icon: <AiFillSetting />,
+    label: "Setting",
+    to: "/",
     id: 7,
     children: [
       {
-        label: 'Change PassWord',
-        to: '/change-password',
+        label: "Change PassWord",
+        to: "/change-password",
         topDevider: false,
       },
       {
-        label: 'Languages',
-        to: '/languages',
+        label: "Languages",
+        to: "/languages",
         topDevider: false,
       },
     ],
@@ -163,18 +149,6 @@ export default function Sidebar({
   const [isMobileSidebar, setMobileSidebar] = useState(false);
 
   useEffect(() => {
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-    }
-
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
-
-  useEffect(() => {
     if (windowSize.innerWidth < 991.98) {
       setMenuActive(() => false);
     }
@@ -190,7 +164,12 @@ export default function Sidebar({
       >
         <Link to="/">
           <div className={cx("logo-wrapper")}>
-            <img src={images.logoSm} alt="" className={cx("logo", "logo-sm")} />
+            <MdOutlineHealthAndSafety
+              className={cx("logo", "logo-sm")}
+              size={55}
+              color="#B7C0CD"
+            />
+            {/* <img src={images.logoSm} alt="" className={cx("logo", "logo-sm")} /> */}
           </div>
         </Link>
         <div className={cx("menu")}>

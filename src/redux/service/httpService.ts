@@ -9,7 +9,7 @@ import qs from "qs";
 import { store } from "../store";
 import { logout } from "../slice/Authen/login";
 
-const BASE_URL = "http://103.82.20.139:3000/api/";
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 const TIME_OUT = 5000;
 
 type ApiConfig<T = any> = {
@@ -57,8 +57,8 @@ const refreshAccessToken = async (): Promise<string | null> => {
     // Return the new access token
     return response.data.accessToken;
   } catch (error) {
-    store.dispatch(logout())
-    window.location.href = '/auth/login';
+    store.dispatch(logout());
+    window.location.href = "/auth/login";
     // If there is an error, return null
     return null;
   }
@@ -121,8 +121,8 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
     if (error.response && error.response.status === 404) {
-      store.dispatch(logout())
-      window.location.href = '/auth/login';
+      store.dispatch(logout());
+      window.location.href = "/auth/login";
     }
     // If the error is an authentication error and the refresh flag is false, set the refresh flag and refresh the access token
     if (error.response && error.response.status === 401 && !isRefreshing) {
@@ -147,7 +147,6 @@ axiosInstance.interceptors.response.use(
         });
       });
     }
-
 
     // If there is an error that is not related to authentication, return the Promise.reject() method
     return Promise.reject(error);

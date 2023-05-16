@@ -98,7 +98,6 @@ export default function ModalBranch({ onCloseModal, defaultValue }: any) {
           <LocationSelector onChangAddress={handleChangeAddress} />
         </div>
       </div>
-
       <div className={cx("submit-section")}>
         <Suspense>
           <Button

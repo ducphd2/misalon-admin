@@ -46,8 +46,6 @@ export default function Service() {
   const initial = {
     page: 1,
     limit: 10,
-    sortBy: "name",
-    sortOrder: "ASC",
   } as GetServiceReq;
 
   const newService = useRef(false);
@@ -148,7 +146,7 @@ export default function Service() {
     <Suspense fallback={<></>}>
       <MainLayout
         title="Service"
-        titleButton="Thêm Dịch Vụ"
+        titleButton="Create Services"
         handleClickAdd={handleAddService}
       >
         <div className={cx("skill-page")}>
@@ -229,9 +227,7 @@ export default function Service() {
           <Suspense>
             <Modal
               isModal={show}
-              title={
-                newService.current ? "Thêm dịch vụ" : "Chỉnh sửa dịch vụ"
-              }
+              title={newService.current ? "Thêm dịch vụ" : "Chỉnh sửa dịch vụ"}
               setOpenModals={setShow}
             >
               <ModalService

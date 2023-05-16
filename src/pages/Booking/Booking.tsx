@@ -125,6 +125,7 @@ export default function Booking() {
 
   useEffect(() => {
     if (path || statusDelete === true) {
+      console.log({ path });
       dispatch(getBookings(path));
     }
 
@@ -133,7 +134,6 @@ export default function Booking() {
     };
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
 
-  console.log({ selectBookings });
   return (
     <Suspense fallback={<></>}>
       <MainLayout
@@ -144,10 +144,10 @@ export default function Booking() {
         <div className={cx("skill-page")}>
           <div className={cx("total-page")}>
             <div className="row">
-              <PageSizeSelector
+              {/* <PageSizeSelector
                 listPageSize={pageSizeList}
                 onPageSizeChange={setLimit}
-              />
+              /> */}
             </div>
           </div>
           {loading ? (
@@ -175,7 +175,15 @@ export default function Booking() {
                           <td>{e.startTime + "-" + e.endTime}</td>
                           <td>{e.note}</td>
                           <td>{e.bookingDate}</td>
-                          <td>{e?.status=='1'? <span style={{color:'green'}}>Đã chấp nhận</span>:"Chưa chấp nhận"}</td>
+                          <td>
+                            {e?.status == "1" ? (
+                              <span style={{ color: "green" }}>
+                                Đã chấp nhận
+                              </span>
+                            ) : (
+                              "Chưa chấp nhận"
+                            )}
+                          </td>
                           <td className={cx("text-right", "dropdown")}>
                             <Suspense fallback={<></>}>
                               <DropDownEdit
@@ -212,9 +220,7 @@ export default function Booking() {
             <Modal
               isModal={show}
               title={
-                newBooking.current
-                  ? "Thêm cuộc hẹn"
-                  : "Cập nhật trạng thái"
+                newBooking.current ? "Thêm cuộc hẹn" : "Cập nhật trạng thái"
               }
               setOpenModals={setShow}
             >

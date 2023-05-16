@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import React from "react";
 import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useState } from "react";
 import { withCookies } from "react-cookie";
@@ -9,7 +10,7 @@ import Service from "../../pages/Service/Service";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Booking from "../../pages/Booking/Booking";
 import Schedule from "../../pages/Shedule/Schedule";
-import UserManagement from '../../pages/UserManagement/UserManagement';
+import UserManagement from "../../pages/UserManagement/UserManagement";
 const Header = lazy(() => import("../Header"));
 const Sidebar = lazy(() => import("../Sidebar"));
 const Branch = lazy(() => import("../../pages/Branch"));
@@ -51,42 +52,42 @@ const Protected = (props: any) => {
 
   const menu = [
     {
-      path: '/',
+      path: "/",
       component: <Dashboard />,
       isAdmin: false,
     },
     {
-      path: 'dashboard',
+      path: "dashboard",
       component: <Dashboard />,
       isAdmin: false,
     },
     {
-      path: 'branch',
+      path: "branch",
       component: <Branch />,
       isAdmin: false,
     },
     {
-      path: 'service-group',
+      path: "service-group",
       component: <ServiceGroup />,
       isAdmin: false,
     },
     {
-      path: 'service',
+      path: "service",
       component: <Service />,
       isAdmin: false,
     },
     {
-      path: 'booking',
+      path: "booking",
       component: <Booking />,
       isAdmin: false,
     },
     {
-      path: 'schedule',
+      path: "schedule",
       component: <Schedule />,
       isAdmin: false,
     },
     {
-      path: 'user-management',
+      path: "user-management",
       component: <UserManagement />,
       isAdmin: false,
     },
@@ -102,8 +103,9 @@ const Protected = (props: any) => {
       />
       <div className={cx("app", menuActive ? "" : "sm-margin")}>
         <Header onMenuClick={handleMenuClick} menuActive={menuActive} />
-          <Routes>
-            {menu.map((element, index) => (
+        <Routes>
+          {menu.map((element, index) => (
+            <>
               <Route
                 path={`/${element.path}`}
                 element={
@@ -117,10 +119,10 @@ const Protected = (props: any) => {
                 }
                 key={String(index)}
               />
-            ))}
-            {/* <Route path="/404" element={<PageNotFound />}></Route> */}
-          </Routes>
-      
+            </>
+          ))}
+          {/* <Route path="/404" element={<PageNotFound />}></Route> */}
+        </Routes>
       </div>
     </div>
   );

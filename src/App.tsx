@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./router/PrivateRoute/PrivateRoute";
-import 'antd/dist/antd.min.css';
+import "antd/dist/antd.min.css";
 const Protected = lazy(() => import("./components/Protected"));
 const Login = lazy(() => import("./pages/Authen/SignIn"));
 function App() {

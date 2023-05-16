@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import PageSizeSelector from "../../components/PageSizeSelector";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { Table } from "antd";
 
 import {
   addBranch,
@@ -23,7 +24,7 @@ import ModalBranch from "./ModalBranch/ModalBranch";
 import styles from "./branch.module.scss";
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
-const Table = lazy(() => import("../../components/Table"));
+// const Table = lazy(() => import("../../components/Table"));
 const DropDownEdit = lazy(() => import("../../components/DropDownEdit/index"));
 const Modal = lazy(() => import("../../components/Modal"));
 const Loading = lazy(() => import("../../components/Loading"));
@@ -49,8 +50,6 @@ export default function Branch() {
   const initial = {
     page: 1,
     limit: 10,
-    sortBy: "name",
-    sortOrder: "ASC",
   } as GetBranchReq;
 
   const newBranch = useRef(false);
@@ -148,7 +147,7 @@ export default function Branch() {
     <Suspense fallback={<></>}>
       <MainLayout
         title="Branch"
-        titleButton="Thêm Chi Nhánh"
+        titleButton="Create Branch"
         handleClickAdd={handleAddBranch}
       >
         <div className={cx("skill-page")}>
@@ -165,7 +164,7 @@ export default function Branch() {
           ) : (
             <>
               <Suspense fallback={<></>}>
-                <Table classCustom={cx("custom-table")}>
+                {/* <Table classCustom={cx("custom-table")}>
                   <thead>
                     <tr>
                       {List.map((item, index) => {
@@ -207,7 +206,7 @@ export default function Branch() {
                       );
                     })}
                   </tbody>
-                </Table>
+                </Table> */}
               </Suspense>
             </>
           )}
