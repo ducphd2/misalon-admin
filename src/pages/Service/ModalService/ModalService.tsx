@@ -1,13 +1,5 @@
 import classNames from "classnames/bind";
-import {
-  Suspense,
-  lazy,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import LocationSelector from "../../../components/AddressSelect";
+import { Suspense, lazy, useEffect, useState } from "react";
 import styles from "./ModalService.module.scss";
 import {
   addService,
@@ -16,16 +8,12 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import {
   AddServiceReq,
-  EServiceShowType,
-  EServiceType,
   EditServiceReq,
 } from "../../../redux/types/Service/service";
-import Loading from "../../../components/Loading/Loading";
 import {
   getServiceGroups,
   selectServiceGroupList,
 } from "../../../redux/slice/ServiceGroup/ServiceGroupSlice";
-import Dropdown from "../../../components/Dropdown/Dropdown";
 const Input = lazy(() => import("../../../components/Input"));
 const Button = lazy(() => import("../../../components/Button"));
 
@@ -76,19 +64,9 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   const merchant = JSON.parse(localStorage.getItem("merchant") as any);
   const [form, setForm] = useState<AddServiceReq>({
     merchantId: merchant.id,
-    groupId: undefined,
-    sku: "",
-    code: "",
     name: "",
     description: "",
-    image: "",
-    price: undefined,
-    initialPrice: undefined,
-    durationHour: undefined,
-    durationMinute: undefined,
-    type: undefined,
-    showType: undefined,
-    canPrintableInvoice: false,
+    price: 0,
   });
   useEffect(() => {
     if (!!defaultValue) {
@@ -141,7 +119,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   return (
     <div className={cx("form")}>
       <div className="row">
-        <div className="col-sm-12">
+        {/* <div className="col-sm-12">
           <Dropdown
             options={selectServiceGroups || []}
             label="name"
@@ -151,7 +129,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             className={className("form-group", "input-custom")}
             title="Nhóm dịch vụ"
           />
-        </div>
+        </div> */}
         <div className="col-sm-12">
           <Input
             required={true}
@@ -176,7 +154,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             errorMessage={errorsMessage["description"]}
           />
         </div>
-        <div className="col-sm-6">
+        {/* <div className="col-sm-6">
           <Input
             required={true}
             name={"code"}
@@ -187,8 +165,8 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             onChange={(e) => onChange(e)}
             errorMessage={errorsMessage["code"]}
           />
-        </div>
-        <div className="col-sm-6">
+        </div> */}
+        {/* <div className="col-sm-6">
           <Input
             required={true}
             name={"sku"}
@@ -199,8 +177,8 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             onChange={(e) => onChange(e)}
             errorMessage={errorsMessage["sku"]}
           />
-        </div>
-        <div className="col-sm-6">
+        </div> */}
+        <div className="col-sm-12">
           <Input
             required={true}
             name={"price"}
@@ -212,7 +190,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             errorMessage={errorsMessage["price"]}
           />
         </div>
-        <div className="col-sm-6">
+        {/* <div className="col-sm-6">
           <Input
             required={true}
             name={"initialPrice"}
@@ -247,8 +225,8 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             onChange={(e) => onChange(e)}
             errorMessage={errorsMessage["durationMinute"]}
           />
-        </div>
-        <div className="col-sm-6">
+        </div> */}
+        {/* <div className="col-sm-6">
           <Dropdown
             options={EServiceShowTypeValue || []}
             label="name"
@@ -269,8 +247,8 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             className={className("form-group", "input-custom")}
             title="Chọn loại"
           />
-        </div>
-        <div className="col-sm-12">
+        </div> */}
+        {/* <div className="col-sm-12">
           <Dropdown
             options={canPrintableInvoice || []}
             label="name"
@@ -280,7 +258,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             className={className("form-group", "input-custom")}
             title="Không in hóa đơn"
           />
-        </div>
+        </div> */}
         <div className="col-sm-12">
           <div className={cx("input-label")}>Ảnh dịch vụ</div>
           <input type="file" onChange={handleUpload} />

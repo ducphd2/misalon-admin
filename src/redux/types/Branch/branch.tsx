@@ -58,6 +58,8 @@ export interface EditBranchReq {
   city?: string | undefined;
   district?: string | undefined;
   ward?: string | undefined;
+  longitude?: string | number;
+  latitude?: string | number;
 }
 export interface EditBranchName {
   name: string;

@@ -15,11 +15,7 @@ import {
   selectStatusDeleteBranch,
   selectTotalBranch,
 } from "../../redux/slice/Branch/BranchSlice";
-import {
-  EditBranchReq,
-  GetBranchReq,
-  BranchRes,
-} from "../../redux/types/Branch/branch";
+import { GetBranchReq, BranchRes } from "../../redux/types/Branch/branch";
 import ModalBranch from "./ModalBranch/ModalBranch";
 import styles from "./branch.module.scss";
 import { ColumnsType } from "antd/lib/table";
@@ -48,13 +44,7 @@ interface DataType {
 
 export default function Branch() {
   const cx = classNames.bind(styles);
-  const List = [
-    { title: "#", sortBy: "" },
-    { title: "Tên chi nhánh", sortBy: "name" },
-    { title: "Địa chỉ", sortBy: "address" },
-    { title: "Số điện thoại", sortBy: "phone" },
-    { title: "Action", sortBy: "" },
-  ];
+
   const dispatch = useAppDispatch();
 
   const initial = {

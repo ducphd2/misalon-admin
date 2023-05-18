@@ -75,6 +75,8 @@
     ]
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.1"
+    "@faker-js/faker": "^8.0.1",
+    "@types/google-map-react": "^2.1.7",
+    "google-map-react": "^2.2.1"
   }
 }

@@ -66,6 +66,11 @@ const columns: any = [
     key: "email",
   },
   {
+    title: "Phone",
+    dataIndex: "phoneNumber",
+    key: "phoneNumber",
+  },
+  {
     title: "Address",
     dataIndex: "address",
     key: "address",
@@ -115,7 +120,6 @@ export default function UserManagement() {
   const [page, setPage] = useState<number>(1);
 
   const selectUsers = useAppSelector(selectUserList);
-  console.log(selectUsers);
   const loading = useAppSelector(selectLoadingBooking);
   const statusDelete = useAppSelector(selectStatusDeleteBooking);
   const totalBooking = useAppSelector(selectTotalBooking);
@@ -183,10 +187,6 @@ export default function UserManagement() {
         <div className={cx("skill-page")}>
           <div className={cx("total-page")}>
             <div className="d-flex justify-content-between">
-              <PageSizeSelector
-                listPageSize={pageSizeList}
-                onPageSizeChange={setLimit}
-              />
               <SelectStyle
                 allowClear
                 style={{

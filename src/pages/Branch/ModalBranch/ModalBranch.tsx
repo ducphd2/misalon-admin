@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import LocationSelector from "./../../../components/AddressSelect";
+import GoogleMapReact from "google-map-react";
 import styles from "./ModalBranch.module.scss";
 import { addBranch, editBranch } from "../../../redux/slice/Branch/BranchSlice";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -17,13 +18,10 @@ export default function ModalBranch({ onCloseModal, defaultValue }: any) {
     phone: "",
     address: "",
     merchantId: merchant.id,
-    cityCode: undefined,
-    districtCode: undefined,
-    wardCode: undefined,
-    city: "",
-    district: "",
-    ward: "",
+    latitude: 20.9809307166735,
+    longitude: 105.7961750470138,
   });
+  const AnyReactComponent = ({ text }: any) => <div>{text}</div>;
   useEffect(() => {
     if (!!defaultValue) {
       setForm(defaultValue);
@@ -53,6 +51,13 @@ export default function ModalBranch({ onCloseModal, defaultValue }: any) {
     },
     [form]
   );
+  const defaultProps = {
+    center: {
+      lat: 20.9809307166735,
+      lng: 105.7961750470138,
+    },
+    zoom: 11,
+  };
 
   return (
     <div className={cx("form")}>
@@ -93,9 +98,30 @@ export default function ModalBranch({ onCloseModal, defaultValue }: any) {
             errorMessage={errorsMessage["name"]}
           />
         </div>
-
-        <div className="col-sm-12">
+        {/* <div className="col-sm-12">
           <LocationSelector onChangAddress={handleChangeAddress} />
+        </div> */}
+        <div className="col-sm-12">
+          <div style={{ height: "400px", width: "100%" }}>
+            <label style={{ fontSize: "16px" }}>Vui lòng chọn vị trí</label>
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: "AIzaSyAjtZ29gL5sQy5xFobIcmsS9LJo8pTrejI",
+              }}
+              onClick={(e) => {
+                setForm({ ...form, latitude: e.lat, longitude: e.lng });
+              }}
+              yesIWantToUseGoogleMapApiInternals
+              defaultCenter={defaultProps.center}
+              defaultZoom={defaultProps.zoom}
+            >
+              <AnyReactComponent
+                lat={20.9809307166735}
+                lng={105.7961750470138}
+                text="My Marker"
+              />
+            </GoogleMapReact>
+          </div>
         </div>
       </div>
       <div className={cx("submit-section")}>
