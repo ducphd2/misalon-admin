@@ -22,6 +22,9 @@ import {
 } from "../../redux/types/Branch/branch";
 import ModalBranch from "./ModalBranch/ModalBranch";
 import styles from "./branch.module.scss";
+import { ColumnsType } from "antd/lib/table";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
 // const Table = lazy(() => import("../../components/Table"));
@@ -34,6 +37,13 @@ const Pagination = lazy(() => import("../../components/Pagination"));
 interface SortType {
   sortBy: string;
   type: string;
+}
+interface DataType {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+  tags: string[];
 }
 
 export default function Branch() {
@@ -68,6 +78,7 @@ export default function Branch() {
   const [page, setPage] = useState<number>(1);
 
   const selectBranchs = useAppSelector(selectBranchList);
+  console.log(selectBranchs);
   const loading = useAppSelector(selectLoadingBranch);
   const statusDelete = useAppSelector(selectStatusDeleteBranch);
   const totalBranch = useAppSelector(selectTotalBranch);
@@ -98,6 +109,44 @@ export default function Branch() {
   const handleChangePage = (e: number) => {
     setPage(e);
   };
+  const columns: ColumnsType<DataType> = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Phone",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      dataIndex: "createdAt",
+    },
+    {
+      title: "Updated At",
+      key: "updatedAt",
+      dataIndex: "updatedAt",
+    },
+    {
+      title: "Action",
+      key: "updatedAt",
+      render: (text: string, record: any, index: number) => (
+        <div>
+          <FiEdit size={26} color="#01C5FB" />{" "}
+          <AiOutlineDelete size={26} color="#e91e63" />
+        </div>
+      ),
+    },
+  ];
 
   const handleSort = (item: any) => {
     if (sort.sortBy === item.sortBy) {
@@ -151,62 +200,16 @@ export default function Branch() {
         handleClickAdd={handleAddBranch}
       >
         <div className={cx("skill-page")}>
-          <div className={cx("total-page")}>
-            <div className="row">
-              <PageSizeSelector
-                listPageSize={pageSizeList}
-                onPageSizeChange={setLimit}
-              />
-            </div>
-          </div>
           {loading ? (
             <Loading height="500px" />
           ) : (
             <>
               <Suspense fallback={<></>}>
-                {/* <Table classCustom={cx("custom-table")}>
-                  <thead>
-                    <tr>
-                      {List.map((item, index) => {
-                        return (
-                          <th
-                            key={index}
-                           
-                            onClick={() => handleSort(item)}
-                          >
-                            {item.title}
-                          </th>
-                        );
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectBranchs?.map((e: BranchRes, idx: number) => {
-                      return (
-                        <tr key={e.id}>
-                          <td>
-                            <p className={cx("table-stt")}>
-                              <span>{idx + 1}</span>
-                            </p>
-                          </td>
-                          <td>{e.name}</td>
-                          <td>{e.address}</td>
-                          <td>{e.phone}</td>
-                          <td className={cx("text-right", "dropdown")}>
-                            <Suspense fallback={<></>}>
-                              <DropDownEdit
-                                deleteCondition={true}
-                                customClass={cx("dropdown-skill")}
-                                handleEdit={() => handleEditBranch(e)}
-                                handleDelete={() => handleDelete(e)}
-                              />
-                            </Suspense>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table> */}
+                <Table
+                  dataSource={selectBranchs}
+                  rowKey="id"
+                  columns={columns}
+                />
               </Suspense>
             </>
           )}

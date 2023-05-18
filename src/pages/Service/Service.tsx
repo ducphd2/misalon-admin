@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import PageSizeSelector from "../../components/PageSizeSelector";
+import { Table } from "antd";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import {
@@ -15,9 +16,10 @@ import {
 import { GetServiceReq, ServiceRes } from "../../redux/types/Service/service";
 import ModalService from "./ModalService/ModalService";
 import styles from "./Service.module.scss";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
-const Table = lazy(() => import("../../components/Table"));
 const DropDownEdit = lazy(() => import("../../components/DropDownEdit/index"));
 const Modal = lazy(() => import("../../components/Modal"));
 const Loading = lazy(() => import("../../components/Loading"));
@@ -75,7 +77,66 @@ export default function Service() {
     newService.current = false;
     setSelected(e);
   };
-
+  const columns: any = [
+    {
+      title: "STT",
+      dataIndex: "name",
+      key: "name",
+      render: (text: string, record: any, index: number) => <>{index + 1}</>,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (text: string, record: any, index: number) => (
+        <>
+          <img
+            src={record.image}
+            alt=""
+            style={{ height: "50px", width: "80px" }}
+          />
+        </>
+      ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (text: string, record: any, index: number) => (
+        <div className="line-clamp">{record.description}</div>
+      ),
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      dataIndex: "createdAt",
+    },
+    {
+      title: "Updated At",
+      key: "updatedAt",
+      dataIndex: "updatedAt",
+    },
+    {
+      title: "Action",
+      key: "updatedAt",
+      render: (text: string, record: any, index: number) => (
+        <div>
+          <FiEdit size={26} color="#01C5FB" />{" "}
+          <AiOutlineDelete size={26} color="#e91e63" />
+        </div>
+      ),
+    },
+  ];
   const handleAddService = () => {
     setShow(true);
     newService.current = true;
@@ -141,7 +202,7 @@ export default function Service() {
       dispatch(resetStatusDeleteService(0));
     };
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
-
+  console.log(selectServices);
   return (
     <Suspense fallback={<></>}>
       <MainLayout
@@ -163,67 +224,14 @@ export default function Service() {
           ) : (
             <>
               <Suspense fallback={<></>}>
-                <Table classCustom={cx("custom-table")}>
-                  <thead>
-                    <tr>
-                      {List.map((item, index) => {
-                        return <th key={index}>{item.title}</th>;
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectServices?.map((e: ServiceRes, idx: number) => {
-                      return (
-                        <tr key={e.id}>
-                          <td>
-                            <p className={cx("table-stt")}>
-                              <span>{idx + 1}</span>
-                            </p>
-                          </td>
-                          <td>{e.name}</td>
-                          <td>
-                            <img
-                              src={e.image}
-                              alt="react logo"
-                              className={cx("service-image")}
-                            />
-                          </td>
-                          <td>{e.code}</td>
-                          <td>{e.sku}</td>
-                          <td>{e.price}</td>
-                          <td>{e.description}</td>
-                          <td className={cx("text-right", "dropdown")}>
-                            <Suspense fallback={<></>}>
-                              <DropDownEdit
-                                deleteCondition={true}
-                                customClass={cx("dropdown-skill")}
-                                handleEdit={() => handleEditService(e)}
-                                handleDelete={() => handleDelete(e)}
-                              />
-                            </Suspense>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                <Table
+                  columns={columns}
+                  dataSource={selectServices}
+                  rowKey="id"
+                />
               </Suspense>
             </>
           )}
-          <div className={cx("pagination")}>
-            <span className={cx("showing")}>
-              Showing {page} to {limit > totalService ? totalService : limit} of{" "}
-              {totalService} entries
-            </span>
-            <Suspense>
-              <Pagination
-                currentPage={page}
-                pageSize={limit}
-                totalData={totalService}
-                onChangePage={handleChangePage}
-              />
-            </Suspense>
-          </div>
           <Suspense>
             <Modal
               isModal={show}

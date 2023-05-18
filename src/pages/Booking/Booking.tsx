@@ -2,6 +2,9 @@ import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import PageSizeSelector from "../../components/PageSizeSelector";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { Table } from "antd";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
 
 import {
   addBooking,
@@ -21,12 +24,8 @@ import {
 } from "../../redux/types/Booking/booking";
 import ModalBooking from "./ModalBooking/ModalBooking";
 import styles from "./Booking.module.scss";
-import { imageUpload } from "../../common/utils";
-import Schedule from "../../components/Schedule/Schedule";
-import { formatDate } from "@fullcalendar/core";
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
-const Table = lazy(() => import("../../components/Table"));
 const DropDownEdit = lazy(() => import("../../components/DropDownEdit/index"));
 const Modal = lazy(() => import("../../components/Modal"));
 const Loading = lazy(() => import("../../components/Loading"));
@@ -53,8 +52,6 @@ export default function Booking() {
   const initial = {
     page: 1,
     limit: 10,
-    sortBy: "name",
-    sortOrder: "ASC",
   } as GetBookingReq;
 
   const newBooking = useRef(false);
@@ -71,6 +68,7 @@ export default function Booking() {
   const [page, setPage] = useState<number>(1);
 
   const selectBookings = useAppSelector(selectBookingList);
+  console.log(selectBookings);
   const loading = useAppSelector(selectLoadingBooking);
   const statusDelete = useAppSelector(selectStatusDeleteBooking);
   const totalBooking = useAppSelector(selectTotalBooking);
@@ -97,7 +95,44 @@ export default function Booking() {
     dispatch(deleteBooking(req));
     setShowModelConfirm(false);
   };
-
+  const columns: any = [
+    {
+      title: "STT",
+      dataIndex: "name",
+      key: "name",
+      render: (text: string, record: any, index: number) => <>{index + 1}</>,
+    },
+    {
+      title: "Start Time",
+      dataIndex: "startTime",
+      key: "startTime",
+    },
+    {
+      title: "Booking Date",
+      dataIndex: "bookingDate",
+      key: "bookingDate",
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      dataIndex: "createdAt",
+    },
+    {
+      title: "Updated At",
+      key: "updatedAt",
+      dataIndex: "updatedAt",
+    },
+    {
+      title: "Action",
+      key: "updatedAt",
+      render: (text: string, record: any, index: number) => (
+        <div>
+          <FiEdit size={26} color="#01C5FB" />{" "}
+          <AiOutlineDelete size={26} color="#e91e63" />
+        </div>
+      ),
+    },
+  ];
   const handleChangePage = (e: number) => {
     setPage(e);
   };
@@ -142,80 +177,19 @@ export default function Booking() {
         handleClickAdd={handleAddBooking}
       >
         <div className={cx("skill-page")}>
-          <div className={cx("total-page")}>
-            <div className="row">
-              {/* <PageSizeSelector
-                listPageSize={pageSizeList}
-                onPageSizeChange={setLimit}
-              /> */}
-            </div>
-          </div>
           {loading ? (
             <Loading height="500px" />
           ) : (
             <>
               <Suspense fallback={<></>}>
-                <Table classCustom={cx("custom-table")}>
-                  <thead>
-                    <tr>
-                      {List.map((item, index) => {
-                        return <th key={index}>{item.title}</th>;
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectBookings?.map((e: BookingRes, idx: number) => {
-                      return (
-                        <tr key={e.id}>
-                          <td>
-                            <p className={cx("table-stt")}>
-                              <span>{idx + 1}</span>
-                            </p>
-                          </td>
-                          <td>{e.startTime + "-" + e.endTime}</td>
-                          <td>{e.note}</td>
-                          <td>{e.bookingDate}</td>
-                          <td>
-                            {e?.status == "1" ? (
-                              <span style={{ color: "green" }}>
-                                Đã chấp nhận
-                              </span>
-                            ) : (
-                              "Chưa chấp nhận"
-                            )}
-                          </td>
-                          <td className={cx("text-right", "dropdown")}>
-                            <Suspense fallback={<></>}>
-                              <DropDownEdit
-                                deleteCondition={true}
-                                customClass={cx("dropdown-skill")}
-                                handleEdit={() => handleEditBooking(e)}
-                                handleDelete={() => handleDelete(e)}
-                              />
-                            </Suspense>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                <Table
+                  columns={columns}
+                  dataSource={selectBookings}
+                  rowKey="id"
+                />
               </Suspense>
             </>
           )}
-          <div className={cx("pagination")}>
-            <span className={cx("showing")}>
-              Showing {page} to {limit > totalBooking ? totalBooking : limit} of{" "}
-              {totalBooking} entries
-            </span>
-            <Suspense>
-              <Pagination
-                currentPage={page}
-                pageSize={limit}
-                totalData={totalBooking}
-                onChangePage={handleChangePage}
-              />
-            </Suspense>
-          </div>
           <Suspense>
             <Modal
               isModal={show}

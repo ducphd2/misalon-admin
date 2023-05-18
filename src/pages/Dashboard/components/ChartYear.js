@@ -1,71 +1,65 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { CChart } from "@coreui/react-chartjs";
-import Dropdown from "../../../components/Dropdown/Dropdown";
-import { httpService } from "../../../redux/service/httpService";
-import YearDropdown from "./YearDropdown";
+import React from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { faker } from "@faker-js/faker";
 
 function getLast20Years() {
   const currentYear = new Date().getFullYear();
   return Array.from({ length: 21 }, (_, index) => currentYear - 20 + index);
 }
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 export default function Chart() {
-  const [data, setData] = useState([]);
-  const [year, setYear] = useState(new Date().getFullYear());
-
-  const merchant = useMemo(() => {
-    const merchantString = localStorage.getItem("merchant");
-    if (merchantString) return JSON.parse(merchantString);
-    else return null;
-  }, []);
-  useEffect(() => {
-    const getYearData = async () => {
-      const res = await httpService.GET({
-        uri: `statistics/revenue-year?year=${year}&merchantId=${merchant.id}`,
-      });
-      const data = res.result.statistic.map((i) => {
-        return i.total;
-      });
-      setData(data);
-    };
-
-    getYearData();
-  }, [year]);
-
-  const handleChangeYear = (e) => {
-    setYear(e);
-    console.log({ e });
+  const labels = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+  ];
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Booking",
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+      {
+        label: "Group",
+        data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
   };
-  return (
-    <>
-      <YearDropdown onSelect={handleChangeYear} />
-      <CChart
-        type="bar"
-        data={{
-          labels: [
-            "Tháng 1",
-            "Tháng 2",
-            "Tháng 3",
-            "Tháng 4",
-            "Tháng 5",
-            "Tháng 6",
-            "Tháng 7",
-            "Tháng 8",
-            "Tháng 9",
-            "Tháng 10",
-            "Tháng 11",
-            "Tháng 12",
-          ],
-          datasets: [
-            {
-              label: "Doanh thu tháng theo năm",
-              backgroundColor: "#68A3F5",
-              data: data,
-            },
-          ],
-        }}
-        labels="months"
-      />
-    </>
-  );
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Biểu đồ doanh thu theo tháng",
+      },
+    },
+  };
+  return <Bar options={options} data={data} />;
 }

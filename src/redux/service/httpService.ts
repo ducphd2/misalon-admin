@@ -9,7 +9,7 @@ import qs from "qs";
 import { store } from "../store";
 import { logout } from "../slice/Authen/login";
 
-const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+const BASE_URL = `http://103.82.20.139:3001/api`;
 const TIME_OUT = 5000;
 
 type ApiConfig<T = any> = {
