@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import PageSizeSelector from "../../components/PageSizeSelector";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { Table } from "antd";
 
 import {
   addBooking,
@@ -14,6 +15,7 @@ import {
   selectStatusDeleteBooking,
   selectTotalBooking,
 } from "../../redux/slice/Booking/BookingSlice";
+import { getUsers, selectUserList } from "../../redux/slice/User/UserSlice";
 import {
   EditBookingReq,
   GetBookingReq,
@@ -29,9 +31,10 @@ import Dropdown from "../../components/Dropdown";
 import { Select } from "antd";
 import { SelectStyle } from "./styles";
 import { ModalAddUser } from "./ModalBooking";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
-const Table = lazy(() => import("../../components/Table"));
 const DropDownEdit = lazy(() => import("../../components/DropDownEdit/index"));
 const Modal = lazy(() => import("../../components/Modal"));
 const Loading = lazy(() => import("../../components/Loading"));
@@ -50,83 +53,52 @@ type TUser = {
   role: string | number;
   phone: string | number;
 };
-const fakeDataUsers = [
+const columns: any = [
   {
-    id: 1,
-    username: "cun con",
-    email: "admin@example.com",
-    role: "admin",
-    status: "1",
-    phone: "0391567895",
+    title: "Name",
+    dataIndex: "fullName",
+    key: "fullName",
+    render: (text: string) => <a>{text}</a>,
   },
   {
-    id: 2,
-    username: "cehck admfin",
-    email: "admin@example.com",
-    role: "admin",
-    status: "2",
-    phone: "0391567895",
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
   },
   {
-    id: 3,
-    username: "yeu cao ban",
-    email: "admin@example.com",
-    role: "admin",
-    status: "1",
-    phone: "0391567895",
+    title: "Address",
+    dataIndex: "address",
+    key: "address",
   },
   {
-    id: 4,
-    username: "ghet cac ban",
-    email: "admin@example.com",
-    role: "admin",
-    status: "2",
-    phone: "0391567895",
+    title: "Created At",
+    key: "createdAt",
+    dataIndex: "createdAt",
   },
   {
-    id: 5,
-    username: "han cac ban",
-    email: "admin@example.com",
-    role: "admin",
-    status: "1",
-    phone: "0391567895",
+    title: "Updated At",
+    key: "updatedAt",
+    dataIndex: "updatedAt",
   },
   {
-    id: 6,
-    username: "quy cac ban",
-    email: "admin@example.com",
-    role: "admin",
-    status: "2",
-    phone: "0391567895",
+    title: "Action",
+    key: "updatedAt",
+    render: (text: string, record: any, index: number) => (
+      <div>
+        <FiEdit size={26} color="#01C5FB" />{" "}
+        <AiOutlineDelete size={26} color="#e91e63" />
+      </div>
+    ),
   },
-] as TUser[];
-
-const optionStatus = [
-  { value: "fdsfds" },
-  { value: "fdsfbds" },
-  { value: "fdsfbvcds" },
-  { value: "bc" },
 ];
 
 export default function UserManagement() {
   const cx = classNames.bind(styles);
-  const List = [
-    { title: "#" },
-    { title: "Email" },
-    { title: "User name" },
-    { title: "Phone number" },
-    { title: "Role" },
-    { title: "Status" },
-    { title: "Action" },
-  ];
-
   const dispatch = useAppDispatch();
 
   const initial = {
     page: 1,
     limit: 10,
-    sortBy: "name",
-    sortOrder: "ASC",
   } as GetBookingReq;
 
   const newBooking = useRef(false);
@@ -142,11 +114,11 @@ export default function UserManagement() {
   const [path, setPath] = useState<GetBookingReq>(initial);
   const [page, setPage] = useState<number>(1);
 
-  const selectBookings = useAppSelector(selectBookingList);
+  const selectUsers = useAppSelector(selectUserList);
+  console.log(selectUsers);
   const loading = useAppSelector(selectLoadingBooking);
   const statusDelete = useAppSelector(selectStatusDeleteBooking);
   const totalBooking = useAppSelector(selectTotalBooking);
-  const [dataUser, setDataUser] = useState(fakeDataUsers);
   const handleEditBooking = (e: TUser) => {
     setShow(true);
     newBooking.current = false;
@@ -156,14 +128,6 @@ export default function UserManagement() {
   const handleAddBooking = () => {
     setShow(true);
     newBooking.current = true;
-  };
-
-  const handleDelete = (e: TUser) => {
-    // setShowModelConfirm(true);
-    // setSelected(e);
-    setDataUser((pre) =>
-      pre.filter((item) => item.id.toString() !== e.id?.toString())
-    );
   };
 
   const confirmDelete = () => {
@@ -201,15 +165,13 @@ export default function UserManagement() {
 
   useEffect(() => {
     if (path || statusDelete === true) {
-      dispatch(getBookings(path));
+      dispatch(getUsers(path));
     }
 
     return () => {
       dispatch(resetStatusDeleteBooking(0));
     };
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
-
-  const handleOptionSelect = () => {};
 
   return (
     <Suspense fallback={<></>}>
@@ -257,49 +219,8 @@ export default function UserManagement() {
           ) : (
             <>
               <Suspense fallback={<></>}>
-                <Table classCustom={cx("custom-table")}>
-                  <thead>
-                    <tr>
-                      {List.map((item, index) => {
-                        return <th key={index}>{item.title}</th>;
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataUser?.map((e: TUser, idx: number) => {
-                      return (
-                        <tr key={e.id}>
-                          <td>
-                            <p className={cx("table-stt")}>
-                              <span>{idx + 1}</span>
-                            </p>
-                          </td>
-                          <td>{e.email}</td>
-                          <td>{e.username}</td>
-                          <td>{e.phone}</td>
-                          <td>{e.role}</td>
-                          <td>
-                            {e?.status === "1" ? (
-                              <span style={{ color: "green" }}>Active</span>
-                            ) : (
-                              "Inactive"
-                            )}
-                          </td>
-                          <td className={cx("text-right", "dropdown")}>
-                            <Suspense fallback={<></>}>
-                              <DropDownEdit
-                                deleteCondition={true}
-                                customClass={cx("dropdown-skill")}
-                                handleEdit={() => handleEditBooking(e)}
-                                handleDelete={() => handleDelete(e)}
-                              />
-                            </Suspense>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </Table>
+                {" "}
+                <Table dataSource={selectUsers} rowKey="id" columns={columns} />
               </Suspense>
             </>
           )}

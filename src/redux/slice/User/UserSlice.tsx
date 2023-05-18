@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import ServiceApi from "../../service/Service/Service";
+import UserApi from "../../service/User/User";
 import { RootState } from "../../store";
 import {
   DeleteServiceReq,
@@ -22,10 +23,10 @@ const initialState: ServiceState = {
 };
 
 export const getUsers = createAsyncThunk(
-  "userReducer/getService",
+  "userReducer/getUser",
   async (body: GetServiceReq, thunkAPI) => {
     try {
-      const res: any = await ServiceApi.getServices(body);
+      const res: any = await UserApi.getUser(body);
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -34,10 +35,10 @@ export const getUsers = createAsyncThunk(
 );
 
 export const addUsers = createAsyncThunk(
-  "userReducer/addService",
+  "userReducer/addUser",
   async (body: any, thunkAPI) => {
     try {
-      const res: any = await ServiceApi.addService(body);
+      const res: any = await UserApi.addUser(body);
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -46,10 +47,10 @@ export const addUsers = createAsyncThunk(
 );
 
 export const editUsers = createAsyncThunk(
-  "userReducer/editService",
+  "userReducer/editUser",
   async (body: any, thunkAPI) => {
     try {
-      const res: any = await ServiceApi.editService(body, body.id);
+      const res: any = await UserApi.editUser(body, body.id);
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -58,10 +59,10 @@ export const editUsers = createAsyncThunk(
 );
 
 export const deleteUsers = createAsyncThunk(
-  "userReducer/deleteService",
+  "userReducer/deleteUser",
   async (body: any, thunkAPI) => {
     try {
-      const res: any = await ServiceApi.deleteService(body);
+      const res: any = await UserApi.deleteUser(body);
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -87,7 +88,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(getUsers.fulfilled, (state, action) => {
       state.loading = false;
-      state.listServices = action?.payload.result;
+      state.listServices = action.payload.result;
     });
     builder.addCase(getUsers.rejected, (state, action) => {
       state.loading = false;
@@ -154,13 +155,13 @@ export const userSlice = createSlice({
 export const { resetLoadingAndErrors, resetStatusDeleteService } =
   userSlice.actions;
 
-export const selectServiceList = (state: RootState) =>
-  state.serviceReducer.listServices.items;
+export const selectUserList = (state: RootState) =>
+  state.userReducer.listServices.items;
 export const selectStatusDeleteService = (state: RootState) =>
-  state.serviceReducer.deleteStatusService;
+  state.userReducer.deleteStatusService;
 export const selectTotalService = (state: RootState) =>
-  state.serviceReducer.listServices.meta.total;
+  state.userReducer.listServices.meta.total;
 export const selectLoadingService = (state: RootState) =>
-  state.serviceReducer.loading;
+  state.userReducer.loading;
 
 export default userSlice.reducer;

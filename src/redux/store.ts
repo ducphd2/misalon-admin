@@ -3,7 +3,7 @@ import loginReducer from "../redux/slice/Authen/login";
 import branchReducer from "../redux/slice/Branch/BranchSlice";
 import serviceGroupReducer from "../redux/slice/ServiceGroup/ServiceGroupSlice";
 import serviceReducer from "../redux/slice/Service/ServiceSlice";
-import userSlice from "../redux/slice/User/UserSlice";
+import userReducer from "../redux/slice/User/UserSlice";
 import bookingReducer from "../redux/slice/Booking/BookingSlice";
 export const store = configureStore({
   reducer: {
@@ -12,7 +12,7 @@ export const store = configureStore({
     serviceGroupReducer,
     serviceReducer,
     bookingReducer,
-    userSlice,
+    userReducer,
   },
 });
 
