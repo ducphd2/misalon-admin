@@ -52,3 +52,87 @@ h5 {
 .textFooter {
   color: #9ba7b3;
 }
+.wrapperMain {
+  width: 100%;
+  // height: 500px;
+  background-color: #f3f6f9;
+  padding: 0px 15%;
+  padding-bottom: 50px;
+}
+.bookingLeft {
+  width: 520px;
+  h1 {
+    font-weight: 600;
+    color: #495057;
+    font-size: 40px;
+  }
+}
+.bookingRight {
+  position: relative;
+}
+.itemBooking {
+  position: absolute;
+  width: 193px;
+  height: 80px;
+  background-color: white;
+  justify-content: center;
+  box-shadow: 0 5px 10px #1e20251f !important;
+  border-radius: 5px;
+}
+.desBooking {
+  color: #405189;
+  span {
+    color: red;
+  }
+}
+.titleWrapper {
+  text-align: center;
+  margin: auto;
+  padding-top: 60px;
+  color: #495057;
+  font-size: 32px;
+  width: 640px;
+  font-weight: 600;
+}
+.listCard {
+  width: 75%;
+  margin: auto;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+.card {
+  height: 300px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  img {
+    height: 150px;
+    width: 100%;
+  }
+}
+.desCard {
+  text-align: center;
+  font-size: 17px;
+  color: #495057;
+  margin-top: 5px;
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+}
+.overBg {
+  height: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 15%;
+  background-color: #405189;
+  background-image: url("https://salonspa-21.web.app/bg-pattern.3a42b704e7cb1d85.png");
+}
+.btnBooking {
+  color: white;
+  padding: 7px 12px;
+  border-radius: 5px;
+  background-color: #c35842;
+}

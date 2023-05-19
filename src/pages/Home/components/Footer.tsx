@@ -12,7 +12,7 @@ function FooterHome() {
         width: "100%",
         height: "352px",
         background: "#202529",
-        padding: "0px 10%",
+        padding: "5% 10%",
       }}
       className={"row"}
     >
@@ -27,7 +27,6 @@ function FooterHome() {
           <SiGooglechrome color="#9ba7b3" size={20} />{" "}
           <RiInstagramFill size={20} color="#9ba7b3" />
         </div>
-        <p className={Styles.textFooter}>@SalonSpa</p>
       </div>
       <div className="col-sm-9">
         <div

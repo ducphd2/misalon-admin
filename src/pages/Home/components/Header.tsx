@@ -1,7 +1,7 @@
 import React from "react";
 import { FiUser } from "react-icons/fi";
 import Styles from "./style.module.scss";
-import Logo from "../../../assets/images/logo-booking.svg";
+import Logo from "../../../assets/images/logo.png";
 
 function HeaderHome() {
   return (
