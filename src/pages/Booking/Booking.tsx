@@ -173,7 +173,7 @@ export default function Booking() {
     <Suspense fallback={<></>}>
       <MainLayout
         title="Booking"
-        // titleButton="Thêm Cuộc hẹn"
+        titleButton="Create Booking"
         handleClickAdd={handleAddBooking}
       >
         <div className={cx("skill-page")}>

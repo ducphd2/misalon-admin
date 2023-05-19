@@ -53,49 +53,6 @@ type TUser = {
   role: string | number;
   phone: string | number;
 };
-const columns: any = [
-  {
-    title: "Name",
-    dataIndex: "fullName",
-    key: "fullName",
-    render: (text: string) => <a>{text}</a>,
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
-  },
-  {
-    title: "Phone",
-    dataIndex: "phoneNumber",
-    key: "phoneNumber",
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Created At",
-    key: "createdAt",
-    dataIndex: "createdAt",
-  },
-  {
-    title: "Updated At",
-    key: "updatedAt",
-    dataIndex: "updatedAt",
-  },
-  {
-    title: "Action",
-    key: "updatedAt",
-    render: (text: string, record: any, index: number) => (
-      <div>
-        <FiEdit size={26} color="#01C5FB" />{" "}
-        <AiOutlineDelete size={26} color="#e91e63" />
-      </div>
-    ),
-  },
-];
 
 export default function UserManagement() {
   const cx = classNames.bind(styles);
@@ -176,7 +133,49 @@ export default function UserManagement() {
       dispatch(resetStatusDeleteBooking(0));
     };
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
-
+  const columns: any = [
+    {
+      title: "Name",
+      dataIndex: "fullName",
+      key: "fullName",
+      render: (text: string) => <a>{text}</a>,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Phone",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Created At",
+      key: "createdAt",
+      dataIndex: "createdAt",
+    },
+    {
+      title: "Updated At",
+      key: "updatedAt",
+      dataIndex: "updatedAt",
+    },
+    {
+      title: "Action",
+      key: "updatedAt",
+      render: (text: string, record: any, index: number) => (
+        <div>
+          <FiEdit size={26} color="#01C5FB" />{" "}
+          <AiOutlineDelete size={26} color="#e91e63" />
+        </div>
+      ),
+    },
+  ];
   return (
     <Suspense fallback={<></>}>
       <MainLayout

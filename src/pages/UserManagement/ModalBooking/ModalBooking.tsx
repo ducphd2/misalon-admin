@@ -22,7 +22,7 @@ const Button = lazy(() => import("../../../components/Button"));
 export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   const dispatch = useAppDispatch();
   const cx = classNames.bind(styles);
-  const [isUploading, setIsUploading] = useState(false)
+  const [isUploading, setIsUploading] = useState(false);
   const merchant = JSON.parse(localStorage.getItem("merchant") as any);
   const [form, setForm] = useState({
     merchantId: merchant.id,
@@ -31,7 +31,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
     name: "",
     description: "",
     image: "",
-    status:1,
+    status: 1,
   });
   useEffect(() => {
     if (!!defaultValue) {
@@ -46,8 +46,9 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
 
   const handleSubmit = () => {
     if (!!defaultValue) {
-      
-      dispatch(editBooking({ ...form, status: isAccept } as unknown as EditBookingReq));
+      dispatch(
+        editBooking({ ...form, status: isAccept } as unknown as EditBookingReq)
+      );
     } else {
       dispatch(addBooking(form));
     }
@@ -55,7 +56,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   };
 
   const handleUpload = async (event: any) => {
-    setIsUploading(true)
+    setIsUploading(true);
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
@@ -71,24 +72,26 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
 
     const data = await response.json();
     setForm({ ...form, image: data.secure_url });
-    setIsUploading(false)
+    setIsUploading(false);
   };
-  const [isAccept, setIsAccept] = useState(1)
+  const [isAccept, setIsAccept] = useState(1);
 
-  const handleOptionSelect=(e:any)=>{
-    setIsAccept(+e.target.value)
-  }
-
-  console.log({isAccept})
-  console.log({defaultValue})
+  const handleOptionSelect = (e: any) => {
+    setIsAccept(+e.target.value);
+  };
 
   return (
     <div className={cx("form")}>
       <div className="row">
-      <select id="options-select" className={cx("selectAccept")} value={isAccept} onChange={handleOptionSelect}>
-        <option value={1}>Chấp nhận</option>
-        <option value={0}>Từ chối</option>
-      </select>
+        <select
+          id="options-select"
+          className={cx("selectAccept")}
+          value={isAccept}
+          onChange={handleOptionSelect}
+        >
+          <option value={1}>Chấp nhận</option>
+          <option value={0}>Từ chối</option>
+        </select>
       </div>
 
       <div className={cx("submit-section")}>

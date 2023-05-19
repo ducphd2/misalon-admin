@@ -202,7 +202,6 @@ export default function Service() {
       dispatch(resetStatusDeleteService(0));
     };
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
-  console.log(selectServices);
   return (
     <Suspense fallback={<></>}>
       <MainLayout

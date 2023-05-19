@@ -85,12 +85,12 @@ const menuItem: MenuItem[] = [
     id: 1,
     // isAdmin: true,
   },
-  {
-    icon: <RiShieldUserLine />,
-    label: "Profile",
-    to: "/",
-    id: 3,
-  },
+  // {
+  //   icon: <RiShieldUserLine />,
+  //   label: "Profile",
+  //   to: "/",
+  //   id: 3,
+  // },
   {
     icon: <FontAwesomeIcon icon={faRocket} style={{ height: 24, width: 24 }} />,
     label: "Projects",

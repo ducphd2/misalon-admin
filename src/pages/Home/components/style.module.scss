@@ -1,0 +1,54 @@
+.flex {
+  display: flex;
+}
+.itemCenter {
+  display: flex;
+  align-items: center;
+}
+.justifyBetween {
+  display: flex;
+  justify-content: space-between;
+}
+.flexCenterBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  img {
+    height: 40px;
+    width: 40px;
+  }
+}
+.navLink {
+  color: #212529;
+  font-size: 16px;
+  text-transform: uppercase;
+  margin: 0px 20px;
+  cursor: pointer;
+  &:hover {
+    color: #0ab39c;
+  }
+}
+.btn {
+  button {
+    color: #405189;
+    background-color: rgba(64, 81, 137, 0.1);
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    margin: 0px 20px;
+    &:hover {
+      background-color: #3a497b;
+      color: white;
+    }
+  }
+}
+h5 {
+  color: white;
+  font-size: 1.015625rem;
+}
+
+.textFooter {
+  color: #9ba7b3;
+}

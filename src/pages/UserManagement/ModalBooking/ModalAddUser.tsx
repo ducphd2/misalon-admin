@@ -39,7 +39,6 @@ export const ModalAddUser = () => {
     resolver: zodResolver(CreateUserSchema),
   });
   const onSubmit = (values: any) => {
-    console.log("first");
     console.log(values);
   };
   return (
@@ -89,11 +88,14 @@ export const ModalAddUser = () => {
           name={"email"}
           control={control}
           render={({ field, fieldState: { error } }) => (
-            <Button
-              label="Submit"
-              type="submit"
-              // classType={cx("btn-submit")}
-            />
+            <div style={{ marginTop: "20px" }}>
+              <Button
+                label="Submit"
+                type="submit"
+
+                // classType={cx("btn-submit")}
+              />
+            </div>
           )}
         />
       </form>

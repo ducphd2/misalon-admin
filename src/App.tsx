@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./router/PrivateRoute/PrivateRoute";
 import "antd/dist/antd.min.css";
 const Protected = lazy(() => import("./components/Protected"));
+const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Authen/SignIn"));
 function App() {
   return (
@@ -30,6 +31,14 @@ function App() {
             element={
               <Suspense fallback={<></>}>
                 <Login />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/auth/home"
+            element={
+              <Suspense fallback={<></>}>
+                <Home />
               </Suspense>
             }
           />
