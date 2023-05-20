@@ -1,130 +1,116 @@
-import classNames from "classnames/bind";
-import { Dispatch, lazy, SetStateAction, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { faRocket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames/bind';
+import { Dispatch, lazy, SetStateAction, useEffect, useState } from 'react';
+import {
+  AiFillSetting,
+  AiFillWechat,
+  AiOutlineBranches,
+  AiOutlineCalendar,
+} from 'react-icons/ai';
 import {
   MdDashboard,
-  MdOutlineMonetizationOn,
   MdManageAccounts,
-  MdOutlineMiscellaneousServices,
   MdOutlineHealthAndSafety,
-} from "react-icons/md";
-import {
-  AiOutlineCalendar,
-  AiFillSetting,
-  AiOutlineBranches,
-  AiFillWechat,
-} from "react-icons/ai";
-import { RiShieldUserLine, RiShoppingCartFill } from "react-icons/ri";
-import { CloseIcon } from "../../assets/icons/SidebarIcons";
-import images from "../../assets/images";
-import styles from "./Sidebar.module.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRocket } from "@fortawesome/free-solid-svg-icons";
+  MdOutlineMiscellaneousServices,
+  MdOutlineMonetizationOn,
+} from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import { CloseIcon } from '../../assets/icons/SidebarIcons';
+import styles from './Sidebar.module.scss';
 export type TSidebarProps = {
   setMenuActive: Dispatch<SetStateAction<boolean>>;
   onMenuClick: () => void;
   openOnClick: boolean;
   menuActive: boolean;
 };
-const MenuItem = lazy(() => import("./MenuItem/MenuItem"));
+const MenuItem = lazy(() => import('./MenuItem/MenuItem'));
 
 const cx = classNames.bind(styles);
-interface MenuItem {
+interface SidebarMenuItem {
   icon?: JSX.Element;
   label: string;
   to: string;
-  children?: MenuItem[];
+  children?: SidebarMenuItem[];
   topDevider?: boolean;
   id?: number;
   isAdmin?: boolean;
 }
 
-const menuItem: MenuItem[] = [
+const menuItem: SidebarMenuItem[] = [
   {
     icon: <MdDashboard />,
-    label: "Dashboard",
-    to: "/dashboard",
+    label: 'Tổng quan',
+    to: '/dashboard',
     id: 1,
     // isAdmin: true,
   },
   {
     icon: <MdOutlineMiscellaneousServices />,
-    label: "Services",
-    to: "/service",
+    label: 'Quản lý dịch vụ',
+    to: '/service',
     id: 2,
   },
   {
     icon: <AiOutlineBranches />,
-    label: "Branch",
-    to: "/branch",
+    label: 'Quản lý chi nhánh',
+    to: '/branch',
     id: 8,
   },
   {
     icon: <AiFillWechat />,
-    label: "Chat",
-    to: "/chat",
+    label: 'Nhắn tin',
+    to: '/chat',
     id: 10,
   },
   {
-    icon: <RiShoppingCartFill />,
-    label: "Market",
-    to: "/market",
-    id: 9,
-  },
-  {
     icon: <MdOutlineMonetizationOn />,
-    label: "Booking",
-    to: "/booking",
+    label: 'Quản lý lịch hẹn',
+    to: '/booking',
     id: 1,
     // isAdmin: true,
   },
   {
     icon: <AiOutlineCalendar />,
-    label: "Schedule",
-    to: "/schedule",
+    label: 'Schedule',
+    to: '/schedule',
     id: 1,
     // isAdmin: true,
   },
-  // {
-  //   icon: <RiShieldUserLine />,
-  //   label: "Profile",
-  //   to: "/",
-  //   id: 3,
-  // },
   {
     icon: <FontAwesomeIcon icon={faRocket} style={{ height: 24, width: 24 }} />,
-    label: "Projects",
-    to: "/",
+    label: 'Projects',
+    to: '/',
     id: 4,
     isAdmin: true,
     children: [
       {
-        label: "Projects",
-        to: "/projects",
+        label: 'Projects',
+        to: '/projects',
         topDevider: false,
       },
     ],
   },
   {
     icon: <MdManageAccounts />,
-    label: "User Management",
-    to: "/user-management",
+    label: 'Quản lý nhân viên',
+    to: '/user-management',
     id: 6,
   },
   {
     icon: <AiFillSetting />,
-    label: "Setting",
-    to: "/",
+    label: 'Cài đặt',
+    to: '/',
     id: 7,
     children: [
       {
-        label: "Change PassWord",
-        to: "/change-password",
+        label: 'Thay đổi mật khẩu',
+        to: '/change-password',
         topDevider: false,
       },
       {
-        label: "Languages",
-        to: "/languages",
+        label: 'Đổi ngôn ngữ',
+        to: '/languages',
         topDevider: false,
       },
     ],
@@ -155,24 +141,24 @@ export default function Sidebar({
   }, [windowSize]);
 
   return (
-    <div className={cx(menuActive && "modal")} onClick={onMenuClick}>
+    <div className={cx(menuActive && 'modal')} onClick={onMenuClick}>
       <section
-        className={cx("wrapper", menuActive && "active")}
+        className={cx('wrapper', menuActive && 'active')}
         onClick={(e) => e.stopPropagation()}
         onMouseEnter={() => !openOnClick && setMenuActive(() => true)}
         onMouseLeave={() => !openOnClick && setMenuActive(() => false)}
       >
         <Link to="/">
-          <div className={cx("logo-wrapper")}>
+          <div className={cx('logo-wrapper')}>
             <MdOutlineHealthAndSafety
-              className={cx("logo", "logo-sm")}
+              className={cx('logo', 'logo-sm')}
               size={55}
               color="#B7C0CD"
             />
             {/* <img src={images.logoSm} alt="" className={cx("logo", "logo-sm")} /> */}
           </div>
         </Link>
-        <div className={cx("menu")}>
+        <div className={cx('menu')}>
           <MenuItem
             menuItem={menuItem}
             menuActive={menuActive}
@@ -182,8 +168,8 @@ export default function Sidebar({
           />
         </div>
         {menuActive && (
-          <div className={cx("close-icon")} onClick={onMenuClick}>
-            <CloseIcon className={""} />
+          <div className={cx('close-icon')} onClick={onMenuClick}>
+            <CloseIcon className={''} />
           </div>
         )}
       </section>
