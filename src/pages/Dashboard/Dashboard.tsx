@@ -1,15 +1,20 @@
-import { Suspense, useEffect, useMemo, useState } from "react";
-import MainLayout from "../../components/MainLayout/MainLayout";
-import StatCard from "../../components/StatCard/StatCard";
-import { httpService } from "../../redux/service/httpService";
-import "./Dashboard.scss";
-import Chart from "./components/ChartYear";
-import ChartDate from "./components/ChartDate";
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import MainLayout from '../../components/MainLayout/MainLayout';
+import StatCard from '../../components/StatCard/StatCard';
+import { httpService } from '../../redux/service/httpService';
+import './Dashboard.scss';
+import ChartDate from './components/ChartDate';
+import Chart from './components/ChartYear';
+
+interface ResData {
+  title: string;
+  value: any;
+}
 
 export default function Dashboard() {
   const [statData, setStartData] = useState([]);
   const merchant: any = useMemo(() => {
-    const merchantString = localStorage.getItem("merchant");
+    const merchantString = localStorage.getItem('merchant');
     if (merchantString) return JSON.parse(merchantString);
     else return null;
   }, []);
@@ -20,10 +25,20 @@ export default function Dashboard() {
         const res: any = await httpService.GET({
           uri: `statistics/overview?merchantId=${merchant?.id}`,
         });
-        const result: any = Object.entries(res.result.statistic).map(
-          ([title, value]) => ({ title, value })
-        );
-        setStartData(result);
+        const result: ResData[] = [];
+        Object.entries(res.result.statistic).forEach(([title, value]) => {
+          if (title === 'branch') {
+            result.push({ title: 'Chi nhánh', value });
+          } else if (title === 'service') {
+            result.push({ title: 'Dịch vụ', value });
+          } else if (title === 'customer') {
+            result.push({ title: 'Khách hàng', value });
+          } else if (title === 'booking') {
+            result.push({ title: 'Lịch hẹn', value });
+          }
+        });
+
+        setStartData(result as never[]);
       } catch (error) {
         console.log({ error });
       }
