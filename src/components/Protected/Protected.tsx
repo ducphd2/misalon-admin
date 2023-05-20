@@ -11,6 +11,7 @@ import Dashboard from "../../pages/Dashboard/Dashboard";
 import Booking from "../../pages/Booking/Booking";
 import Schedule from "../../pages/Shedule/Schedule";
 import UserManagement from "../../pages/UserManagement/UserManagement";
+const Chat = lazy(() => import("../../pages/Chat"));
 const Header = lazy(() => import("../Header"));
 const Sidebar = lazy(() => import("../Sidebar"));
 const Branch = lazy(() => import("../../pages/Branch"));
@@ -59,6 +60,11 @@ const Protected = (props: any) => {
     {
       path: "dashboard",
       component: <Dashboard />,
+      isAdmin: false,
+    },
+    {
+      path: "chat",
+      component: <Chat />,
       isAdmin: false,
     },
     {
