@@ -11,6 +11,7 @@ import "antd/dist/antd.min.css";
 const Protected = lazy(() => import("./components/Protected"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Authen/SignIn"));
+const SignUp = lazy(() => import("./pages/Authen/SignUp"));
 function App() {
   return (
     <>
@@ -24,6 +25,14 @@ function App() {
                   <Protected />
                 </Suspense>
               </PrivateRoute>
+            }
+          />
+          <Route
+            path="/auth/signup"
+            element={
+              <Suspense fallback={<></>}>
+                <SignUp />
+              </Suspense>
             }
           />
           <Route
