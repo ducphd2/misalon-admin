@@ -1,31 +1,58 @@
-import React, { lazy } from "react";
-import styled from "styled-components";
-import { Checkbox, Form, FormInstance, Input, Select } from "antd";
-import images from "../../../assets/images";
-import { useParams } from "react-router-dom";
-const Button = lazy(() => import("../../../components/Button"));
+import { Form, FormInstance, Input, Select } from 'antd';
+import axios from 'axios';
+import React, { lazy } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
+import images from '../../../assets/images';
+import { BASE_URL } from '../../../constants';
+const Button = lazy(() => import('../../../components/Button'));
 const { Option } = Select;
 
 const SignUp = () => {
-  const { type } = useParams();
+  const navigate = useNavigate();
   const formRef = React.useRef<FormInstance>(null);
   const onFinish = (values: any) => {
-    console.log("Success:", values);
+    console.log(values);
+    console.log('BASE_URL', BASE_URL);
+
+    axios
+      .post(`${BASE_URL}/auth/register`, values)
+      .then((response) => {
+        if (response) {
+          navigate('/auth/login');
+          toast.success('Đăng ký thành công, vui lòng đăng nhập', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        }
+        console.log('asdasd', response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
+
   const onGenderChange = (value: string) => {
     switch (value) {
-      case "male":
-        formRef.current?.setFieldsValue({ note: "Hi, man!" });
+      case 'male':
+        formRef.current?.setFieldsValue({ note: 'Hi, man!' });
         break;
-      case "female":
-        formRef.current?.setFieldsValue({ note: "Hi, lady!" });
+      case 'female':
+        formRef.current?.setFieldsValue({ note: 'Hi, lady!' });
         break;
-      case "other":
-        formRef.current?.setFieldsValue({ note: "Hi there!" });
+      case 'other':
+        formRef.current?.setFieldsValue({ note: 'Hi there!' });
         break;
       default:
         break;
@@ -37,12 +64,12 @@ const SignUp = () => {
         <SLogo>
           <img src={images.logoSm} alt="Aht Logo" />
         </SLogo>
-        <STitle>Đăng ký trở thành nhà bán hàng</STitle>
+        <STitle>Đăng ký trở thành trung tâm</STitle>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          style={{ paddingRight: "20%" }}
+          style={{ paddingRight: '20%' }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -51,82 +78,83 @@ const SignUp = () => {
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
+            rules={[
+              { required: true, message: 'Vui lòng nhập vào email của bạn' },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Full Name User"
+            label="Tên của bạn"
             name="fullName"
-            rules={[{ required: true, message: "Please input your fullName!" }]}
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập vào của bạn',
+              },
+            ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+          {/* <Form.Item name="role" label="Role" rules={[{ required: true }]}>
             <Select
               placeholder="Select a option and change input text above"
               onChange={onGenderChange}
               allowClear
             >
-              <Option value="male">User</Option>
-              <Option value="female">Admin</Option>
-              <Option value="other">Super Admin</Option>
+              <Option value="1">1</Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
-            label="Address"
-            name="address"
-            rules={[{ required: true, message: "Please input your address!" }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Password"
+            label="Mật khẩu"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true, message: 'Vui lòng nhập vào mật khẩu' }]}
           >
             <Input.Password />
           </Form.Item>
           <Form.Item
-            label="Full Name Merchant"
-            name="name"
+            label="Tên trung tâm"
+            name="merchantName"
             rules={[
               {
                 required: true,
-                message: "Please input your Full Name Merchant!",
+                message: 'Vui lòng nhập vào tên trung tâm của bạn',
               },
             ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Phone Merchant"
-            name="phone"
-            rules={[
-              { required: true, message: "Please input your Phone Merchant!" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Address Merchant"
-            name="address"
+            label="Số điện thoại của cửa hàng"
+            name="merchantPhoneNumber"
             rules={[
               {
                 required: true,
-                message: "Please input your Address Merchant!",
+                message: 'Vui lòng nhập vào số điện thoại của trung tâm',
               },
             ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Subdomaint Merchant"
+            label="Địa chỉ cửa hàng"
+            name="merchantAddress"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập vào địa chỉ của trung tâm',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Chọn subdomain"
             name="subdomain"
             rules={[
               {
                 required: true,
-                message: "Please input your Subdomaint Merchant!",
+                message: 'Vui lòng nhập vào subdomain của trung tâm',
               },
             ]}
           >

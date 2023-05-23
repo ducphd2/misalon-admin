@@ -1,26 +1,25 @@
-import classNames from "classnames/bind";
-import React, { Suspense, lazy, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import images from "../../../assets/images";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import classNames from 'classnames/bind';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import images from '../../../assets/images';
+import { useAppDispatch } from '../../../redux/hooks';
 import {
   getLoginUser,
-  selectAuthUser,
   selectAccessToken,
-} from "../../../redux/slice/Authen/login";
-import { ILoginData } from "../../../redux/types/Login/login";
-import styles from "./SignIn.module.scss";
+} from '../../../redux/slice/Authen/login';
+import { ILoginData } from '../../../redux/types/Login/login';
+import styles from './SignIn.module.scss';
 
-const Button = lazy(() => import("../../../components/Button"));
-const Input = lazy(() => import("../../../components/Input"));
+const Button = lazy(() => import('../../../components/Button'));
+const Input = lazy(() => import('../../../components/Input'));
 
 const Login: React.FC = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
   const [formData, setFormData] = useState<ILoginData>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,25 +31,25 @@ const Login: React.FC = () => {
   const userLogin = useSelector(selectAccessToken);
 
   const [errors, setErrors] = useState({
-    type: "",
-    error: "",
+    type: '',
+    error: '',
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { validateEmail, validatePassword } = await import(
-      "../../../common/utils"
+      '../../../common/utils'
     );
 
-    if (formData.email === "") {
-      setErrors({ type: "username", error: "Invalid user name address" });
+    if (formData.email === '') {
+      setErrors({ type: 'username', error: 'Invalid user name address' });
     }
     // else if (!validatePassword(formData.password)) {
     //   setErrors({ type: "password", error: "Invalid password" });
     // }
     else {
-      setErrors({ type: "", error: "" });
+      setErrors({ type: '', error: '' });
       const req = {
         email: formData.email,
         password: formData.password,
@@ -61,33 +60,33 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (userLogin) {
-      navigate("/");
+      navigate('/');
     }
   }, [userLogin]);
 
   return (
-    <div className={cx("account-page")}>
-      <div className={cx("account-wrapper")}>
-        <div className={cx("account-box")}>
-          <div className={cx("account-container")}>
-            <div className={cx("account-logo")}>
-              <img src={images.logoSm} alt="Aht Logo" className={cx("logo")} />
+    <div className={cx('account-page')}>
+      <div className={cx('account-wrapper')}>
+        <div className={cx('account-box')}>
+          <div className={cx('account-container')}>
+            <div className={cx('account-logo')}>
+              <img src={images.logoSm} alt="Aht Logo" className={cx('logo')} />
             </div>
-            <div className={cx("account-content")}>
-              <div className={cx("content-inside")}>
-                <h3 className={cx("account-title")}>Login</h3>
-                <p className={cx("account-subtitle")}>
-                  Access to our dashboard
+            <div className={cx('account-content')}>
+              <div className={cx('content-inside')}>
+                <h3 className={cx('account-title')}>Đăng nhập</h3>
+                <p className={cx('account-subtitle')}>
+                  Truy cập vào hệ thống quản lý của bạn
                 </p>
                 <form onSubmit={handleSubmit}>
-                  <div className={cx("label")}>
+                  <div className={cx('label')}>
                     <Suspense fallback={<></>}>
                       <Input
                         label="Email Address"
                         type="text"
                         name="email"
                         errorMessage={
-                          errors.type === "email" ? errors.error : ""
+                          errors.type === 'email' ? errors.error : ''
                         }
                         invalid
                         value={formData.email}
@@ -97,14 +96,14 @@ const Login: React.FC = () => {
                     </Suspense>
                   </div>
 
-                  <div className={cx("label")}>
-                    <div className={cx("account-password")}>
-                      <p>Password</p>
+                  <div className={cx('label')}>
+                    <div className={cx('account-password')}>
+                      <p>Mật khẩu</p>
                       <Link
-                        to={"/auth/forgot-password"}
-                        className={cx("forgot-password")}
+                        to={'/auth/forgot-password'}
+                        className={cx('forgot-password')}
                       >
-                        Forgot password?
+                        Quên mật khẩu?
                       </Link>
                     </div>
                     <Suspense fallback={<></>}>
@@ -112,7 +111,7 @@ const Login: React.FC = () => {
                         type="password"
                         name="password"
                         errorMessage={
-                          errors.type === "password" ? errors.error : ""
+                          errors.type === 'password' ? errors.error : ''
                         }
                         invalid
                         value={formData.password}
@@ -126,10 +125,13 @@ const Login: React.FC = () => {
                     <Button
                       type="submit"
                       label="Login"
-                      classType={cx("btn-submit")}
+                      classType={cx('btn-submit')}
                       maxWidth="100%"
                     />
                   </Suspense>
+                  <Link to={'/auth/signup'} className={cx('sign-up')}>
+                    Bạn chưa có tài khoản, đăng ký ngay
+                  </Link>
                 </form>
               </div>
             </div>
