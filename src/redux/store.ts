@@ -5,6 +5,8 @@ import serviceGroupReducer from "../redux/slice/ServiceGroup/ServiceGroupSlice";
 import serviceReducer from "../redux/slice/Service/ServiceSlice";
 import userReducer from "../redux/slice/User/UserSlice";
 import bookingReducer from "../redux/slice/Booking/BookingSlice";
+import conversation from "../redux/slice/Conversation/Conversation";
+import resetRecentlyMessages from "../redux/slice/RecentlyMessages/RecentlyMessages"
 export const store = configureStore({
   reducer: {
     loginReducer,
@@ -13,6 +15,8 @@ export const store = configureStore({
     serviceReducer,
     bookingReducer,
     userReducer,
+    conversation,
+    resetRecentlyMessages
   },
 });
 

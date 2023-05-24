@@ -1,15 +1,83 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Styles from "./chat.module.scss";
 import ChatBox from "./ChatBox";
 import { UserOutlined } from "@ant-design/icons";
 import { Input, Avatar } from "antd";
+import { useAppSelector } from "../../redux/hooks";
+import { selectRecentlyMessages } from "../../redux/slice/RecentlyMessages/RecentlyMessages";
+import { socket } from "../../socketio/Socket";
+import { EEventMessage } from "../../socketio/type";
 const { Search } = Input;
+export interface Itype {
+  _id: string;
+  content: string;
+  createdAt: string;
+  receiverAvatar: string;
+  senderAvatar: string;
+  receiverId: string;
+  receiverName: string;
+  senderId: string;
+  senderName: string;
+  type: string;
+}
+
+export enum EInfoType {
+  USERNAME = "USERNAME",
+  ID = "ID",
+  AVATAR = "AVATAR",
+}
 
 function Chat() {
   const [active, setActive] = useState<string>("");
+  const [UserChating, setUserChating] = useState<any>();
+  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+
+  const userSelected=(item:Itype)=>{
+    if(merchant.userId== item.senderId){
+      setUserChating({
+        id: item.receiverId,
+        name: item.receiverName,
+        avatar: item.receiverAvatar
+      })
+    }else{
+      setUserChating({
+        id: item.senderId,
+        name: item.senderName,
+        avatar: item.senderAvatar
+      })
+    }
+  }
   const activeChat = (values: string) => {
     setActive(values);
   };
+  const recentlyMessages: Itype[] = useAppSelector(selectRecentlyMessages);
+  useEffect(() => {
+    const recentMessagesRq = {
+      userId: merchant.userId + "",
+      page: 1,
+      limit: 10,
+    };
+    socket.emit(EEventMessage.RECENT_MESSAGES, recentMessagesRq);
+  }, []);
+
+  const getInfo = useCallback(
+    (infoType: EInfoType, item: Itype) => {
+      if (infoType == EInfoType.ID)
+        return merchant.userId == item.senderId
+          ? item.receiverId
+          : item.senderId;
+      else if (infoType == EInfoType.AVATAR)
+        return merchant.userId == item.senderId
+          ? item.receiverAvatar
+          : item.senderAvatar;
+      else 
+        return merchant.userId == item.senderId
+          ? item.receiverName
+          : item.senderName;
+    },
+    [merchant]
+  );
+
   return (
     <div className={Styles.main}>
       <div className={Styles.listChat}>
@@ -21,58 +89,36 @@ function Chat() {
             style={{ marginBottom: "15px" }}
           />
         </div>
-        <div
-          className={
-            Styles.itemChat + " " + `${active === "1" ? Styles.activeChat : ""}`
-          }
-          onClick={() => {
-            activeChat("1");
-          }}
-        >
-          <div className={Styles.avatar}>
-            <Avatar size={34} icon={<UserOutlined />} />
-          </div>
-          <div className={Styles.nameUser}>
-            <div>Thoai Nguyen</div>
-            <div>Bạn cần chúng tôi giúp gì nhỉ</div>
-          </div>
-        </div>
-        <div
-          className={
-            Styles.itemChat + " " + `${active === "2" ? Styles.activeChat : ""}`
-          }
-          onClick={() => {
-            activeChat("2");
-          }}
-        >
-          <div className={Styles.avatar}>
-            <Avatar size={34} icon={<UserOutlined />} />
-          </div>
-          <div className={Styles.nameUser}>
-            <div>Duc sep Adamo</div>
-            <div>Bạn cần chúng tôi giúp gì nhỉ</div>
-          </div>
-        </div>
-        <div
-          className={
-            Styles.itemChat + " " + `${active === "3" ? Styles.activeChat : ""}`
-          }
-          onClick={() => {
-            activeChat("3");
-          }}
-        >
-          <div className={Styles.avatar}>
-            <Avatar size={34} icon={<UserOutlined />} />
-          </div>
-          <div className={Styles.nameUser}>
-            <div>Huynh Duc</div>
-            <div>Bạn cần chúng tôi giúp gì nhỉ</div>
-          </div>
-        </div>
+        {recentlyMessages.map((item) => {
+          return (
+            <div
+              className={
+                Styles.itemChat +
+                " " +
+                `${active === getInfo(EInfoType.ID, item) ? Styles.activeChat : ""}`
+              }
+              onClick={() => {
+                activeChat(getInfo(EInfoType.ID, item));
+                userSelected(item)
+              }}
+            >
+              <div className={Styles.avatar}>
+                <Avatar size={34} icon={<UserOutlined />} />
+              </div>
+              <div className={Styles.nameUser}>
+                <div>{getInfo(EInfoType.USERNAME, item)}</div>
+                <div>{item.content}</div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <div className={Styles.content}>
-        <ChatBox />
-      </div>
+
+      {active && (
+        <div className={Styles.content}>
+          <ChatBox otherUserId={active} UserChating={UserChating} />
+        </div>
+      )}
     </div>
   );
 }

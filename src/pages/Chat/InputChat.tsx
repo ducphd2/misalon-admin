@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import EmojiPicker from "emoji-picker-react";
 import { Input } from "antd";
 import { AiOutlineSend } from "react-icons/ai";
+import { ContentType } from "../../redux/types/Chat/chat";
 
-function InputChat() {
+function InputChat({ onSend }: any) {
+  const [messageContent, setMessageContent] = useState("");
+  const handleChange = (e: any) => {
+    setMessageContent(e.target.value);
+  };
+  const handleSend = () => {
+    onSend(messageContent);
+    setMessageContent("");
+  };
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      handleSend();
+    }
+  };
   return (
     <ContainerInput>
       {/* <EmojiPicker /> */}
-      <InputSend placeholder="Type your message..." />
-      <ButtonSend>
+      <InputSend
+        value={messageContent}
+        placeholder="Type your message..."
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
+      <ButtonSend onClick={handleSend}>
         <AiOutlineSend color="white" />
       </ButtonSend>
     </ContainerInput>

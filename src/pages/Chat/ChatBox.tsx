@@ -1,11 +1,54 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Input, Avatar } from "antd";
 import InputChat from "./InputChat";
 import { AiOutlineSearch, AiOutlineBell } from "react-icons/ai";
 import styles, { styled } from "styled-components";
+import { ConversationRq, EEventMessage } from "../../socketio/type";
+import { useAppSelector } from "../../redux/hooks";
+import { selectConversation } from "../../redux/slice/Conversation/Conversation";
+import { socket } from "../../socketio/Socket";
+import { Itype } from "./Chat";
+import Styles from "./chat.module.scss";
+import { ContentType } from "../../redux/types/Chat/chat";
 
-function ChatBox() {
+function ChatBox({ otherUserId, UserChating }: any) {
+  const ref = useRef<any>(null);
+  const scrollToBottom = () => {
+    ref.current?.scrollIntoView({behavior: 'smooth'});
+  };
+  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+  const conversation: any = useAppSelector(selectConversation);
+  useEffect(() => {
+    const conversationRq: ConversationRq = {
+      userId: merchant.userId + "",
+      otherUserId,
+      limit: 50,
+      page: 1,
+    };
+    console.log({ conversationRq });
+    socket.emit(EEventMessage.CONVERSATION_MESSAGES, conversationRq);
+  }, []);
+
+  const sendMessage = (content: string, type: ContentType) => {
+    const data = {
+      senderId: merchant.userId,
+      receiverName: UserChating.name,
+      senderName: merchant.name,
+      receiverId:  UserChating.id,
+      senderAvatar: merchant?.avatar,
+      receiverAvatar:  UserChating.avatar,
+      content: content,
+      type: type,
+    };
+    socket.emit(EEventMessage.CREATE_MESSAGE, data);
+  };
+
+  useEffect(()=>{
+    scrollToBottom();
+  },[conversation])
+
+  console.log({conversation})
   return (
     <div>
       <UserChatTop>
@@ -23,21 +66,35 @@ function ChatBox() {
           <AiOutlineBell size={28} />
         </SFlexItem>
       </UserChatTop>
-      <ContentChat>
-        <Item>
+      <ContentChat className={Styles.contentChat}>
+        {conversation?.map((item: Itype) => {
+          if (merchant.userId != item.senderId)
+            return (
+              <Item>
+                <TextWrapContent className={Styles.itemMessage}>
+                  {item.content}
+                </TextWrapContent>
+              </Item>
+            );
+          else {
+            return (
+              <Item>
+                <TextWrap className={Styles.itemMessage}>
+                  {item.content}
+                </TextWrap>
+              </Item>
+            );
+          }
+        })}
+      <div ref={ref}></div>
+        {/* <Item>
           <TextWrapContent>ádkasdkadnkasn</TextWrapContent>
         </Item>
         <Item>
           <TextWrap>test chat</TextWrap>
-        </Item>
-        <Item>
-          <TextWrapContent>ádkasdkadnkasn</TextWrapContent>
-        </Item>
-        <Item>
-          <TextWrap>test chat</TextWrap>
-        </Item>
+        </Item> */}
       </ContentChat>
-      <InputChat />
+      <InputChat onSend={sendMessage} />
     </div>
   );
 }
@@ -52,7 +109,7 @@ const UserChatTop = styled.div`
 `;
 
 const ContentChat = styled.div`
-  padding: 10px 0px;
+  padding: 10px 0px 85px;
   width: 100%;
 `;
 const Item = styled.div`
@@ -63,9 +120,7 @@ const Item = styled.div`
 const TextWrapContent = styled.div`
   background-color: white;
   height: 43px;
-  width: 150px;
   border-radius: 4px;
-  padding: 0px 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,7 +129,6 @@ const TextWrap = styled.div`
   background-color: white;
   height: 43px;
   float: right;
-  width: 83px;
   margin-right: 15px;
   border-radius: 4px;
   display: flex;

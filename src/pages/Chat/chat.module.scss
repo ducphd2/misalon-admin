@@ -1,6 +1,6 @@
 .listChat {
   width: 300px;
-  height: 100vh;
+  height: calc(100vh - 70px) ;
   background-color: white;
   //   padding: 10px 35px;
 }
@@ -26,6 +26,9 @@
   cursor: pointer;
   //   margin-bottom: 15px;
 }
+.nameUser{
+  flex:1
+}
 .nameUser {
   & > div:nth-child(2) {
     color: #878a99;
@@ -46,4 +49,16 @@
   padding: 0px 15px;
   font-size: 22px;
   padding-top: 20px;
+}
+
+.contentChat{
+  height: calc(100vh - 156px);
+  overflow-y: scroll;
+}
+
+.itemMessage{
+  // transform: scaleY(-1);
+  max-width: 70%;
+  width: fit-content;
+  padding: 10px 20px;
 }

@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Styles from "./scss";
 import { Provider } from "react-redux";
 import { store } from "../src/redux/store";
+import Socket from "./socketio/Socket";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -18,6 +19,7 @@ root.render(
   // <React.StrictMode>
   <Styles>
     <Provider store={store}>
+      <Socket/>
       <App />
     </Provider>
   </Styles>
