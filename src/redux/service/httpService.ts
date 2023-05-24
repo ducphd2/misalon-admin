@@ -3,13 +3,13 @@ import axios, {
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-} from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import qs from "qs";
-import { store } from "../store";
-import { logout } from "../slice/Authen/login";
+} from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import qs from 'qs';
+import { store } from '../store';
+import { logout } from '../slice/Authen/login';
+import { BASE_URL } from '../../constants';
 
-const BASE_URL = `http://103.82.20.139:3001/api`;
 const TIME_OUT = 5000;
 
 type ApiConfig<T = any> = {
@@ -28,9 +28,9 @@ let isRefreshing = false;
 let refreshSubscribers: any[] = [];
 
 const refreshAccessToken = async (): Promise<string | null> => {
-  console.log("refreshing...");
+  console.log('refreshing...');
   try {
-    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    const refreshToken = await AsyncStorage.getItem('refreshToken');
 
     const response = await axios.post(
       `${BASE_URL}auths/refresh-token`,
@@ -43,7 +43,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
     );
 
     // Save the new access token to the AsyncStorage
-    await AsyncStorage.setItem("accessToken", response.data.accessToken);
+    await AsyncStorage.setItem('accessToken', response.data.accessToken);
 
     // Resolve all the subscribers with the new access token
     refreshSubscribers.forEach((callback) =>
@@ -58,7 +58,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
     return response.data.accessToken;
   } catch (error) {
     store.dispatch(logout());
-    window.location.href = "/auth/login";
+    window.location.href = '/auth/login';
     // If there is an error, return null
     return null;
   }
@@ -67,7 +67,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
 // Set the authorization header for the Axios instance
 const setAuthorizationHeader = async (config: any) => {
   // Get the access token from the AsyncStorage
-  const accessToken = await AsyncStorage.getItem("accessToken");
+  const accessToken = await AsyncStorage.getItem('accessToken');
 
   // If there is an access token, set the authorization header
   if (accessToken) {
@@ -82,7 +82,7 @@ axiosInstance.interceptors.request.use(
     await setAuthorizationHeader(config);
 
     // If the request is a refresh token request, return the config
-    if (config.url === "/refresh-token") {
+    if (config.url === '/refresh-token') {
       return config;
     }
 
@@ -99,7 +99,7 @@ axiosInstance.interceptors.request.use(
     // If the access token is present and the refresh flag is true, block the request and add it to the subscribers array
     await new Promise((resolve) => refreshSubscribers.push(resolve));
     config.headers.Authorization = `Bearer ${await AsyncStorage.getItem(
-      "accessToken"
+      'accessToken'
     )}`;
     return config;
   },
@@ -122,7 +122,7 @@ axiosInstance.interceptors.response.use(
     }
     if (error.response && error.response.status === 404) {
       store.dispatch(logout());
-      window.location.href = "/auth/login";
+      window.location.href = '/auth/login';
     }
     // If the error is an authentication error and the refresh flag is false, set the refresh flag and refresh the access token
     if (error.response && error.response.status === 401 && !isRefreshing) {
@@ -225,7 +225,7 @@ export const httpService = {
         ...params,
         headers: {
           ...(params as any)?.headers,
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
       return res.data;
@@ -243,7 +243,7 @@ export const httpService = {
         ...params,
         headers: {
           ...(params as any)?.headers,
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
       return res.data;
@@ -260,7 +260,7 @@ export const httpService = {
         ...params,
         headers: {
           ...(params as any)?.headers,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
       return res.data;
@@ -277,7 +277,7 @@ export const httpService = {
         ...params,
         headers: {
           ...(params as any)?.headers,
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       });
       return res.data;
