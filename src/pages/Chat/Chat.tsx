@@ -107,7 +107,7 @@ function Chat() {
               </div>
               <div className={Styles.nameUser}>
                 <div>{getInfo(EInfoType.USERNAME, item)}</div>
-                <div>{item.content}</div>
+                <div className={Styles.contentMessage}>{item.content}</div>
               </div>
             </div>
           );

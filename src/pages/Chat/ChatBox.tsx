@@ -32,14 +32,14 @@ function ChatBox({ otherUserId, UserChating }: any) {
 
   const sendMessage = (content: string, type: ContentType) => {
     const data = {
-      senderId: merchant.userId,
+      senderId: merchant.userId+"",
       receiverName: UserChating.name,
       senderName: merchant.name,
-      receiverId:  UserChating.id,
+      receiverId:  UserChating.id+"",
       senderAvatar: merchant?.avatar,
       receiverAvatar:  UserChating.avatar,
       content: content,
-      type: type,
+      type: ContentType.TEXT,
     };
     socket.emit(EEventMessage.CREATE_MESSAGE, data);
   };
@@ -48,7 +48,6 @@ function ChatBox({ otherUserId, UserChating }: any) {
     scrollToBottom();
   },[conversation])
 
-  console.log({conversation})
   return (
     <div>
       <UserChatTop>
@@ -59,7 +58,7 @@ function ChatBox({ otherUserId, UserChating }: any) {
             icon={<UserOutlined />}
             style={{ marginRight: "10px" }}
           />{" "}
-          Nguyễn Văn A
+          {UserChating?.name}
         </SFlexItem>
         <SFlexItem>
           <AiOutlineSearch size={28} style={{ margin: "0px 10px" }} />

@@ -1,64 +1,79 @@
 .listChat {
-  width: 300px;
-  height: calc(100vh - 70px) ;
+  width           : 300px;
+  height          : calc(100vh - 70px);
   background-color: white;
   //   padding: 10px 35px;
 }
+
 .content {
-  width: 100%;
-  position: relative;
+  width      : 100%;
+  position   : relative;
   //   height: 100vh;
 }
+
 .main {
-  display: flex;
+  display   : flex;
   margin-top: 10px;
   column-gap: 5px;
 }
+
 .itemChat {
-  height: 70px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: white;
-  column-gap: 10px;
-  padding: 10px 18px;
-  cursor: pointer;
+  height            : 70px;
+  width             : 100%;
+  display           : flex;
+  align-items       : center;
+  justify-content   : space-between;
+  background-color  : white;
+  column-gap        : 10px;
+  padding           : 10px 18px;
+  cursor            : pointer;
   //   margin-bottom: 15px;
 }
-.nameUser{
-  flex:1
-}
+
 .nameUser {
-  & > div:nth-child(2) {
-    color: #878a99;
-    font-size: 12px;
-    display: -webkit-box;
+  flex: 1
+}
+
+.nameUser {
+  &>div:nth-child(2) {
+    color             : #878a99;
+    font-size         : 12px;
+    display           : -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    overflow: hidden;
+    overflow          : hidden;
   }
-  & > div:nth-child(1) {
+
+  &>div:nth-child(1) {
     font-size: 13px;
   }
 }
+
 .activeChat {
   background-color: #daf4f0;
 }
+
 .headerChat {
-  padding: 0px 15px;
-  font-size: 22px;
+  padding    : 0px 15px;
+  font-size  : 22px;
   padding-top: 20px;
 }
 
-.contentChat{
-  height: calc(100vh - 156px);
+.contentChat {
+  height    : calc(100vh - 156px);
   overflow-y: scroll;
 }
 
-.itemMessage{
+.itemMessage {
   // transform: scaleY(-1);
   max-width: 70%;
-  width: fit-content;
-  padding: 10px 20px;
+  width    : fit-content;
+  padding  : 10px 20px;
+}
+
+.contentMessage {
+  white-space  : nowrap;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  max-width    : 222px;
 }

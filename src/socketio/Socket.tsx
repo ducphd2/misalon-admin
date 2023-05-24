@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 // import { addNewMessage, setConversation } from "../stores/conversation.reducer";
@@ -14,29 +14,50 @@ import { setRecentlyMessages } from "../redux/slice/RecentlyMessages/RecentlyMes
 export const socket = io("http://103.82.20.139:3001");
 
 const Socket = () => {
+  const [isConnected, setIsConnected] = useState(true);
   const dispatch = useAppDispatch();
   const firstJoinRoom = useRef(true);
   const currentUser = useSelector(selectAuthUser);
 
   useEffect(() => {
+    const reconnect = () => {
+      socket.connect(); // Attempt to reconnect
+    };
+
     socket.on(EEventMessage.NEW_MESSAGE, (data: any) => {
       dispatch(addNewMessage(data));
     });
 
     socket.on(EEventMessage.CONVERSATION_MESSAGES, (data: any) => {
-      dispatch(setConversation(data.reverse()));
+      dispatch(setConversation(data));
     });
 
     socket.on(EEventMessage.RECENT_MESSAGES, (data: any) => {
-
       dispatch(setRecentlyMessages(data));
     });
 
+    socket.on("connect", () => {
+      setIsConnected(true); // Set connection status to true when connected
+    });
+
+    socket.on("disconnect", () => {
+      setIsConnected(false); // Set connection status to false when disconnected
+    });
+    if (!isConnected) {
+      const reconnectInterval = setInterval(reconnect, 1000); // Attempt reconnect every 5 seconds
+
+      return () => {
+        clearInterval(reconnectInterval); // Clear reconnect interval when component unmounts
+      };
+    }
     if (firstJoinRoom.current) {
       const getCurrentUser = async () => {
         let merchant: any = await AsyncStorage.getItem("merchant");
         if (merchant) {
-          socket.emit(EEventMessage.JOIN_ROOM, JSON.parse(merchant)?.userId);
+          socket.emit(
+            EEventMessage.JOIN_ROOM,
+            JSON.parse(merchant)?.userId + ""
+          );
           firstJoinRoom.current = false;
         }
       };
@@ -48,7 +69,7 @@ const Socket = () => {
       socket.off(EEventMessage.CONVERSATION_MESSAGES);
       socket.off(EEventMessage.RECENT_MESSAGES);
     };
-  }, [currentUser]);
+  }, [currentUser, isConnected]);
 
   return <></>;
 };
