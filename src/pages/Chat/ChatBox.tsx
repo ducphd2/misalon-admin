@@ -1,97 +1,108 @@
-import React, { useEffect, useRef } from "react";
-import { UserOutlined } from "@ant-design/icons";
-import { Input, Avatar } from "antd";
-import InputChat from "./InputChat";
-import { AiOutlineSearch, AiOutlineBell } from "react-icons/ai";
-import styles, { styled } from "styled-components";
-import { ConversationRq, EEventMessage } from "../../socketio/type";
-import { useAppSelector } from "../../redux/hooks";
-import { selectConversation } from "../../redux/slice/Conversation/Conversation";
-import { socket } from "../../socketio/Socket";
-import { Itype } from "./Chat";
-import Styles from "./chat.module.scss";
-import { ContentType } from "../../redux/types/Chat/chat";
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Image } from 'antd';
+import { useEffect, useRef } from 'react';
+import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai';
+import { styled } from 'styled-components';
+import { useAppSelector } from '../../redux/hooks';
+import { selectConversation } from '../../redux/slice/Conversation/Conversation';
+import { ContentType } from '../../redux/types/Chat/chat';
+import { socket } from '../../socketio/Socket';
+import { ConversationRq, EEventMessage } from '../../socketio/type';
+import { IMessageType } from './Chat';
+import InputChat from './InputChat';
+import Styles from './chat.module.scss';
 
 function ChatBox({ otherUserId, UserChating }: any) {
   const ref = useRef<any>(null);
   const scrollToBottom = () => {
-    ref.current?.scrollIntoView({behavior: 'smooth'});
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
-  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+  const merchant = JSON.parse(localStorage.getItem('merchant') as any);
   const conversation: any = useAppSelector(selectConversation);
+
   useEffect(() => {
     const conversationRq: ConversationRq = {
-      userId: merchant.userId + "",
+      userId: merchant.userId + '',
       otherUserId,
       limit: 50,
       page: 1,
     };
-    console.log({ conversationRq });
+    console.log('conversation', conversationRq);
     socket.emit(EEventMessage.CONVERSATION_MESSAGES, conversationRq);
   }, []);
 
   const sendMessage = (content: string, type: ContentType) => {
     const data = {
-      senderId: merchant.userId+"",
+      senderId: merchant.userId + '',
       receiverName: UserChating.name,
       senderName: merchant.name,
-      receiverId:  UserChating.id+"",
+      receiverId: UserChating.id + '',
       senderAvatar: merchant?.avatar,
-      receiverAvatar:  UserChating.avatar,
+      receiverAvatar: UserChating.avatar,
       content: content,
       type: ContentType.TEXT,
     };
     socket.emit(EEventMessage.CREATE_MESSAGE, data);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     scrollToBottom();
-  },[conversation])
+  }, [conversation]);
 
   return (
     <div>
       <UserChatTop>
         <SFlexItem>
-          {" "}
+          {' '}
           <Avatar
             size={34}
             icon={<UserOutlined />}
-            style={{ marginRight: "10px" }}
-          />{" "}
+            style={{ marginRight: '10px' }}
+          />{' '}
           {UserChating?.name}
         </SFlexItem>
         <SFlexItem>
-          <AiOutlineSearch size={28} style={{ margin: "0px 10px" }} />
+          <AiOutlineSearch size={28} style={{ margin: '0px 10px' }} />
           <AiOutlineBell size={28} />
         </SFlexItem>
       </UserChatTop>
       <ContentChat className={Styles.contentChat}>
-        {conversation?.map((item: Itype) => {
-          if (merchant.userId != item.senderId)
-            return (
-              <Item>
-                <TextWrapContent className={Styles.itemMessage}>
-                  {item.content}
-                </TextWrapContent>
-              </Item>
-            );
-          else {
-            return (
-              <Item>
-                <TextWrap className={Styles.itemMessage}>
-                  {item.content}
-                </TextWrap>
-              </Item>
-            );
+        {conversation?.map((item: IMessageType) => {
+          if (merchant.userId != item.senderId) {
+            if (item.type === ContentType.IMAGE) {
+              return (
+                <Item key={item._id}>
+                  <CustomImage src={item.content} />
+                </Item>
+              );
+            } else {
+              return (
+                <Item key={item._id}>
+                  <TextWrapContent className={Styles.itemMessage}>
+                    {item.content}
+                  </TextWrapContent>
+                </Item>
+              );
+            }
+          } else {
+            if (item.type === ContentType.IMAGE) {
+              return (
+                <Item key={item._id}>
+                  <CustomImage src={item.content} />
+                </Item>
+              );
+            } else {
+              return (
+                <Item key={item._id}>
+                  <TextWrap className={Styles.itemMessage}>
+                    {item.content}
+                  </TextWrap>
+                </Item>
+              );
+            }
           }
         })}
-      <div ref={ref}></div>
-        {/* <Item>
-          <TextWrapContent>ádkasdkadnkasn</TextWrapContent>
-        </Item>
-        <Item>
-          <TextWrap>test chat</TextWrap>
-        </Item> */}
+        <div ref={ref}></div>
       </ContentChat>
       <InputChat onSend={sendMessage} />
     </div>
@@ -140,6 +151,11 @@ const TextWrap = styled.div`
 const SFlexItem = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const CustomImage = styled(Image)`
+  width: 50px;
+  height: 50px;
 `;
 
 export default ChatBox;
