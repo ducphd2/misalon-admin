@@ -19,6 +19,15 @@ function App() {
         <Routes>
           <Route
             path="/*"
+            // path="/auth/home"
+            element={
+              <Suspense fallback={<></>}>
+                <Home />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/*"
             element={
               <PrivateRoute>
                 <Suspense fallback={<></>}>
@@ -40,14 +49,6 @@ function App() {
             element={
               <Suspense fallback={<></>}>
                 <Login />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/auth/home"
-            element={
-              <Suspense fallback={<></>}>
-                <Home />
               </Suspense>
             }
           />
