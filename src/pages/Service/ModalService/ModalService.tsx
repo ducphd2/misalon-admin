@@ -67,6 +67,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
     name: "",
     description: "",
     price: 0,
+    type:0
   });
   useEffect(() => {
     if (!!defaultValue) {
@@ -76,7 +77,11 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   const [errorsMessage, setErrorsMessage] = useState({} as any);
   const className = classNames.bind(styles);
   const onChange = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    if (e.target.name == "price") {
+      setForm({ ...form, [e.target.name]: +e.target.value });
+    } else {
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = () => {
@@ -185,7 +190,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
             label={"Giá dịch vụ"}
             value={form.price}
             className={className("form-group", "input-custom")}
-            type={"text"}
+            type={"number"}
             onChange={(e) => onChange(e)}
             errorMessage={errorsMessage["price"]}
           />

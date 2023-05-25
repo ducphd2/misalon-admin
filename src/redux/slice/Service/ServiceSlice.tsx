@@ -104,14 +104,14 @@ export const serviceSlice = createSlice({
         ...state.listServices.items,
       ];
       state.listServices.meta.total++;
-      toast.success("Thêm chi nhánh thành công !", {
+      toast.success("Thêm dịch vụ thành công !", {
         position: "top-right",
       });
     });
     builder.addCase(addService.rejected, (state, action) => {
       state.loading = false;
       state.errors = action?.error;
-      toast.error("Thêm chi nhánh lỗi !", {
+      toast.error("Thêm dịch vụ lỗi !", {
         position: "top-right",
       });
     });
