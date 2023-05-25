@@ -162,8 +162,8 @@ export default function Service() {
       key: 'updatedAt',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB" />{' '}
-          <AiOutlineDelete size={26} color="#e91e63" />
+          <FiEdit size={26} color="#01C5FB"  onClick={() => handleEditService(record)} />{' '}
+          <AiOutlineDelete size={26} color="#e91e63"  onClick={() => handleDelete(record)} />
         </div>
       ),
     },
