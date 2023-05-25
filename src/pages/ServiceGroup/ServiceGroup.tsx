@@ -1,7 +1,7 @@
-import classNames from "classnames/bind";
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import PageSizeSelector from "../../components/PageSizeSelector";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import classNames from 'classnames/bind';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import PageSizeSelector from '../../components/PageSizeSelector';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 import {
   addServiceGroup,
@@ -13,23 +13,23 @@ import {
   selectServiceGroupList,
   selectStatusDeleteServiceGroup,
   selectTotalServiceGroup,
-} from "../../redux/slice/ServiceGroup/ServiceGroupSlice";
+} from '../../redux/slice/ServiceGroup/ServiceGroupSlice';
 import {
   EditServiceGroupReq,
   GetServiceGroupReq,
   ServiceGroupRes,
-} from "../../redux/types/ServiceGroup/serviceGroup";
-import ModalServiceGroup from "./ModalServiceGroup/ModalServiceGroup";
-import styles from "./ServiceGroup.module.scss";
-import { imageUpload } from "../../common/utils";
+} from '../../redux/types/ServiceGroup/serviceGroup';
+import ModalServiceGroup from './ModalServiceGroup/ModalServiceGroup';
+import styles from './ServiceGroup.module.scss';
+import { uploadImages } from '../../common/utils';
 
-const MainLayout = lazy(() => import("../../components/MainLayout"));
-const Table = lazy(() => import("../../components/Table"));
-const DropDownEdit = lazy(() => import("../../components/DropDownEdit/index"));
-const Modal = lazy(() => import("../../components/Modal"));
-const Loading = lazy(() => import("../../components/Loading"));
-const ModalConfirm = lazy(() => import("../../components/ModalConfirm"));
-const Pagination = lazy(() => import("../../components/Pagination"));
+const MainLayout = lazy(() => import('../../components/MainLayout'));
+const Table = lazy(() => import('../../components/Table'));
+const DropDownEdit = lazy(() => import('../../components/DropDownEdit/index'));
+const Modal = lazy(() => import('../../components/Modal'));
+const Loading = lazy(() => import('../../components/Loading'));
+const ModalConfirm = lazy(() => import('../../components/ModalConfirm'));
+const Pagination = lazy(() => import('../../components/Pagination'));
 
 interface SortType {
   sortBy: string;
@@ -39,21 +39,21 @@ interface SortType {
 export default function ServiceGroup() {
   const cx = classNames.bind(styles);
   const List = [
-    { title: "#", sortBy: "" },
-    { title: "Tên nhóm dịch vụ" },
-    { title: "Ảnh dịch vụ" },
-    { title: "Mã dịch vụ" },
-    { title: "SKU" },
-    { title: "Mô tả" },
-    { title: "Action" },
+    { title: '#', sortBy: '' },
+    { title: 'Tên nhóm dịch vụ' },
+    { title: 'Ảnh dịch vụ' },
+    { title: 'Mã dịch vụ' },
+    { title: 'SKU' },
+    { title: 'Mô tả' },
+    { title: 'Action' },
   ];
   const dispatch = useAppDispatch();
 
   const initial = {
     page: 1,
     limit: 10,
-    sortBy: "name",
-    sortOrder: "ASC",
+    sortBy: 'name',
+    sortOrder: 'ASC',
   } as GetServiceGroupReq;
 
   const newServiceGroup = useRef(false);
@@ -63,14 +63,14 @@ export default function ServiceGroup() {
   const pageSizeList = [10, 25, 50, 100];
   const [limit, setLimit] = useState(pageSizeList[0]);
   const [selected, setSelected] = useState<ServiceGroupRes>({
-    id: "",
-    name: "",
-    code: "",
-    sku: "",
-    image: "",
-    description: "",
+    id: '',
+    name: '',
+    code: '',
+    sku: '',
+    image: '',
+    description: '',
   });
-  const [sort, setSort] = useState<SortType>({ sortBy: "", type: "" });
+  const [sort, setSort] = useState<SortType>({ sortBy: '', type: '' });
   const [path, setPath] = useState<GetServiceGroupReq>(initial);
   const [page, setPage] = useState<number>(1);
 
@@ -116,13 +116,13 @@ export default function ServiceGroup() {
   }, [page]);
 
   useEffect(() => {
-    if (sort.type !== "") {
+    if (sort.type !== '') {
       setPath({ ...path, sortOrder: sort.type });
     }
   }, [sort.type]);
 
   useEffect(() => {
-    if (sort.sortBy !== "") {
+    if (sort.sortBy !== '') {
       setPath({ ...path, sortBy: sort.sortBy });
     }
   }, [sort.sortBy]);
@@ -144,8 +144,8 @@ export default function ServiceGroup() {
         titleButton="Thêm Nhóm Dịch Vụ"
         handleClickAdd={handleAddServiceGroup}
       >
-        <div className={cx("skill-page")}>
-          <div className={cx("total-page")}>
+        <div className={cx('skill-page')}>
+          <div className={cx('total-page')}>
             <div className="row">
               <PageSizeSelector
                 listPageSize={pageSizeList}
@@ -158,7 +158,7 @@ export default function ServiceGroup() {
           ) : (
             <>
               <Suspense fallback={<></>}>
-                <Table classCustom={cx("custom-table")}>
+                <Table classCustom={cx('custom-table')}>
                   <thead>
                     <tr>
                       {List.map((item, index) => {
@@ -172,7 +172,7 @@ export default function ServiceGroup() {
                         return (
                           <tr key={e.id}>
                             <td>
-                              <p className={cx("table-stt")}>
+                              <p className={cx('table-stt')}>
                                 <span>{idx + 1}</span>
                               </p>
                             </td>
@@ -181,17 +181,17 @@ export default function ServiceGroup() {
                               <img
                                 src={e.image}
                                 alt="react logo"
-                                className={cx("service-image")}
+                                className={cx('service-image')}
                               />
                             </td>
                             <td>{e.code}</td>
                             <td>{e.sku}</td>
                             <td>{e.description}</td>
-                            <td className={cx("text-right", "dropdown")}>
+                            <td className={cx('text-right', 'dropdown')}>
                               <Suspense fallback={<></>}>
                                 <DropDownEdit
                                   deleteCondition={true}
-                                  customClass={cx("dropdown-skill")}
+                                  customClass={cx('dropdown-skill')}
                                   handleEdit={() => handleEditServiceGroup(e)}
                                   handleDelete={() => handleDelete(e)}
                                 />
@@ -206,10 +206,10 @@ export default function ServiceGroup() {
               </Suspense>
             </>
           )}
-          <div className={cx("pagination")}>
-            <span className={cx("showing")}>
-              Showing {page} to{" "}
-              {limit > totalServiceGroup ? totalServiceGroup : limit} of{" "}
+          <div className={cx('pagination')}>
+            <span className={cx('showing')}>
+              Showing {page} to{' '}
+              {limit > totalServiceGroup ? totalServiceGroup : limit} of{' '}
               {totalServiceGroup} entries
             </span>
             <Suspense>
@@ -226,8 +226,8 @@ export default function ServiceGroup() {
               isModal={show}
               title={
                 newServiceGroup.current
-                  ? "Thêm nhóm dịch vụ"
-                  : "Chỉnh sửa nhóm dịch vụ"
+                  ? 'Thêm nhóm dịch vụ'
+                  : 'Chỉnh sửa nhóm dịch vụ'
               }
               setOpenModals={setShow}
             >

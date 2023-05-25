@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classNames from 'classnames/bind';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
@@ -84,6 +84,7 @@ export default function Service() {
   const loading = useAppSelector(selectLoadingService);
   const statusDelete = useAppSelector(selectStatusDeleteService);
   const totalService = useAppSelector(selectTotalService);
+
   const handleEditService = (e: ServiceRes) => {
     setShow(true);
     newService.current = false;

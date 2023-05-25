@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { BASE_API_URL } from '../constants';
+
 export const validateName = (str: string) => {
   var re =
     /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/gm;
@@ -32,14 +35,14 @@ export const groupByKey = (array: any[], key: any) =>
   }, {});
 
 export const removeTagHTML = (string: string) => {
-  if (string && string !== "") {
-    const string1 = string.replace(/(<([^>]+)>)/gi, "");
-    const string2 = string1.replace(/&nbsp/g, "");
-    const string3 = string2.replace(/;/g, "");
-    const string4 = string3.replace(/\[[^\]]*?\]/g, "");
+  if (string && string !== '') {
+    const string1 = string.replace(/(<([^>]+)>)/gi, '');
+    const string2 = string1.replace(/&nbsp/g, '');
+    const string3 = string2.replace(/;/g, '');
+    const string4 = string3.replace(/\[[^\]]*?\]/g, '');
     return string4;
   }
-  return "";
+  return '';
 };
 
 export const validatePassword = (password: string) => {
@@ -74,7 +77,7 @@ interface ChartData {
 
 export const conversesChartData = (
   arr: any,
-  color: string = "#000000"
+  color: string = '#000000'
 ): ChartData[] => {
   return arr.map((el: any) => ({
     name: el?.skillName || el?.name,
@@ -84,37 +87,37 @@ export const conversesChartData = (
 };
 
 export const getColor = (score: number) => {
-  let color = "";
+  let color = '';
   switch (score) {
     case 1:
-      color = "#F6ECC9";
+      color = '#F6ECC9';
       break;
     case 2:
-      color = "#F6E39E";
+      color = '#F6E39E';
       break;
     case 3:
-      color = "#F8D247";
+      color = '#F8D247';
       break;
     case 4:
-      color = "#B7FEE4";
+      color = '#B7FEE4';
       break;
     case 5:
-      color = "#F6ECC9";
+      color = '#F6ECC9';
       break;
     case 6:
-      color = "#45B68D";
+      color = '#45B68D';
       break;
     case 7:
-      color = "#225945";
+      color = '#225945';
       break;
     case 8:
-      color = "#666666";
+      color = '#666666';
       break;
     case 9:
-      color = "#333333";
+      color = '#333333';
       break;
     case 10:
-      color = "#181818";
+      color = '#181818';
       break;
     default:
       break;
@@ -133,7 +136,7 @@ export const conversesChartVariablepie = (arr: any) => {
 };
 
 export const getRandomColor = () => {
-  let colors = ["#FC7300", "#FCE22A", "#F12D2D", "#3F52E3", "#5FD068"];
+  let colors = ['#FC7300', '#FCE22A', '#F12D2D', '#3F52E3', '#5FD068'];
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
@@ -177,36 +180,28 @@ export const calculateTotalNumberOfUsers = (data: any) => {
   return totalNumberOfUsers;
 };
 
-export const imageUpload = async (images: any) => {
-  let imgArr: any = [];
-  for (const item of images) {
-    console.log({ item });
-    const formData = new FormData();
+export const uploadImages = async (images: any) => {
+  const formData = new FormData();
 
-    if (item.camera) {
-      formData.append("file", item.camera);
-    } else {
-      formData.append("file", item);
-    }
-
-    formData.append("upload_preset", "pcfn6h3b");
-    formData.append("cloud_name", "dueyjeqd5");
-
-    try {
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dueyjeqd5/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const data = await res.json();
-      imgArr.push({ public_id: data.public_id, url: data.secure_url } as never);
-    } catch (error) {
-      console.log("****************************");
-      console.log(error);
-    }
+  for (const image of images) {
+    formData.append('files', image);
   }
-  return imgArr;
+
+  try {
+    const { data } = await axios.post(
+      `${BASE_API_URL}/file/multiple`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    return data.result.data.map((apiRes: any) => ({
+      url: apiRes.url,
+    }));
+  } catch (error) {
+    console.log(error);
+  }
 };
