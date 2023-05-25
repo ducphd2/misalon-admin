@@ -13,9 +13,6 @@ const SignUp = () => {
   const navigate = useNavigate();
   const formRef = React.useRef<FormInstance>(null);
   const onFinish = (values: any) => {
-    console.log(values);
-    console.log('BASE_URL', BASE_API_URL);
-
     axios
       .post(`${BASE_API_URL}/auth/register`, values)
       .then((response) => {

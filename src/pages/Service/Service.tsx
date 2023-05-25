@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classNames from 'classnames/bind';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
@@ -84,6 +84,7 @@ export default function Service() {
   const loading = useAppSelector(selectLoadingService);
   const statusDelete = useAppSelector(selectStatusDeleteService);
   const totalService = useAppSelector(selectTotalService);
+
   const handleEditService = (e: ServiceRes) => {
     setShow(true);
     newService.current = false;
@@ -162,7 +163,9 @@ export default function Service() {
       key: 'updatedAt',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB" />{' '}
+          <Button type="link" onClick={() => handleEditService(record)}>
+            <FiEdit size={26} color="#01C5FB" />
+          </Button>
           <AiOutlineDelete size={26} color="#e91e63" />
         </div>
       ),

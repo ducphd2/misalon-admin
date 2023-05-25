@@ -1,74 +1,38 @@
-import classNames from "classnames/bind";
-import { Suspense, lazy, useEffect, useState } from "react";
-import styles from "./ModalService.module.scss";
+import classNames from 'classnames/bind';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { uploadImages } from '../../../common/utils';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import {
   addService,
   editService,
-} from "../../../redux/slice/Service/ServiceSlice";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import {
-  AddServiceReq,
-  EditServiceReq,
-} from "../../../redux/types/Service/service";
+} from '../../../redux/slice/Service/ServiceSlice';
 import {
   getServiceGroups,
   selectServiceGroupList,
-} from "../../../redux/slice/ServiceGroup/ServiceGroupSlice";
-const Input = lazy(() => import("../../../components/Input"));
-const Button = lazy(() => import("../../../components/Button"));
-
-const EServiceTypeValue = [
-  {
-    value: 0,
-    name: "SERVICE",
-  },
-  {
-    value: 1,
-    name: "PRODUCT",
-  },
-];
-const canPrintableInvoice = [
-  {
-    value: false,
-    name: "Không in hóa đơn",
-  },
-  {
-    value: true,
-    name: "In hóa đơn",
-  },
-];
-const EServiceShowTypeValue = [
-  {
-    value: 0,
-    name: "BOTH",
-  },
-  {
-    value: 1,
-    name: "CASHIER",
-  },
-  {
-    value: 2,
-    name: "BOOKING",
-  },
-  {
-    value: 3,
-    name: "NONE",
-  },
-];
+} from '../../../redux/slice/ServiceGroup/ServiceGroupSlice';
+import {
+  AddServiceReq,
+  EditServiceReq,
+} from '../../../redux/types/Service/service';
+import styles from './ModalService.module.scss';
+const Input = lazy(() => import('../../../components/Input'));
+const Button = lazy(() => import('../../../components/Button'));
 
 export default function ModalService({ onCloseModal, defaultValue }: any) {
   const dispatch = useAppDispatch();
   const cx = classNames.bind(styles);
   const [isUploading, setIsUploading] = useState(false);
   const selectServiceGroups = useAppSelector(selectServiceGroupList);
-  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+  const merchant = JSON.parse(localStorage.getItem('merchant') as any);
+
   const [form, setForm] = useState<AddServiceReq>({
     merchantId: merchant.id,
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     price: 0,
-    type:0
+    type: 0,
   });
+
   useEffect(() => {
     if (!!defaultValue) {
       setForm(defaultValue);
@@ -77,7 +41,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   const [errorsMessage, setErrorsMessage] = useState({} as any);
   const className = classNames.bind(styles);
   const onChange = (e: any) => {
-    if (e.target.name == "price") {
+    if (e.target.name == 'price') {
       setForm({ ...form, [e.target.name]: +e.target.value });
     } else {
       setForm({ ...form, [e.target.name]: e.target.value });
@@ -95,21 +59,9 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
 
   const handleUpload = async (event: any) => {
     setIsUploading(true);
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "pcfn6h3b");
-    formData.append("cloud_name", "dueyjeqd5");
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dueyjeqd5/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const res = await uploadImages(event.target.files);
 
-    const data = await response.json();
-    setForm({ ...form, image: data.secure_url });
+    setForm({ ...form, image: res[0].url });
     setIsUploading(false);
   };
 
@@ -122,7 +74,7 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   }, []);
 
   return (
-    <div className={cx("form")}>
+    <div className={cx('form')}>
       <div className="row">
         {/* <div className="col-sm-12">
           <Dropdown
@@ -138,25 +90,25 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
         <div className="col-sm-12">
           <Input
             required={true}
-            name={"name"}
-            label={"Tên dịch vụ"}
+            name={'name'}
+            label={'Tên dịch vụ'}
             value={form.name}
-            className={className("form-group", "input-custom")}
-            type={"text"}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["name"]}
+            errorMessage={errorsMessage['name']}
           />
         </div>
         <div className="col-sm-12">
           <Input
             required={true}
-            name={"description"}
-            label={"Mô tả"}
+            name={'description'}
+            label={'Mô tả'}
             value={form.description}
-            className={className("form-group", "input-custom")}
-            type={"text"}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["description"]}
+            errorMessage={errorsMessage['description']}
           />
         </div>
         {/* <div className="col-sm-6">
@@ -186,13 +138,13 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
         <div className="col-sm-12">
           <Input
             required={true}
-            name={"price"}
-            label={"Giá dịch vụ"}
-            value={form.price}
-            className={className("form-group", "input-custom")}
-            type={"number"}
+            name={'price'}
+            label={'Giá dịch vụ'}
+            value={Number(form.price)}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["price"]}
+            errorMessage={errorsMessage['price']}
           />
         </div>
         {/* <div className="col-sm-6">
@@ -265,19 +217,19 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
           />
         </div> */}
         <div className="col-sm-12">
-          <div className={cx("input-label")}>Ảnh dịch vụ</div>
+          <div className={cx('input-label')}>Ảnh dịch vụ</div>
           <input type="file" onChange={handleUpload} />
         </div>
       </div>
 
-      <div className={cx("submit-section")}>
+      <div className={cx('submit-section')}>
         <Suspense>
           <Button
             label="Submit"
             disabled={isUploading}
             type="submit"
             onClick={handleSubmit}
-            classType={cx("btn-submit")}
+            classType={cx('btn-submit')}
           />
         </Suspense>
       </div>
