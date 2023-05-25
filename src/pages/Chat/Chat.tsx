@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Styles from "./chat.module.scss";
-import ChatBox from "./ChatBox";
-import { UserOutlined } from "@ant-design/icons";
-import { Input, Avatar } from "antd";
-import { useAppSelector } from "../../redux/hooks";
-import { selectRecentlyMessages } from "../../redux/slice/RecentlyMessages/RecentlyMessages";
-import { socket } from "../../socketio/Socket";
-import { EEventMessage } from "../../socketio/type";
+import React, { useCallback, useEffect, useState } from 'react';
+import Styles from './chat.module.scss';
+import ChatBox from './ChatBox';
+import { UserOutlined } from '@ant-design/icons';
+import { Input, Avatar } from 'antd';
+import { useAppSelector } from '../../redux/hooks';
+import { selectRecentlyMessages } from '../../redux/slice/RecentlyMessages/RecentlyMessages';
+import { socket } from '../../socketio/Socket';
+import { EEventMessage } from '../../socketio/type';
 const { Search } = Input;
-export interface Itype {
+
+export interface IMessageType {
   _id: string;
   content: string;
   createdAt: string;
@@ -22,38 +23,42 @@ export interface Itype {
 }
 
 export enum EInfoType {
-  USERNAME = "USERNAME",
-  ID = "ID",
-  AVATAR = "AVATAR",
+  USERNAME = 'USERNAME',
+  ID = 'ID',
+  AVATAR = 'AVATAR',
 }
 
 function Chat() {
-  const [active, setActive] = useState<string>("");
+  const [active, setActive] = useState<string>('');
   const [UserChating, setUserChating] = useState<any>();
-  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+  const merchant = JSON.parse(localStorage.getItem('merchant') as any);
 
-  const userSelected=(item:Itype)=>{
-    if(merchant.userId== item.senderId){
+  const userSelected = (item: IMessageType) => {
+    if (merchant.userId == item.senderId) {
       setUserChating({
         id: item.receiverId,
         name: item.receiverName,
-        avatar: item.receiverAvatar
-      })
-    }else{
+        avatar: item.receiverAvatar,
+      });
+    } else {
       setUserChating({
         id: item.senderId,
         name: item.senderName,
-        avatar: item.senderAvatar
-      })
+        avatar: item.senderAvatar,
+      });
     }
-  }
+  };
+
   const activeChat = (values: string) => {
     setActive(values);
   };
-  const recentlyMessages: Itype[] = useAppSelector(selectRecentlyMessages);
+
+  const recentlyMessages: IMessageType[] = useAppSelector(
+    selectRecentlyMessages
+  );
   useEffect(() => {
     const recentMessagesRq = {
-      userId: merchant.userId + "",
+      userId: merchant.userId + '',
       page: 1,
       limit: 10,
     };
@@ -61,7 +66,7 @@ function Chat() {
   }, []);
 
   const getInfo = useCallback(
-    (infoType: EInfoType, item: Itype) => {
+    (infoType: EInfoType, item: IMessageType) => {
       if (infoType == EInfoType.ID)
         return merchant.userId == item.senderId
           ? item.receiverId
@@ -70,7 +75,7 @@ function Chat() {
         return merchant.userId == item.senderId
           ? item.receiverAvatar
           : item.senderAvatar;
-      else 
+      else
         return merchant.userId == item.senderId
           ? item.receiverName
           : item.senderName;
@@ -86,20 +91,25 @@ function Chat() {
           <Search
             placeholder="input search loading default"
             loading={false}
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: '15px' }}
           />
         </div>
         {recentlyMessages.map((item) => {
           return (
             <div
+              key={item._id}
               className={
                 Styles.itemChat +
-                " " +
-                `${active === getInfo(EInfoType.ID, item) ? Styles.activeChat : ""}`
+                ' ' +
+                `${
+                  active === getInfo(EInfoType.ID, item)
+                    ? Styles.activeChat
+                    : ''
+                }`
               }
               onClick={() => {
                 activeChat(getInfo(EInfoType.ID, item));
-                userSelected(item)
+                userSelected(item);
               }}
             >
               <div className={Styles.avatar}>

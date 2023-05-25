@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import images from '../../../assets/images';
-import { BASE_URL } from '../../../constants';
+import { BASE_API_URL } from '../../../constants';
 const Button = lazy(() => import('../../../components/Button'));
 const { Option } = Select;
 
@@ -14,10 +14,10 @@ const SignUp = () => {
   const formRef = React.useRef<FormInstance>(null);
   const onFinish = (values: any) => {
     console.log(values);
-    console.log('BASE_URL', BASE_URL);
+    console.log('BASE_URL', BASE_API_URL);
 
     axios
-      .post(`${BASE_URL}/auth/register`, values)
+      .post(`${BASE_API_URL}/auth/register`, values)
       .then((response) => {
         if (response) {
           navigate('/auth/login');

@@ -50,7 +50,7 @@ export default function Dashboard() {
   }, [merchant]);
   const renderStatCard = () => {
     return statData?.map((i: any) => {
-      return <StatCard title={i.title} value={i.value} />;
+      return <StatCard key={i.value} title={i.title} value={i.value} />;
     });
   };
   // const cx = classNames.bind(styles);

@@ -27,13 +27,16 @@
     padding: 0 20px;
     left: 0 !important;
   }
+
   @include medium {
     left: 0 !important;
   }
+
   .menuOpen {
     left: var(--sidebar-width);
   }
 }
+
 .menuClose {
   left: var(--sidebar-tablet-width);
 }
@@ -66,6 +69,7 @@
 .user-menu {
   display: flex;
   align-items: center;
+
   @include x-small {
     display: none;
   }
@@ -92,6 +96,7 @@
         color: #fff;
         opacity: 0.7;
       }
+
       &:focus {
         outline: none;
       }
@@ -109,11 +114,13 @@
       cursor: pointer;
       display: flex;
       align-items: center;
+
       &:focus {
         outline: none;
       }
     }
   }
+
   @include small {
     display: none;
   }
@@ -137,6 +144,7 @@
       font-weight: 500;
       margin-bottom: 0;
     }
+
     .role {
       font-size: 1.2rem;
     }
@@ -149,10 +157,12 @@
 
 .logo-header {
   display: none;
+
   .logo-mobile {
     width: 40px;
     border-radius: 50px;
   }
+
   @include small {
     position: absolute;
     top: 50%;
@@ -180,21 +190,26 @@
   -ms-transition: all 0.4s ease;
   -webkit-transition: all 0.4s ease;
   cursor: pointer;
+
   &:focus {
     outline: none;
   }
+
   &:hover {
     color: #0056b3;
   }
+
   @include small {
     display: block;
   }
 }
+
 .search-tablet-nav {
   display: none;
   position: absolute;
   top: calc(var(--header-height) + 10px);
   right: 20px;
+
   .search-tablet-input {
     border: 1px solid rgba(255, 255, 255, 0.15);
     background-color: #fff;
@@ -204,10 +219,12 @@
     height: 40px;
     padding: 10px 50px 10px 15px;
     border-radius: 24px;
+
     &:focus {
       outline: none;
     }
   }
+
   .btn-search-tablet {
     background-color: transparent;
     border-color: transparent;
@@ -219,10 +236,12 @@
     right: 0;
     top: 0;
   }
+
   @include small {
     display: block;
   }
 }
+
 .btn-mobile {
   display: none;
   font-size: 28px;
@@ -231,9 +250,11 @@
   cursor: pointer;
   background: none;
   height: var(--header-height);
+
   &:focus {
     outline: none;
   }
+
   @include x-small {
     display: block;
   }
@@ -244,20 +265,24 @@
   align-items: center;
   column-gap: 20px;
 }
+
 .menu-mobile {
   position: relative;
   display: none;
   cursor: pointer;
+
   .btn-mobile {
     font-size: 28px;
     border: none;
     color: white;
     background: none;
     height: var(--header-height);
+
     &:focus {
       outline: none;
     }
   }
+
   @include x-small {
     display: block;
   }

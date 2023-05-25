@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import qs from 'qs';
 import { store } from '../store';
 import { logout } from '../slice/Authen/login';
-import { BASE_URL } from '../../constants';
+import { BASE_API_URL } from '../../constants';
 
 const TIME_OUT = 5000;
 
@@ -20,7 +20,7 @@ type ApiConfig<T = any> = {
 };
 
 export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_API_URL,
   timeout: TIME_OUT,
 });
 
@@ -33,7 +33,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
     const refreshToken = await AsyncStorage.getItem('refreshToken');
 
     const response = await axios.post(
-      `${BASE_URL}auths/refresh-token`,
+      `${BASE_API_URL}auths/refresh-token`,
       {
         refreshToken,
       },

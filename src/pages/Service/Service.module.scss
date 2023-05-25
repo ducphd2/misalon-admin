@@ -2,22 +2,22 @@
   padding: 0 !important;
   margin-top: 15px !important;
 
-  table > tbody > tr {
+  table>tbody>tr {
     border-left: 0;
     border-right: 0;
   }
 
-  table > thead > tr {
+  table>thead>tr {
     border-left: 0;
     border-right: 0;
     box-shadow: unset;
   }
 
-  table > tbody > tr:nth-of-type(2n + 1) {
+  table>tbody>tr:nth-of-type(2n + 1) {
     background-color: #f6f6f6;
   }
 
-  table > thead > tr > th {
+  table>thead>tr>th {
     position: relative;
     cursor: pointer;
     user-select: none;
@@ -32,12 +32,15 @@
     &:first-child {
       width: 5%;
     }
+
     &:nth-child(2) {
       width: 15%;
     }
+
     &:nth-child(3) {
       width: 15%;
     }
+
     &:last-child {
       width: 10%;
       text-align: right;
@@ -133,10 +136,12 @@
     white-space: nowrap;
     text-decoration: none;
   }
+
   .text-right.no-sort {
     text-align: right;
     padding-right: 19px;
   }
+
   .table-stt {
     align-items: center;
     display: inline-flex;
@@ -155,15 +160,39 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+
   .showing {
     color: rgb(31 31 31 / 40%);
   }
 }
+
 .total-page {
   margin-bottom: 15px;
 }
+
 .service-image {
   width: 80px;
   height: 60px;
   object-fit: cover;
+}
+
+.description-column {
+  max-width: 300px;
+}
+
+.description-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  /* Set the number of lines to show initially */
+  cursor: pointer;
+  position: relative;
+
+  &.expanded {
+    -webkit-line-clamp: unset;
+    overflow: unset;
+  }
+
 }

@@ -1,17 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
-import { useSelector } from "react-redux";
-// import { addNewMessage, setConversation } from "../stores/conversation.reducer";
-import { EEventMessage } from "./type";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAppDispatch } from "../redux/hooks";
-import { selectAuthUser } from "../redux/slice/Authen/login";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { io } from 'socket.io-client';
+import { BASE_API } from '../constants';
+import { useAppDispatch } from '../redux/hooks';
+import { selectAuthUser } from '../redux/slice/Authen/login';
 import {
   addNewMessage,
   setConversation,
-} from "../redux/slice/Conversation/Conversation";
-import { setRecentlyMessages } from "../redux/slice/RecentlyMessages/RecentlyMessages";
-export const socket = io("http://103.82.20.139:3001");
+} from '../redux/slice/Conversation/Conversation';
+import { setRecentlyMessages } from '../redux/slice/RecentlyMessages/RecentlyMessages';
+import { EEventMessage } from './type';
+
+export const socket = io(BASE_API);
 
 const Socket = () => {
   const [isConnected, setIsConnected] = useState(true);
@@ -36,11 +37,11 @@ const Socket = () => {
       dispatch(setRecentlyMessages(data));
     });
 
-    socket.on("connect", () => {
+    socket.on('connect', () => {
       setIsConnected(true); // Set connection status to true when connected
     });
 
-    socket.on("disconnect", () => {
+    socket.on('disconnect', () => {
       setIsConnected(false); // Set connection status to false when disconnected
     });
     if (!isConnected) {
@@ -52,11 +53,11 @@ const Socket = () => {
     }
     if (firstJoinRoom.current) {
       const getCurrentUser = async () => {
-        let merchant: any = await AsyncStorage.getItem("merchant");
+        let merchant: any = await AsyncStorage.getItem('merchant');
         if (merchant) {
           socket.emit(
             EEventMessage.JOIN_ROOM,
-            JSON.parse(merchant)?.userId + ""
+            JSON.parse(merchant)?.userId + ''
           );
           firstJoinRoom.current = false;
         }
