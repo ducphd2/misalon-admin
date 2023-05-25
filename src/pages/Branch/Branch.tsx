@@ -1,39 +1,38 @@
-import classNames from "classnames/bind";
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import PageSizeSelector from "../../components/PageSizeSelector";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { Table } from "antd";
+import { Table } from 'antd';
+import classNames from 'classnames/bind';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
+import { ColumnsType } from 'antd/lib/table';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
 import {
-  addBranch,
   deleteBranch,
-  editBranch,
   getBranchs,
   resetStatusDeleteBranch,
-  selectLoadingBranch,
   selectBranchList,
+  selectLoadingBranch,
   selectStatusDeleteBranch,
   selectTotalBranch,
-} from "../../redux/slice/Branch/BranchSlice";
-import { GetBranchReq, BranchRes } from "../../redux/types/Branch/branch";
-import ModalBranch from "./ModalBranch/ModalBranch";
-import styles from "./branch.module.scss";
-import { ColumnsType } from "antd/lib/table";
-import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+} from '../../redux/slice/Branch/BranchSlice';
+import { BranchRes, GetBranchReq } from '../../redux/types/Branch/branch';
+import ModalBranch from './ModalBranch/ModalBranch';
+import styles from './branch.module.scss';
+import moment from 'moment';
 
-const MainLayout = lazy(() => import("../../components/MainLayout"));
+const MainLayout = lazy(() => import('../../components/MainLayout'));
 // const Table = lazy(() => import("../../components/Table"));
-const DropDownEdit = lazy(() => import("../../components/DropDownEdit/index"));
-const Modal = lazy(() => import("../../components/Modal"));
-const Loading = lazy(() => import("../../components/Loading"));
-const ModalConfirm = lazy(() => import("../../components/ModalConfirm"));
-const Pagination = lazy(() => import("../../components/Pagination"));
+const DropDownEdit = lazy(() => import('../../components/DropDownEdit/index'));
+const Modal = lazy(() => import('../../components/Modal'));
+const Loading = lazy(() => import('../../components/Loading'));
+const ModalConfirm = lazy(() => import('../../components/ModalConfirm'));
+const Pagination = lazy(() => import('../../components/Pagination'));
 
 interface SortType {
   sortBy: string;
   type: string;
 }
+
 interface DataType {
   key: string;
   name: string;
@@ -59,16 +58,15 @@ export default function Branch() {
   const pageSizeList = [10, 25, 50, 100];
   const [limit, setLimit] = useState(pageSizeList[0]);
   const [selected, setSelected] = useState<BranchRes>({
-    id: "",
-    name: "",
-    address: "",
+    id: '',
+    name: '',
+    address: '',
   });
-  const [sort, setSort] = useState<SortType>({ sortBy: "", type: "" });
+  const [sort, setSort] = useState<SortType>({ sortBy: '', type: '' });
   const [path, setPath] = useState<GetBranchReq>(initial);
   const [page, setPage] = useState<number>(1);
 
   const selectBranchs = useAppSelector(selectBranchList);
-  console.log(selectBranchs);
   const loading = useAppSelector(selectLoadingBranch);
   const statusDelete = useAppSelector(selectStatusDeleteBranch);
   const totalBranch = useAppSelector(selectTotalBranch);
@@ -101,37 +99,45 @@ export default function Branch() {
   };
   const columns: ColumnsType<DataType> = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: 'Tên chi nhánh',
+      dataIndex: 'name',
+      key: 'name',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
+      title: 'Mô tả',
+      dataIndex: 'description',
+      key: 'description',
+      render: (text) => <a>{text}</a>,
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: 'Điện thoại',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
-      title: "Created At",
-      key: "createdAt",
-      dataIndex: "createdAt",
+      title: 'Địa chỉ',
+      dataIndex: 'address',
+      key: 'address',
     },
     {
-      title: "Updated At",
-      key: "updatedAt",
-      dataIndex: "updatedAt",
+      title: 'Ngày tạo',
+      key: 'createdAt',
+      dataIndex: 'createdAt',
+      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: "Action",
-      key: "updatedAt",
+      title: 'Ngày cập nhật',
+      key: 'updatedAt',
+      dataIndex: 'updatedAt',
+      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+    },
+    {
+      title: 'Hành động',
+      key: 'updatedAt',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB" />{" "}
+          <FiEdit size={26} color="#01C5FB" />{' '}
           <AiOutlineDelete size={26} color="#e91e63" />
         </div>
       ),
@@ -140,14 +146,14 @@ export default function Branch() {
 
   const handleSort = (item: any) => {
     if (sort.sortBy === item.sortBy) {
-      if (sort.type === "ASC") {
-        setSort({ sortBy: item.sortBy, type: "DESC" });
+      if (sort.type === 'ASC') {
+        setSort({ sortBy: item.sortBy, type: 'DESC' });
       } else {
-        setSort({ sortBy: item.sortBy, type: "ASC" });
+        setSort({ sortBy: item.sortBy, type: 'ASC' });
       }
     } else {
-      setSort({ sortBy: item.sortBy, type: "DESC" });
-      setPath({ ...path, sortOrder: "DESC" });
+      setSort({ sortBy: item.sortBy, type: 'DESC' });
+      setPath({ ...path, sortOrder: 'DESC' });
     }
   };
 
@@ -161,13 +167,13 @@ export default function Branch() {
   }, [page]);
 
   useEffect(() => {
-    if (sort.type !== "") {
+    if (sort.type !== '') {
       setPath({ ...path, sortOrder: sort.type });
     }
   }, [sort.type]);
 
   useEffect(() => {
-    if (sort.sortBy !== "") {
+    if (sort.sortBy !== '') {
       setPath({ ...path, sortBy: sort.sortBy });
     }
   }, [sort.sortBy]);
@@ -189,7 +195,7 @@ export default function Branch() {
         titleButton="Create Branch"
         handleClickAdd={handleAddBranch}
       >
-        <div className={cx("skill-page")}>
+        <div className={cx('skill-page')}>
           {loading ? (
             <Loading height="500px" />
           ) : (
@@ -203,9 +209,9 @@ export default function Branch() {
               </Suspense>
             </>
           )}
-          <div className={cx("pagination")}>
-            <span className={cx("showing")}>
-              Showing {page} to {limit > totalBranch ? totalBranch : limit} of{" "}
+          <div className={cx('pagination')}>
+            <span className={cx('showing')}>
+              Showing {page} to {limit > totalBranch ? totalBranch : limit} of{' '}
               {totalBranch} entries
             </span>
             <Suspense>
@@ -221,7 +227,7 @@ export default function Branch() {
             <Modal
               isModal={show}
               title={
-                newBranch.current ? "Thêm chi nhánh" : "Chỉnh sửa chi nhánh"
+                newBranch.current ? 'Thêm chi nhánh' : 'Chỉnh sửa chi nhánh'
               }
               setOpenModals={setShow}
             >

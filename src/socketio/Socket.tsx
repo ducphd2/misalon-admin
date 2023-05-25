@@ -1,7 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_API } from '../constants';
 import { useAppDispatch } from '../redux/hooks';
 import { selectAuthUser } from '../redux/slice/Authen/login';
 import {
@@ -10,9 +11,8 @@ import {
 } from '../redux/slice/Conversation/Conversation';
 import { setRecentlyMessages } from '../redux/slice/RecentlyMessages/RecentlyMessages';
 import { EEventMessage } from './type';
-import { BASE_URL } from '../constants';
 
-export const socket = io(BASE_URL);
+export const socket = io(BASE_API);
 
 const Socket = () => {
   const [isConnected, setIsConnected] = useState(true);

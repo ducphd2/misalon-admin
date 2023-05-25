@@ -72,7 +72,10 @@ function ChatBox({ otherUserId, UserChating }: any) {
             if (item.type === ContentType.IMAGE) {
               return (
                 <Item key={item._id}>
-                  <CustomImage src={item.content} />
+                  <CustomImage
+                    src={item.content}
+                    className={Styles.itemImageMessage}
+                  />
                 </Item>
               );
             } else {
@@ -88,7 +91,10 @@ function ChatBox({ otherUserId, UserChating }: any) {
             if (item.type === ContentType.IMAGE) {
               return (
                 <Item key={item._id}>
-                  <CustomImage src={item.content} />
+                  <CustomImage
+                    src={item.content}
+                    className={Styles.itemImageMessage}
+                  />
                 </Item>
               );
             } else {
@@ -154,8 +160,14 @@ const SFlexItem = styled.div`
 `;
 
 const CustomImage = styled(Image)`
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 200px !important;
+  background-color: white;
+  height: 43px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default ChatBox;
