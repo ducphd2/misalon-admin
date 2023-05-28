@@ -60,7 +60,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (userLogin) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [userLogin]);
 

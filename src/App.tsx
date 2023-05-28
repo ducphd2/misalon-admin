@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route
-            path="/*"
+            path="/"
             // path="/auth/home"
             element={
               <Suspense fallback={<></>}>
