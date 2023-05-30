@@ -1,15 +1,11 @@
 import classNames from 'classnames/bind';
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { uploadImages } from '../../../common/utils';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch } from '../../../redux/hooks';
 import {
   addService,
   editService,
 } from '../../../redux/slice/Service/ServiceSlice';
-import {
-  getServiceGroups,
-  selectServiceGroupList,
-} from '../../../redux/slice/ServiceGroup/ServiceGroupSlice';
 import {
   AddServiceReq,
   EditServiceReq,
@@ -22,7 +18,6 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   const dispatch = useAppDispatch();
   const cx = classNames.bind(styles);
   const [isUploading, setIsUploading] = useState(false);
-  const selectServiceGroups = useAppSelector(selectServiceGroupList);
   const merchant = JSON.parse(localStorage.getItem('merchant') as any);
 
   const [form, setForm] = useState<AddServiceReq>({
@@ -68,10 +63,6 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   const handleSelect = (e: number, name: string) => {
     setForm({ ...form, [name]: e });
   };
-
-  useEffect(() => {
-    dispatch(getServiceGroups({}));
-  }, []);
 
   return (
     <div className={cx('form')}>

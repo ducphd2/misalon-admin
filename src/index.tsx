@@ -1,29 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "react-toastify/dist/ReactToastify.css";
-import Styles from "./scss";
-import { Provider } from "react-redux";
-import { store } from "../src/redux/store";
-import Socket from "./socketio/Socket";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
+import { store } from '../src/redux/store';
+import App from './App';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import Styles from './scss';
+import Socket from './socketio/Socket';
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 
 root.render(
-  // <React.StrictMode>
-  <Styles>
-    <Provider store={store}>
-      <Socket/>
-      <App />
-    </Provider>
-  </Styles>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <Styles>
+      <Provider store={store}>
+        <Socket />
+        <App />
+      </Provider>
+    </Styles>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
