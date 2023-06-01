@@ -29,7 +29,6 @@ const SignUp = () => {
             theme: 'light',
           });
         }
-        console.log('asdasd', response);
       })
       .catch((error) => {
         console.log(error);
