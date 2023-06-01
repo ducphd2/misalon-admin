@@ -225,6 +225,7 @@ export default function Branch() {
           </div>
           <Suspense>
             <Modal
+            customClass= {cx('branchModalCustom')}
               isModal={show}
               title={
                 newBranch.current ? 'Thêm chi nhánh' : 'Chỉnh sửa chi nhánh'

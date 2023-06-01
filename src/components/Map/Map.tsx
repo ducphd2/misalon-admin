@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import GoogleMapReact, { ClickEventValue } from 'google-map-react';
-import { GOOGLE_MAP_KEY } from '../../constants';
-
-interface MarkerPosition {
+import React, { useState } from "react";
+import GoogleMapReact, { ClickEventValue } from "google-map-react";
+import { GOOGLE_MAP_KEY } from "../../constants";
+import LocationMarker from "../../assets/images/location.png";
+export interface MarkerPosition {
   lat: number;
   lng: number;
 }
@@ -10,31 +10,39 @@ interface MarkerPosition {
 interface MapProps {
   defaultValue?: MarkerPosition;
   onCloseModal: () => void;
+  onSelected: (position: MarkerPosition) => void;
 }
 
-const Map: React.FC<MapProps> = ({ defaultValue, onCloseModal }) => {
-  const [markerPosition, setMarkerPosition] = useState<MarkerPosition | null>(
-    defaultValue || null
-  );
+const defaultLocaion = {
+  lat: 21.028511,
+  lng: 105.804817,
+};
+const Map: React.FC<MapProps> = ({
+  defaultValue,
+  onCloseModal,
+  onSelected,
+}) => {
+  const [markerPosition, setMarkerPosition] =
+    useState<MarkerPosition>(defaultLocaion);
 
   const handleMapClick = (event: ClickEventValue) => {
     const { lat, lng } = event;
-    setMarkerPosition({ lat, lng });
+    const newPosition: MarkerPosition = { lat, lng };
+    setMarkerPosition(newPosition);
+    onSelected(newPosition);
   };
 
   return (
-    <div style={{ height: '400px', width: '100%' }}>
+    <div style={{ height: "400px", width: "100%" }}>
       <GoogleMapReact
         onClick={handleMapClick}
-        center={defaultValue || { lat: 0, lng: 0 }}
+        center={markerPosition}
         zoom={defaultValue ? 11 : 2}
         bootstrapURLKeys={{
           key: GOOGLE_MAP_KEY,
         }}
       >
-        {markerPosition && (
-          <Marker lat={markerPosition.lat} lng={markerPosition.lng} />
-        )}
+        <Marker lat={markerPosition.lat} lng={markerPosition.lng} />
       </GoogleMapReact>
     </div>
   );
@@ -45,8 +53,17 @@ interface MarkerProps {
   lng: number;
 }
 
-const Marker: React.FC<MarkerProps> = () => (
-  <div className="marker">Marker</div>
+const Marker: React.FC<MarkerProps> = ({ lat, lng }) => (
+  <img
+    src={LocationMarker}
+    alt="Marker"
+    style={{
+      position: "absolute",
+      transform: "translate(-50%, -100%)",
+      width: "40px",
+      height: "40px",
+    }}
+  />
 );
 
 export default Map;
