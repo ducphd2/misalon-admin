@@ -1,16 +1,17 @@
 name: Docker Build and Push
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
+    types:
+      - closed
     branches:
       - main
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
 
     steps:
       # this workflow needs app source and Dockerfile to build image
@@ -44,8 +45,6 @@ jobs:
             "ARG_GOOGLE_MAPS_KEY=${{ secrets.ARG_GOOGLE_MAPS_KEY }}"
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mihealthcare-admin:latest
-          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/mihealthcare-admin:buildcache
-          cache-to: type=inline
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
