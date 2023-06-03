@@ -8,22 +8,18 @@ export interface MarkerPosition {
 }
 
 interface MapProps {
-  defaultValue?: MarkerPosition;
+  defaultValue: MarkerPosition;
   onCloseModal: () => void;
   onSelected: (position: MarkerPosition) => void;
 }
 
-const defaultLocaion = {
-  lat: 21.028511,
-  lng: 105.804817,
-};
 const Map: React.FC<MapProps> = ({
   defaultValue,
   onCloseModal,
   onSelected,
 }) => {
   const [markerPosition, setMarkerPosition] =
-    useState<MarkerPosition>(defaultLocaion);
+    useState<MarkerPosition>(defaultValue);
 
   const handleMapClick = (event: ClickEventValue) => {
     const { lat, lng } = event;
@@ -32,12 +28,14 @@ const Map: React.FC<MapProps> = ({
     onSelected(newPosition);
   };
 
+  console.log({markerPosition})
+
   return (
     <div style={{ height: "400px", width: "100%" }}>
       <GoogleMapReact
         onClick={handleMapClick}
         center={markerPosition}
-        zoom={defaultValue ? 11 : 2}
+        zoom={11}
         bootstrapURLKeys={{
           key: GOOGLE_MAP_KEY,
         }}
