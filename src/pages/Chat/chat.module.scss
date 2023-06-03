@@ -73,9 +73,13 @@
 
 .itemImageMessage {
   max-width: 100%;
-  height: 100%;
+  // height: 80px;
   width: fit-content;
   padding: 10px 20px;
+}
+.itemImageMessage >img{
+  width: 150px;
+  height: 100%;
 }
 
 .contentMessage {

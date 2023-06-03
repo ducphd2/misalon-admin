@@ -11,6 +11,7 @@ import { ConversationRq, EEventMessage } from '../../socketio/type';
 import { IMessageType } from './Chat';
 import InputChat from './InputChat';
 import Styles from './chat.module.scss';
+import { decryptData, encryptData } from '../../common/aes';
 
 function ChatBox({ otherUserId, UserChating }: any) {
   const ref = useRef<any>(null);
@@ -27,7 +28,6 @@ function ChatBox({ otherUserId, UserChating }: any) {
       limit: 50,
       page: 1,
     };
-    console.log('conversation', conversationRq);
     socket.emit(EEventMessage.CONVERSATION_MESSAGES, conversationRq);
   }, []);
 
@@ -39,8 +39,8 @@ function ChatBox({ otherUserId, UserChating }: any) {
       receiverId: UserChating.id + '',
       senderAvatar: merchant?.avatar,
       receiverAvatar: UserChating.avatar,
-      content: content,
-      type: ContentType.TEXT,
+      content: encryptData(content),
+      type: type,
     };
     socket.emit(EEventMessage.CREATE_MESSAGE, data);
   };
@@ -73,7 +73,7 @@ function ChatBox({ otherUserId, UserChating }: any) {
               return (
                 <Item key={item._id}>
                   <CustomImage
-                    src={item.content}
+                    src={decryptData(item.content)}
                     className={Styles.itemImageMessage}
                   />
                 </Item>
@@ -82,7 +82,7 @@ function ChatBox({ otherUserId, UserChating }: any) {
               return (
                 <Item key={item._id}>
                   <TextWrapContent className={Styles.itemMessage}>
-                    {item.content}
+                    {decryptData(item.content)}
                   </TextWrapContent>
                 </Item>
               );
@@ -90,9 +90,9 @@ function ChatBox({ otherUserId, UserChating }: any) {
           } else {
             if (item.type === ContentType.IMAGE) {
               return (
-                <Item key={item._id}>
-                  <CustomImage
-                    src={item.content}
+                <Item key={item._id} style={{display:'flex', justifyContent:'flex-end'}}>
+                  <CustomImageRight
+                    src={decryptData(item.content)}
                     className={Styles.itemImageMessage}
                   />
                 </Item>
@@ -101,7 +101,7 @@ function ChatBox({ otherUserId, UserChating }: any) {
               return (
                 <Item key={item._id}>
                   <TextWrap className={Styles.itemMessage}>
-                    {item.content}
+                    {decryptData(item.content)}
                   </TextWrap>
                 </Item>
               );
@@ -131,7 +131,8 @@ const ContentChat = styled.div`
 const Item = styled.div`
   width: 100%;
   position: relative;
-  height: 50px;
+  height: fit-content;
+  min-height:50px;
 `;
 const TextWrapContent = styled.div`
   background-color: white;
@@ -160,14 +161,30 @@ const SFlexItem = styled.div`
 `;
 
 const CustomImage = styled(Image)`
-  width: 100px;
-  height: 200px !important;
-  background-color: white;
-  height: 43px;
-  border-radius: 4px;
+  width: 200px;
+  max-height:300px;
+  // height: 200px !important;
+  // background-color: white;
+  // height: 43px;
+  // border-radius: 4px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+`;
+const CustomImageRight = styled(Image)`
+  width: 200px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  // height: 200px !important;
+  // background-color: white;
+  // height: 43px;
+  // border-radius: 4px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  // float: right;
+  // margin-right: 15px;
+  
 `;
 
 export default ChatBox;

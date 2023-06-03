@@ -7,6 +7,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { selectRecentlyMessages } from '../../redux/slice/RecentlyMessages/RecentlyMessages';
 import { socket } from '../../socketio/Socket';
 import { EEventMessage } from '../../socketio/type';
+import { decryptData } from '../../common/aes';
 const { Search } = Input;
 
 export interface IMessageType {
@@ -83,6 +84,13 @@ function Chat() {
     [merchant]
   );
 
+  const contentMess=(content: string)=>{
+    if (decryptData(content).includes("http")) {
+      return "Tin nhắn hình ảnh"
+    }
+    return decryptData(content);
+  }
+
   return (
     <div className={Styles.main}>
       <div className={Styles.listChat}>
@@ -117,7 +125,7 @@ function Chat() {
               </div>
               <div className={Styles.nameUser}>
                 <div>{getInfo(EInfoType.USERNAME, item)}</div>
-                <div className={Styles.contentMessage}>{item.content}</div>
+                <div className={Styles.contentMessage}>{contentMess(item.content)}</div>
               </div>
             </div>
           );

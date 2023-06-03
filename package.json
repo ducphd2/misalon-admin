@@ -31,6 +31,7 @@
     "bootstrap": "4.3.1",
     "chart.js": "^4.3.0",
     "classnames": "^2.3.2",
+    "crypto-js": "^4.1.1",
     "emoji-picker-react": "^4.4.9",
     "google-map-react": "^2.2.1",
     "highcharts": "^10.3.3",
@@ -81,5 +82,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/crypto-js": "^4.1.1"
+  }
 }

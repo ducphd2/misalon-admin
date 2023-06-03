@@ -21,10 +21,6 @@ const Socket = () => {
   const currentUser = useSelector(selectAuthUser);
 
   useEffect(() => {
-    const reconnect = () => {
-      socket.connect(); // Attempt to reconnect
-    };
-
     socket.on(EEventMessage.NEW_MESSAGE, (data: any) => {
       dispatch(addNewMessage(data));
     });
@@ -37,20 +33,11 @@ const Socket = () => {
       dispatch(setRecentlyMessages(data));
     });
 
-    socket.on('connect', () => {
-      setIsConnected(true); // Set connection status to true when connected
-    });
-
     socket.on('disconnect', () => {
-      setIsConnected(false); // Set connection status to false when disconnected
+      setIsConnected(!isConnected); 
+      firstJoinRoom.current=true
     });
-    if (!isConnected) {
-      const reconnectInterval = setInterval(reconnect, 1000); // Attempt reconnect every 5 seconds
 
-      return () => {
-        clearInterval(reconnectInterval); // Clear reconnect interval when component unmounts
-      };
-    }
     if (firstJoinRoom.current) {
       const getCurrentUser = async () => {
         let merchant: any = await AsyncStorage.getItem('merchant');
