@@ -1,7 +1,7 @@
-import React from "react";
-import classNames from "classnames/bind";
-import styles from "./Input.module.scss";
-import { ErrorIcon } from "../../assets/Icons";
+import React from 'react';
+import classNames from 'classnames/bind';
+import styles from './Input.module.scss';
+import { ErrorIcon } from '../../assets/Icons';
 
 interface InputProps {
   placeholder?: string;
@@ -22,7 +22,7 @@ const cx = classNames.bind(styles);
 
 export default function Input({
   label,
-  className = "",
+  className = '',
   errorMessage,
   maxWidth,
   invalid,
@@ -30,11 +30,15 @@ export default function Input({
   ...props
 }: InputProps) {
   return (
-    <div className={cx("input-wrapper", className)}>
-      {label && <div className={cx("input-label")}>{label} {required && <span className="text-danger">*</span>}</div>}
-      <div className={cx("input-container")} style={{ maxWidth }}>
+    <div className={cx('input-wrapper', className)}>
+      {label && (
+        <div className={cx('input-label')}>
+          {label} {required && <span className="text-danger">*</span>}
+        </div>
+      )}
+      <div className={cx('input-container')} style={{ maxWidth }}>
         <input
-          className={cx("input-content", {
+          className={cx('input-content', {
             error: errorMessage,
             invalid: invalid,
           })}
@@ -42,11 +46,11 @@ export default function Input({
         />
 
         {errorMessage && (
-          <div className={cx("error-wrapper")}>
+          <div className={cx('error-wrapper')}>
             <i>
               <ErrorIcon />
             </i>
-            <div className={cx("error-message")}>{errorMessage}</div>
+            <div className={cx('error-message')}>{errorMessage}</div>
           </div>
         )}
       </div>

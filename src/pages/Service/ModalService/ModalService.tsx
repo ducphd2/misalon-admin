@@ -67,17 +67,6 @@ export default function ModalService({ onCloseModal, defaultValue }: any) {
   return (
     <div className={cx('form')}>
       <div className="row">
-        {/* <div className="col-sm-12">
-          <Dropdown
-            options={selectServiceGroups || []}
-            label="name"
-            value="id"
-            valueChosen=""
-            setValueChosen={(e) => handleSelect(e, "groupId")}
-            className={className("form-group", "input-custom")}
-            title="Nhóm dịch vụ"
-          />
-        </div> */}
         <div className="col-sm-12">
           <Input
             required={true}

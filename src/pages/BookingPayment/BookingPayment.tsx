@@ -1,26 +1,26 @@
-import { Suspense, lazy, useEffect, useState } from "react";
-import { FiBold, FiDollarSign } from "react-icons/fi";
-import { formatPriceVietnam } from "../../common/helper";
-import Button from "../../components/Button/Button";
-import Loading from "../../components/Loading/Loading";
-import { httpService } from "../../redux/service/httpService";
-import "./BookingPayment.scss";
-import MerchantInfo from "./components/MerchantInfo";
-import ServiceInfo, { Iservice } from "./components/ServiceInfo";
-import { useNavigate } from "react-router-dom";
-import ModalConfirm from "../../components/ModalConfirm/ModalConfirm";
-import { toast } from "react-toastify";
-import { BASE_API_URL } from "../../constants";
-const MainLayout = lazy(() => import("../../components/MainLayout"));
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { FiBold, FiDollarSign } from 'react-icons/fi';
+import { formatPriceVietnam } from '../../common/helper';
+import Button from '../../components/Button/Button';
+import Loading from '../../components/Loading/Loading';
+import { httpService } from '../../redux/service/httpService';
+import './BookingPayment.scss';
+import MerchantInfo from './components/MerchantInfo';
+import ServiceInfo, { Iservice } from './components/ServiceInfo';
+import { useNavigate } from 'react-router-dom';
+import ModalConfirm from '../../components/ModalConfirm/ModalConfirm';
+import { toast } from 'react-toastify';
+import { BASE_API_URL } from '../../constants';
+const MainLayout = lazy(() => import('../../components/MainLayout'));
 
 export default function BookingPayment() {
   const navigate = useNavigate();
   const [bookingDetail, setBookingDetail] = useState<any>();
-  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(0); // -1: that bat/ 1. thanh cong
   const [total, setTotal] = useState<number>(0);
   const url = new URL(window.location.href);
-  const params = url.pathname.split("/");
+  const params = url.pathname.split('/');
   const bookingId = params[params.length - 1];
 
   const getBookingDetail = async () => {
@@ -54,7 +54,7 @@ export default function BookingPayment() {
   }, [bookingDetail]);
 
   const paramsSearch = new URLSearchParams(url.search);
-  const vnpResponseCode = paramsSearch.get("vnp_ResponseCode");
+  const vnpResponseCode = paramsSearch.get('vnp_ResponseCode');
 
   const callBackPayment = async () => {
     try {
@@ -62,7 +62,7 @@ export default function BookingPayment() {
         uri: `${BASE_API_URL}/payments/callback${window.location.search}`,
       });
       if (res) {
-        if (vnpResponseCode == "00") {
+        if (vnpResponseCode == '00') {
           setPaymentSuccess(1);
         } else {
           setPaymentSuccess(-1);
@@ -80,11 +80,11 @@ export default function BookingPayment() {
 
   const handlePayment = async () => {
     if (!selectedMethod) {
-      toast.error("Chưa chọn phương thức thanh toán!");
+      toast.error('Chưa chọn phương thức thanh toán!');
     }
-    if (selectedMethod == "vnpay") {
+    if (selectedMethod == 'vnpay') {
       const res: any = await httpService.POST({
-        uri: "payments",
+        uri: 'payments',
         request: {
           type: 1,
           bookingIds: [+bookingId],
@@ -93,10 +93,10 @@ export default function BookingPayment() {
         },
       });
       if (res) window.location.href = res.result.payment.vnpUrl;
-    } else if (selectedMethod == "cash") {
+    } else if (selectedMethod == 'cash') {
       try {
         const res: any = await httpService.POST({
-          uri: "payments",
+          uri: 'payments',
           request: {
             type: 0,
             bookingIds: [+bookingId],
@@ -127,7 +127,7 @@ export default function BookingPayment() {
                 return <ServiceInfo service={service} />;
               })}
             </div>
-            <hr style={{ marginTop: "30px" }} />
+            <hr style={{ marginTop: '30px' }} />
             <span className="service-info-title">Thông nhà cung cấp:</span>
             <MerchantInfo merchant={bookingDetail.merchant} />
           </div>
@@ -143,7 +143,7 @@ export default function BookingPayment() {
               <div className="infoItem">
                 <FiBold color="#ACB2BC" />
                 <span className="nameTitle">Giảm giá:</span>
-                <span className="valueTitle">{formatPriceVietnam("0")}</span>
+                <span className="valueTitle">{formatPriceVietnam('0')}</span>
               </div>
               <div className="payment-methods">
                 <span className="method-title">
@@ -156,7 +156,7 @@ export default function BookingPayment() {
                       id="cash"
                       name="paymentMethod"
                       value="cash"
-                      checked={selectedMethod === "cash"}
+                      checked={selectedMethod === 'cash'}
                       onChange={handleMethodChange}
                     />
                     <label htmlFor="cash">Thanh toán bằng tiền mặt</label>
@@ -168,7 +168,7 @@ export default function BookingPayment() {
                       id="vnpay"
                       name="paymentMethod"
                       value="vnpay"
-                      checked={selectedMethod === "vnpay"}
+                      checked={selectedMethod === 'vnpay'}
                       onChange={handleMethodChange}
                     />
                     <label htmlFor="vnpay">Thanh toán bằng VNPAY</label>
@@ -188,23 +188,23 @@ export default function BookingPayment() {
         <ModalConfirm
           title={
             paymentSuccess == 1
-              ? "Thanh toán thành công"
-              : "Thanh toán thất bại"
+              ? 'Thanh toán thành công'
+              : 'Thanh toán thất bại'
           }
           isModal={paymentSuccess != 0}
           subTitle={
             paymentSuccess == 1
-              ? "Bạn đã thanh toán booking thành công"
-              : "Thanh toán lỗi vui lòng thử lại"
+              ? 'Bạn đã thanh toán booking thành công'
+              : 'Thanh toán lỗi vui lòng thử lại'
           }
           confirmText="Quay về danh sách"
           cancelText="Hủy bỏ"
           onClick={() => {
-            window.location.replace(window.location.origin + "/booking");
+            window.location.replace(window.location.origin + '/booking');
           }}
           setOpenModals={async () => {
-            await getBookingDetail()
-            setPaymentSuccess(0)
+            await getBookingDetail();
+            setPaymentSuccess(0);
             // window.location.replace(window.location.href.split("?")[0]);
           }}
         ></ModalConfirm>
