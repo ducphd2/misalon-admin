@@ -1,38 +1,24 @@
+import { Table } from 'antd';
 import classNames from 'classnames/bind';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import PageSizeSelector from '../../components/PageSizeSelector';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { Table } from 'antd';
 
+import { AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
+import Button from '../../components/Button/Button';
 import {
-  addBooking,
   deleteBooking,
-  editBooking,
-  getBookings,
   resetStatusDeleteBooking,
   selectLoadingBooking,
-  selectBookingList,
   selectStatusDeleteBooking,
   selectTotalBooking,
 } from '../../redux/slice/Booking/BookingSlice';
 import { getUsers, selectUserList } from '../../redux/slice/User/UserSlice';
-import {
-  EditBookingReq,
-  GetBookingReq,
-  BookingRes,
-} from '../../redux/types/Booking/booking';
+import { GetBookingReq } from '../../redux/types/Booking/booking';
+import { ModalAddUser } from './ModalBooking';
 import ModalBooking from './ModalBooking/ModalBooking';
 import styles from './UserManagement.module.scss';
-import { uploadImages } from '../../common/utils';
-import Schedule from '../../components/Schedule/Schedule';
-import { formatDate } from '@fullcalendar/core';
-import Button from '../../components/Button/Button';
-import Dropdown from '../../components/Dropdown';
-import { Select } from 'antd';
 import { SelectStyle } from './styles';
-import { ModalAddUser } from './ModalBooking';
-import { FiEdit } from 'react-icons/fi';
-import { AiOutlineDelete } from 'react-icons/ai';
 
 const MainLayout = lazy(() => import('../../components/MainLayout'));
 const DropDownEdit = lazy(() => import('../../components/DropDownEdit/index'));

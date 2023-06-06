@@ -4,13 +4,12 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { withCookies } from 'react-cookie';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Booking from '../../pages/Booking/Booking';
+import BookingPayment from '../../pages/BookingPayment/BookingPayment';
 import Dashboard from '../../pages/Dashboard/Dashboard';
 import Service from '../../pages/Service/Service';
-import ServiceGroup from '../../pages/ServiceGroup/ServiceGroup';
 import Schedule from '../../pages/Shedule/Schedule';
 import UserManagement from '../../pages/UserManagement/UserManagement';
 import styles from './Protected.module.scss';
-import BookingPayment from '../../pages/BookingPayment/BookingPayment';
 const Chat = lazy(() => import('../../pages/Chat'));
 const Header = lazy(() => import('../Header'));
 const Sidebar = lazy(() => import('../Sidebar'));
@@ -70,11 +69,6 @@ const Protected = (props: any) => {
     {
       path: 'branch',
       component: <Branch />,
-      isAdmin: false,
-    },
-    {
-      path: 'service-group',
-      component: <ServiceGroup />,
       isAdmin: false,
     },
     {

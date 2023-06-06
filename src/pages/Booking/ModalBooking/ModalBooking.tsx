@@ -1,40 +1,32 @@
-import classNames from "classnames/bind";
-import {
-  Suspense,
-  lazy,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import LocationSelector from "../../../components/AddressSelect";
-import styles from "./ModalBooking.module.scss";
+import classNames from 'classnames/bind';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { useAppDispatch } from '../../../redux/hooks';
 import {
   addBooking,
   editBooking,
-} from "../../../redux/slice/Booking/BookingSlice";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { EditBookingReq } from "../../../redux/types/Booking/booking";
-import Loading from "../../../components/Loading/Loading";
-import { selectServiceGroupList } from "../../../redux/slice/ServiceGroup/ServiceGroupSlice";
-import Dropdown from "../../../components/Dropdown/Dropdown";
-const Input = lazy(() => import("../../../components/Input"));
-const Button = lazy(() => import("../../../components/Button"));
+} from '../../../redux/slice/Booking/BookingSlice';
+import { EditBookingReq } from '../../../redux/types/Booking/booking';
+import styles from './ModalBooking.module.scss';
+
+import { TimePicker } from 'antd';
+
+import moment from 'moment';
+const Input = lazy(() => import('../../../components/Input'));
+const Button = lazy(() => import('../../../components/Button'));
 
 export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   const dispatch = useAppDispatch();
   const cx = classNames.bind(styles);
-  const selectServiceGroups = useAppSelector(selectServiceGroupList);
   const [isUploading, setIsUploading] = useState(false);
-  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+  const merchant = JSON.parse(localStorage.getItem('merchant') as any);
   const [form, setForm] = useState({
     merchantId: merchant.id,
-    sku: "",
-    code: "",
-    name: "",
-    description: "",
-    image: "",
+    sku: '',
+    code: '',
+    name: '',
+    description: '',
     status: 1,
+    startTime: null,
   });
   useEffect(() => {
     if (!!defaultValue) {
@@ -58,25 +50,6 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
     onCloseModal();
   };
 
-  const handleUpload = async (event: any) => {
-    setIsUploading(true);
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "pcfn6h3b");
-    formData.append("cloud_name", "dueyjeqd5");
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dueyjeqd5/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-    setForm({ ...form, image: data.secure_url });
-    setIsUploading(false);
-  };
   const [isAccept, setIsAccept] = useState(1);
 
   const handleOptionSelect = (e: any) => {
@@ -84,31 +57,18 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   };
 
   return (
-    <div className={cx("form")}>
+    <div className={cx('form')}>
       <div className="row">
-        <div className="col-sm-12">
-          <Dropdown
-            options={selectServiceGroups || []}
-            label="name"
-            value="id"
-            valueChosen=""
-            setValueChosen={(e) => {
-              console.log(e);
-            }}
-            className={className("form-group", "input-custom")}
-            title="Nhóm dịch vụ"
-          />
-        </div>
         <div className="col-sm-12">
           <Input
             required={true}
-            name={"name"}
-            label={"Tên booking"}
+            name={'name'}
+            label={'Tên khách hàng'}
             value={form.name}
-            className={className("form-group", "input-custom")}
-            type={"text"}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["name"]}
+            errorMessage={errorsMessage['name']}
           />
         </div>
       </div>
@@ -116,25 +76,49 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
         <div className="col-sm-12">
           <Input
             required={true}
-            name={"name"}
-            label={"Thời gian bắt đầu"}
+            name={'name'}
+            label={'Thời gian bắt đầu'}
             value={form.name}
-            className={className("form-group", "input-custom")}
-            type={"text"}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["name"]}
+            errorMessage={errorsMessage['name']}
           />
         </div>
         <div className="col-sm-12">
-          <Input
+          {/* <Input
             required={true}
-            name={"name"}
-            label={"Ngày bắt đầu"}
+            name={'name'}
+            label={'Ngày bắt đầu'}
             value={form.name}
-            className={className("form-group", "input-custom")}
-            type={"text"}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["name"]}
+            errorMessage={errorsMessage['name']}
+          /> */}
+
+          <TimePicker
+            name="startTime" // Set the name to identify the field in the form state
+            placeholder="Thời gian bắt đầu"
+            value={form.startTime}
+            className={className('form-group', 'input-custom')}
+            defaultValue={
+              form.startTime ? moment(form.startTime, 'HH:mm') : moment()
+            }
+            format="HH:mm"
+            minuteStep={15}
+            disabledTime={() => ({
+              disabledHours: () =>
+                Array.from(Array(24).keys()).filter(
+                  (hour) => hour < 8 || hour > 20
+                ),
+            })}
+            hideDisabledOptions={true}
+
+            // onChange={(value, dateString) => {
+            //   console.log('Time', value, dateString);
+            //   setTime(dateString);
+            // }}
           />
         </div>
       </div>
@@ -142,24 +126,24 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
         <div className="col-sm-12">
           <Input
             required={true}
-            name={"name"}
-            label={"Booking bạn muốn thêm"}
+            name={'name'}
+            label={'Booking bạn muốn thêm'}
             value={form.name}
-            className={className("form-group", "input-custom")}
-            type={"text"}
+            className={className('form-group', 'input-custom')}
+            type={'text'}
             onChange={(e) => onChange(e)}
-            errorMessage={errorsMessage["name"]}
+            errorMessage={errorsMessage['name']}
           />
         </div>
       </div>
-      <div className={cx("submit-section")}>
+      <div className={cx('submit-section')}>
         <Suspense>
           <Button
             label="Submit"
             disabled={isUploading}
             type="submit"
             onClick={handleSubmit}
-            classType={cx("btn-submit")}
+            classType={cx('btn-submit')}
           />
         </Suspense>
       </div>
