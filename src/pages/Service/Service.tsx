@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import classNames from 'classnames/bind';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
@@ -23,11 +23,9 @@ import ModalService from './ModalService/ModalService';
 import styles from './Service.module.scss';
 
 const MainLayout = lazy(() => import('../../components/MainLayout'));
-const DropDownEdit = lazy(() => import('../../components/DropDownEdit/index'));
 const Modal = lazy(() => import('../../components/Modal'));
 const Loading = lazy(() => import('../../components/Loading'));
 const ModalConfirm = lazy(() => import('../../components/ModalConfirm'));
-const Pagination = lazy(() => import('../../components/Pagination'));
 
 interface SortType {
   sortBy: string;
@@ -107,6 +105,12 @@ export default function Service() {
       render: (text: string, record: any, index: number) => <>{index + 1}</>,
     },
     {
+      title: 'STT',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string, record: any, index: number) => <>{index + 1}</>,
+    },
+    {
       title: 'Tên dịch vụ',
       dataIndex: 'name',
       key: 'name',
@@ -150,21 +154,31 @@ export default function Service() {
       title: 'Ngày tạo',
       key: 'createdAt',
       dataIndex: 'createdAt',
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text: string) =>
+        moment(new Date(text)).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: 'Ngày cập nhật',
       key: 'updatedAt',
       dataIndex: 'updatedAt',
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text: string) =>
+        moment(new Date(text)).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: 'Hành động',
-      key: 'updatedAt',
+      key: 'actions',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB"  onClick={() => handleEditService(record)} />{' '}
-          <AiOutlineDelete size={26} color="#e91e63"  onClick={() => handleDelete(record)} />
+          <FiEdit
+            size={26}
+            color="#01C5FB"
+            onClick={() => handleEditService(record)}
+          />{' '}
+          <AiOutlineDelete
+            size={26}
+            color="#e91e63"
+            onClick={() => handleDelete(record)}
+          />
         </div>
       ),
     },
@@ -185,10 +199,6 @@ export default function Service() {
     };
     dispatch(deleteService(req));
     setShowModelConfirm(false);
-  };
-
-  const handleChangePage = (e: number) => {
-    setPage(e);
   };
 
   const handleSort = (item: any) => {

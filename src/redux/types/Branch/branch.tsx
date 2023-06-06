@@ -1,4 +1,4 @@
-import { type } from "os";
+import { type } from 'os';
 
 export interface BranchState {
   listBranchs: { items: any; meta: any };
@@ -60,6 +60,7 @@ export interface EditBranchReq {
   ward?: string | undefined;
   longitude?: string | number;
   latitude?: string | number;
+  image?: string | undefined;
 }
 export interface EditBranchName {
   name: string;

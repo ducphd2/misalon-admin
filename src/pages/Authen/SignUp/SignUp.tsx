@@ -1,4 +1,4 @@
-import { Form, FormInstance, Input, Select } from 'antd';
+import { Form, FormInstance, Input } from 'antd';
 import axios from 'axios';
 import React, { lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +6,15 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import images from '../../../assets/images';
 import { BASE_API_URL } from '../../../constants';
+
+import styles from './SignUp.module.scss';
+import classNames from 'classnames/bind';
+
 const Button = lazy(() => import('../../../components/Button'));
-const { Option } = Select;
 
 const SignUp = () => {
+  const cx = classNames.bind(styles);
+
   const navigate = useNavigate();
   const formRef = React.useRef<FormInstance>(null);
   const onFinish = (values: any) => {
@@ -39,28 +44,13 @@ const SignUp = () => {
     console.log('Failed:', errorInfo);
   };
 
-  const onGenderChange = (value: string) => {
-    switch (value) {
-      case 'male':
-        formRef.current?.setFieldsValue({ note: 'Hi, man!' });
-        break;
-      case 'female':
-        formRef.current?.setFieldsValue({ note: 'Hi, lady!' });
-        break;
-      case 'other':
-        formRef.current?.setFieldsValue({ note: 'Hi there!' });
-        break;
-      default:
-        break;
-    }
-  };
   return (
     <SMain>
       <SModal>
         <SLogo>
-          <img src={images.logoSm} alt="Aht Logo" />
+          <img src={images.logoSm} alt="MiHealthCare Logo" />
         </SLogo>
-        <STitle>Đăng ký trở thành trung tâm</STitle>
+        <STitle>Đăng ký sử dụng dịch vụ</STitle>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
@@ -92,15 +82,6 @@ const SignUp = () => {
           >
             <Input />
           </Form.Item>
-          {/* <Form.Item name="role" label="Role" rules={[{ required: true }]}>
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onGenderChange}
-              allowClear
-            >
-              <Option value="1">1</Option>
-            </Select>
-          </Form.Item> */}
           <Form.Item
             label="Mật khẩu"
             name="password"
@@ -157,21 +138,8 @@ const SignUp = () => {
             <Input />
           </Form.Item>
 
-          {/* <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{ offset: 8, span: 16 }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item> */}
-
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button
-              type="submit"
-              label="Đăng ký"
-              // classType={cx("btn-submit")}
-              maxWidth="100%"
-            />
+            <Button type="submit" label="Đăng ký" maxWidth="100%" />
           </Form.Item>
         </Form>
       </SModal>
