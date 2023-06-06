@@ -1,0 +1,120 @@
+.booking-payment {
+  padding: 0px 16px;
+  .booking-payment-title {
+    text-align : center;
+    font-size  : 18px;
+    font-weight: 500;
+    font-family: "Roboto";
+    padding    : 10px 0;
+  }
+
+  .left {
+    // border: 1px solid #DADCE0;
+    background-color: #fff;
+    border-radius   : 5px;
+    min-height      : 450px;
+    padding: 20px;
+  }
+
+  .right {
+    background-color: #fff;
+    border-radius   : 5px;
+    padding: 0;
+    height: fit-content;
+  }
+
+  .infoItem {
+    margin: 10px 0;
+  }
+
+  .nameTitle {
+    color         : #ACB2BC;
+    font-size     : 16px;
+    font-weight   : 500;
+    margin-bottom : 5px;
+    font-family   : "Roboto";
+    text-transform: capitalize;
+    padding       : 5px 10px;
+  }
+
+  .valueTitle {
+    color        : #191E26;
+    font-size    : 16px;
+    font-weight  : 500;
+    margin-bottom: 5px;
+    font-family  : "Roboto";
+    padding      : 5px 10px;
+  }
+
+  .service-info {
+    display      : flex;
+    justify-content: space-between;
+    border       : 1px solid #DADCE0;
+    padding      : 5px;
+    border-radius: 5px;
+  }
+
+  .image {
+    flex: 1;
+    width: 100%;
+    max-width: 300px;
+    padding: 0px 5px;
+  }
+  .image >img{
+    width: 100%;
+    border-radius: 5px;
+  }
+  .service-info-title{
+    display: inline-block;
+    font-family   : "Roboto";
+    font-size: 16px;
+    margin: 10px 0;
+    
+  }
+  .payment-title-right{
+    font-family   : "Roboto";
+    font-size: 16px;
+    text-align: center;
+    align-items: center ;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    width: 100%;
+    font-weight: 500;
+  }
+  .content-payment{
+    padding: 10px 16px;
+  }
+  .method-title{
+    font-family   : "Roboto";
+    font-size: 18px;
+    color: #191E26;
+  }
+
+  .list-method{
+    margin-top: 20px;
+  }
+  .payment-methods{
+    margin-top: 5px;
+    width: 100%;
+  }
+  .payment-method >input{
+    transform: scale(1.5);
+    margin-right: 10px;
+  }
+  .payment-method {
+    font-family   : "Roboto";
+    margin-bottom: 10px;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+  }
+  .payment-method label {
+    margin: auto;
+    margin-left: 5px;
+  }
+  input[type='submit'] {
+    margin-top: 10px;
+  }
+  
+}

@@ -1,12 +1,13 @@
 import { Table } from 'antd';
 import classNames from 'classnames/bind';
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineCreditCard, AiOutlineDelete } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 import moment from 'moment';
 
+import { Link } from "react-router-dom";
 import {
   deleteBooking,
   getBookings,
@@ -14,11 +15,15 @@ import {
   selectBookingList,
   selectLoadingBooking,
   selectStatusDeleteBooking,
-  selectTotalBooking,
-} from '../../redux/slice/Booking/BookingSlice';
-import { BookingRes, GetBookingReq } from '../../redux/types/Booking/booking';
-import styles from './Booking.module.scss';
-import ModalBooking from './ModalBooking/ModalBooking';
+  selectTotalBooking
+} from "../../redux/slice/Booking/BookingSlice";
+import {
+  BookingRes,
+  GetBookingReq
+} from "../../redux/types/Booking/booking";
+import styles from "./Booking.module.scss";
+import ModalBooking from "./ModalBooking/ModalBooking";
+import { formatPriceVietnam } from '../../common/helper';
 
 const MainLayout = lazy(() => import('../../components/MainLayout'));
 const Modal = lazy(() => import('../../components/Modal'));
@@ -135,7 +140,7 @@ export default function Booking() {
       key: 'bookingTotalPrice',
       render: (text: string, record: any) => {
         const totalPrice = record.services.reduce((acc: any, curr: any) => {
-          return acc + curr.price;
+          return formatPriceVietnam(acc + curr.price) ;
         }, 0);
         return <div>{totalPrice}</div>;
       },
@@ -159,8 +164,15 @@ export default function Booking() {
       key: 'actions',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB" />{' '}
-          <AiOutlineDelete size={26} color="#e91e63" />
+          <FiEdit size={26} color="#01C5FB"  />{" "}
+          <Link to={"/booking-payment/"+record.id}>
+            <AiOutlineCreditCard
+              size={26}
+              color="green"
+              style={{ cursor: "pointer" }}
+            />
+          </Link>
+          <AiOutlineDelete size={26} color="#e91e63" onClick={()=>handleDelete(record)} />
         </div>
       ),
     },

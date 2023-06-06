@@ -10,6 +10,7 @@ import ServiceGroup from '../../pages/ServiceGroup/ServiceGroup';
 import Schedule from '../../pages/Shedule/Schedule';
 import UserManagement from '../../pages/UserManagement/UserManagement';
 import styles from './Protected.module.scss';
+import BookingPayment from '../../pages/BookingPayment/BookingPayment';
 const Chat = lazy(() => import('../../pages/Chat'));
 const Header = lazy(() => import('../Header'));
 const Sidebar = lazy(() => import('../Sidebar'));
@@ -94,6 +95,11 @@ const Protected = (props: any) => {
     {
       path: 'user-management',
       component: <UserManagement />,
+      isAdmin: false,
+    },
+    {
+      path: 'booking-payment/:id',
+      component: <BookingPayment />,
       isAdmin: false,
     },
   ];

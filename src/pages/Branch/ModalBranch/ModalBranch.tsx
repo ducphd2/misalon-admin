@@ -53,6 +53,11 @@ export default function ModalBranch({ onCloseModal, defaultValue }: any) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    if (!!defaultValue) {
+      setForm(defaultValue);
+    }
+  }, [defaultValue]);
   const handleSubmit = () => {
     if (!!defaultValue) {
       dispatch(editBranch(form as EditBranchReq));
