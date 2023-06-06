@@ -9,7 +9,9 @@ function Home() {
     <div>
       <HeaderHome />
       <ContentHome />
+      
       <CardHome />
+      
       <FooterHome />
     </div>
   );
