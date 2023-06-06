@@ -29,8 +29,7 @@ function HeaderHome() {
           </button>
           <button
             onClick={() => {
-              // navigate("https://signup.mshopkeeper.vn/");
-              window.location.href = 'https://signup.mshopkeeper.vn/';
+              navigate('/auth/signup');
             }}
           >
             {' '}

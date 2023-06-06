@@ -21,8 +21,6 @@ import styles from './branch.module.scss';
 import moment from 'moment';
 
 const MainLayout = lazy(() => import('../../components/MainLayout'));
-// const Table = lazy(() => import("../../components/Table"));
-const DropDownEdit = lazy(() => import('../../components/DropDownEdit/index'));
 const Modal = lazy(() => import('../../components/Modal'));
 const Loading = lazy(() => import('../../components/Loading'));
 const ModalConfirm = lazy(() => import('../../components/ModalConfirm'));
@@ -99,10 +97,32 @@ export default function Branch() {
   };
   const columns: ColumnsType<DataType> = [
     {
+      title: 'STT',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text: string, record: any, index: number) => <>{index + 1}</>,
+    },
+    {
       title: 'Tên chi nhánh',
       dataIndex: 'name',
       key: 'name',
       render: (text) => <a>{text}</a>,
+    },
+    {
+      title: 'Hình ảnh',
+      dataIndex: 'image',
+      key: 'image',
+      render: (text: string, record: any, index: number) => (
+        <>
+          {record.image && (
+            <img
+              src={record.image}
+              alt=""
+              style={{ height: '50px', width: '80px' }}
+            />
+          )}
+        </>
+      ),
     },
     {
       title: 'Mô tả',
@@ -124,21 +144,33 @@ export default function Branch() {
       title: 'Ngày tạo',
       key: 'createdAt',
       dataIndex: 'createdAt',
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text: string) =>
+        moment(new Date(text)).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: 'Ngày cập nhật',
       key: 'updatedAt',
       dataIndex: 'updatedAt',
-      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text: string) =>
+        moment(new Date(text)).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: 'Hành động',
-      key: 'updatedAt',
+      key: 'actions',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} style={{cursor:'pointer'}} color="#01C5FB" onClick={()=>handleEditBranch(record)} />{' '}
-          <AiOutlineDelete size={26} style={{cursor:'pointer'}} onClick={()=>handleDelete(record)}  color="#e91e63" />
+          <FiEdit
+            size={26}
+            style={{ cursor: 'pointer' }}
+            color="#01C5FB"
+            onClick={() => handleEditBranch(record)}
+          />{' '}
+          <AiOutlineDelete
+            size={26}
+            style={{ cursor: 'pointer' }}
+            onClick={() => handleDelete(record)}
+            color="#e91e63"
+          />
         </div>
       ),
     },
@@ -192,7 +224,7 @@ export default function Branch() {
     <Suspense fallback={<></>}>
       <MainLayout
         title="Branch"
-        titleButton="Create Branch"
+        titleButton="Thêm chi nhánh"
         handleClickAdd={handleAddBranch}
       >
         <div className={cx('skill-page')}>
@@ -225,7 +257,7 @@ export default function Branch() {
           </div>
           <Suspense>
             <Modal
-            customClass= {cx('branchModalCustom')}
+              customClass={cx('branchModalCustom')}
               isModal={show}
               title={
                 newBranch.current ? 'Thêm chi nhánh' : 'Chỉnh sửa chi nhánh'
