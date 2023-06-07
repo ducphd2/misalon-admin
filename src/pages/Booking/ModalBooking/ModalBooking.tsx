@@ -97,7 +97,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
             errorMessage={errorsMessage['name']}
           /> */}
 
-          <TimePicker
+          {/* <TimePicker
             name="startTime" // Set the name to identify the field in the form state
             placeholder="Thời gian bắt đầu"
             value={form.startTime}
@@ -114,12 +114,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                 ),
             })}
             hideDisabledOptions={true}
-
-            // onChange={(value, dateString) => {
-            //   console.log('Time', value, dateString);
-            //   setTime(dateString);
-            // }}
-          />
+          /> */}
         </div>
       </div>
       <div className="row">
