@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 import moment from 'moment';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   deleteBooking,
   getBookings,
@@ -15,14 +15,11 @@ import {
   selectBookingList,
   selectLoadingBooking,
   selectStatusDeleteBooking,
-  selectTotalBooking
-} from "../../redux/slice/Booking/BookingSlice";
-import {
-  BookingRes,
-  GetBookingReq
-} from "../../redux/types/Booking/booking";
-import styles from "./Booking.module.scss";
-import ModalBooking from "./ModalBooking/ModalBooking";
+  selectTotalBooking,
+} from '../../redux/slice/Booking/BookingSlice';
+import { BookingRes, GetBookingReq } from '../../redux/types/Booking/booking';
+import styles from './Booking.module.scss';
+import ModalBooking from './ModalBooking/ModalBooking';
 import { formatPriceVietnam } from '../../common/helper';
 
 const MainLayout = lazy(() => import('../../components/MainLayout'));
@@ -60,9 +57,14 @@ export default function Booking() {
   const [modelConfirm, setShowModelConfirm] = useState(false);
   const pageSizeList = [10, 25, 50, 100];
   const [limit, setLimit] = useState(pageSizeList[0]);
+
   const [selected, setSelected] = useState<BookingRes>({
     id: '',
+    startTime: '',
+    bookingDate: '',
+    status: '',
   });
+
   const [sort, setSort] = useState<SortType>({ sortBy: '', type: '' });
   const [path, setPath] = useState<GetBookingReq>(initial);
   const [page, setPage] = useState<number>(1);
@@ -72,6 +74,7 @@ export default function Booking() {
   const loading = useAppSelector(selectLoadingBooking);
   const statusDelete = useAppSelector(selectStatusDeleteBooking);
   const totalBooking = useAppSelector(selectTotalBooking);
+
   const handleEditBooking = (e: BookingRes) => {
     setShow(true);
     newBooking.current = false;
@@ -140,7 +143,7 @@ export default function Booking() {
       key: 'bookingTotalPrice',
       render: (text: string, record: any) => {
         const totalPrice = record.services.reduce((acc: any, curr: any) => {
-          return formatPriceVietnam(acc + curr.price) ;
+          return formatPriceVietnam(acc + curr.price);
         }, 0);
         return <div>{totalPrice}</div>;
       },
@@ -164,15 +167,23 @@ export default function Booking() {
       key: 'actions',
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB"  />{" "}
-          <Link to={"/booking-payment/"+record.id}>
+          <FiEdit
+            size={26}
+            color="#01C5FB"
+            onClick={() => handleEditBooking(record)}
+          />{' '}
+          <Link to={'/booking-payment/' + record.id}>
             <AiOutlineCreditCard
               size={26}
               color="green"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             />
           </Link>
-          <AiOutlineDelete size={26} color="#e91e63" onClick={()=>handleDelete(record)} />
+          <AiOutlineDelete
+            size={26}
+            color="#e91e63"
+            onClick={() => handleDelete(record)}
+          />
         </div>
       ),
     },
