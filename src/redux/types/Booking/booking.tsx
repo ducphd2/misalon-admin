@@ -1,4 +1,4 @@
-import { type } from "os";
+import { type } from 'os';
 
 export interface BookingState {
   listBookings: { items: any; meta: any };
@@ -9,7 +9,7 @@ export interface BookingState {
 
 export interface BookingRes {
   id: string;
-  bookingDate?: number;
+  bookingDate?: string;
   createdAt?: string;
   endTime?: string;
   merchantId?: string;

@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ChevronRight } from "../../../assets/icons/SidebarIcons";
 import styles from "../Sidebar.module.scss";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const cx = classNames.bind(styles);
 interface MenuItem {
