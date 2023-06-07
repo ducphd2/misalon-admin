@@ -1,7 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Breadcrumb from "../Breadcrumb";
 import styles from "./MainLayout.module.scss";
