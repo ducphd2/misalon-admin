@@ -1,20 +1,14 @@
-import React from 'react';
+import { faker } from '@faker-js/faker';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
-
-function getLast20Years() {
-  const currentYear = new Date().getFullYear();
-  return Array.from({ length: 21 }, (_, index) => currentYear - 20 + index);
-}
 
 function genMonths(limit = 12) {
   return Array.from({ length: limit }, (value, index) => `Tháng ${index + 1}`);
@@ -53,7 +47,7 @@ export default function Chart() {
       },
       title: {
         display: true,
-        text: 'Biểu đồ doanh thu theo tháng',
+        text: 'Biểu đồ thống kê tổng hợp theo tháng',
       },
     },
   };

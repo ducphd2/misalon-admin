@@ -42,16 +42,6 @@ interface DataType {
 
 export default function Service() {
   const cx = classNames.bind(styles);
-  const List = [
-    { title: '#', sortBy: '' },
-    { title: 'Tên dịch vụ' },
-    { title: 'Ảnh dịch vụ' },
-    { title: 'Mã dịch vụ' },
-    { title: 'SKU' },
-    { title: 'Giá' },
-    { title: 'Mô tả' },
-    { title: 'Action' },
-  ];
   const dispatch = useAppDispatch();
 
   const initial = {
@@ -98,12 +88,6 @@ export default function Service() {
   };
 
   const columns: ColumnsType<DataType> = [
-    {
-      title: 'STT',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text: string, record: any, index: number) => <>{index + 1}</>,
-    },
     {
       title: 'STT',
       dataIndex: 'name',
