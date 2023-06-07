@@ -7,6 +7,7 @@ const Protected = lazy(() => import('./components/Protected'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Authen/SignIn'));
 const SignUp = lazy(() => import('./pages/Authen/SignUp'));
+const ChangPassword = lazy(() => import('./pages/Authen/ChangePassword'));
 function App() {
   return (
     <>
@@ -44,6 +45,14 @@ function App() {
             element={
               <Suspense fallback={<></>}>
                 <Login />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/change-password"
+            element={
+              <Suspense fallback={<></>}>
+                <ChangPassword />
               </Suspense>
             }
           />
