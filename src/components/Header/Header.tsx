@@ -1,22 +1,23 @@
 import {
   faEllipsisV,
   faMagnifyingGlass,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import classNames from 'classnames/bind';
-import { useEffect, useRef, useState } from 'react';
-import { AiOutlineBars, AiOutlineWechat } from 'react-icons/ai';
-import { IoMdNotificationsOutline } from 'react-icons/io';
-import { MdLanguage } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { UserIcon } from '../../assets/icons/HeaderIcons';
-import images from '../../assets/images';
-import useClickOutside from '../../hooks/useClickOutside';
-import { useAppDispatch } from '../../redux/hooks';
-import { logout } from '../../redux/slice/Authen/login';
-import DropMenu from './DropdownMenu/DropMenu';
-import styles from './Header.module.scss';
-import MenuItem from './MenuItem';
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames/bind";
+import { useEffect, useRef, useState } from "react";
+import { AiOutlineBars, AiOutlineWechat } from "react-icons/ai";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { MdLanguage } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { UserIcon } from "../../assets/icons/HeaderIcons";
+import images from "../../assets/images";
+import useClickOutside from "../../hooks/useClickOutside";
+import { useAppDispatch } from "../../redux/hooks";
+import { logout } from "../../redux/slice/Authen/login";
+import DropMenu from "./DropdownMenu/DropMenu";
+import styles from "./Header.module.scss";
+import MenuItem from "./MenuItem";
+import { Image } from "antd";
 
 const cx = classNames.bind(styles);
 export type THeaderProps = {
@@ -28,21 +29,23 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
   const [isOpenSearch, setOpenSearch] = useState(false);
   const [isOpenLanguage, setOpenLanguage] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
-  const [textSearch, setTextSearch] = useState('');
+  const [textSearch, setTextSearch] = useState("");
   const dispatch = useAppDispatch();
   const [authUser, setAuthUser] = useState<any>({
-    createdAt: '',
-    email: '',
+    createdAt: "",
+    email: "",
     employee: null,
-    resetPasswordToken: '',
-    role: '',
-    updatedAt: '',
-    username: '',
+    resetPasswordToken: "",
+    role: "",
+    updatedAt: "",
+    username: "",
+    avatar: "",
+    fullName: "",
   });
 
   useEffect(() => {
     const storedAuthUser = JSON.parse(
-      localStorage.getItem('authUser') || 'null'
+      localStorage.getItem("authUser") || "null"
     );
     setAuthUser(storedAuthUser);
   }, []);
@@ -56,30 +59,30 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (textSearch !== '') {
+    if (textSearch !== "") {
       navigate(`/search?search=${textSearch}`);
-      setTextSearch('');
+      setTextSearch("");
     }
   };
 
   const listMenu = [
-    { name: 'Thông tin cá nhân', path: '/employee-profile' },
-    { name: 'Cài đặt', path: '/setting' },
-    { name: 'Đăng xuất', path: '/auth/login' },
+    { name: "Thông tin cá nhân", path: "/employee-profile" },
+    { name: "Cài đặt", path: "/setting" },
+    { name: "Đăng xuất", path: "/auth/login" },
   ];
   const listLanguage = [
-    { id: 0, name: 'Vietnameses' },
-    { id: 1, name: 'English' },
+    { id: 0, name: "Vietnameses" },
+    { id: 1, name: "English" },
   ];
 
-  const routes = ['/change-password', '/profile', '/preferences'];
+  const routes = ["/change-password", "/profile", "/preferences"];
 
   const navigate = useNavigate();
   const handleItemClick = (path: string) => {
     const firstRoute = routes[0];
-    if (path === '/setting') {
+    if (path === "/setting") {
       navigate(firstRoute);
-    } else if (path === '/auth/login') {
+    } else if (path === "/auth/login") {
       navigate(path);
       dispatch(logout());
     } else {
@@ -89,24 +92,24 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
 
   return (
     <header
-      className={cx('wrapper', `${menuActive ? 'menuOpen' : 'menuClose'}`)}
+      className={cx("wrapper", `${menuActive ? "menuOpen" : "menuClose"}`)}
     >
       {menuActive ? (
-        <div className={cx('hide-menu')} onClick={onMenuClick}>
+        <div className={cx("hide-menu")} onClick={onMenuClick}>
           <AiOutlineBars />
-          <span className={cx('hide-menu-text')}>HEALTH</span>
+          <span className={cx("hide-menu-text")}>HEALTH</span>
         </div>
       ) : (
-        <div className={cx('hide-menu')} onClick={onMenuClick}>
+        <div className={cx("hide-menu")} onClick={onMenuClick}>
           <AiOutlineBars />
-          <span className={cx('hide-menu-text')}>HEALTH</span>
+          <span className={cx("hide-menu-text")}>HEALTH</span>
         </div>
       )}
 
-      <div className={cx('logo-header')}>
-        <img className={cx('logo-mobile')} src={images.logoSm} alt="" />
+      <div className={cx("logo-header")}>
+        <img className={cx("logo-mobile")} src={images.logoSm} alt="" />
       </div>
-      <div className={cx('user-menu')}>
+      <div className={cx("user-menu")}>
         {/* <MenuItem noHover>
           <button
             className={cx("search-btn-tablet")}
@@ -130,16 +133,38 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
           </div>
         </MenuItem> */}
 
-        <div className={cx('language')}>
-          <AiOutlineWechat size={25} color="rgb(146, 147, 148)" />
+        <div className={cx("language")} style={{ marginRight: "20px" }}>
+          {/* <AiOutlineWechat size={25} color="rgb(146, 147, 148)" /> */}
           <IoMdNotificationsOutline size={25} color="rgb(146, 147, 148)" />
-          <MdLanguage size={25} color="rgb(146, 147, 148)" />
+          {/* <MdLanguage size={25} color="rgb(146, 147, 148)" /> */}
         </div>
         <MenuItem hasArrow isOpen={isOpenMenu} setOpenMenu={setOpenMenu}>
-          <div className={cx('user')}>
-            <UserIcon className={cx('user-ava')} />
-            <div className={cx('username')}>
-              <p className={cx('name')}>{authUser?.username}</p>
+          <div className={cx("user")}>
+            <div style={{ marginRight: "10px" }}>
+              {authUser.avatar ? (
+                <div
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    border : '1px solid #ccc'
+                  }}
+                >
+                  <Image
+                    src={authUser.avatar}
+                    alt="avatar"
+                    style={{ width: "100%", height: "100%" }}
+                    preview={false}
+                  />
+                </div>
+              ) : (
+                <UserIcon className={cx("user-ava")} />
+              )}
+            </div>
+            <div className={cx("username")}>
+              <p className={cx("name")}>{authUser?.fullName}</p>
+              <p style={{ marginBottom : 0, color : '#999'}}>Xin chào !</p>
               {/* <span className={cx("role")}>{authUser?.role}</span> */}
             </div>
             <DropMenu
@@ -153,9 +178,9 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
         </MenuItem>
       </div>
 
-      <div className={cx('menu-mobile')}>
+      <div className={cx("menu-mobile")}>
         <button
-          className={cx('btn-mobile')}
+          className={cx("btn-mobile")}
           onClick={() => setOpenMenu(!isOpenMenu)}
         >
           <FontAwesomeIcon icon={faEllipsisV} />
@@ -169,15 +194,15 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
         />
       </div>
       {isOpenSearch ? (
-        <div className={cx('search-tablet-nav')} ref={modalRef}>
+        <div className={cx("search-tablet-nav")} ref={modalRef}>
           <form onSubmit={handleSubmit}>
             <input
               value={textSearch}
               placeholder="Tìm kiếm..."
               onChange={handleInputChange}
-              className={cx('search-tablet-input')}
+              className={cx("search-tablet-input")}
             />
-            <button className={cx('btn-search-tablet')} type="submit">
+            <button className={cx("btn-search-tablet")} type="submit">
               <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
           </form>

@@ -4,12 +4,8 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import images from "../../../assets/images";
 import { useAppDispatch } from "../../../redux/hooks";
-import {
-  getLoginUser,
-} from "../../../redux/slice/Authen/login";
 
 import styles from "./Forgot.module.scss";
-import { selectAuthUser } from "../../../redux/slice/Authen/login";
 
 const Button = lazy(() => import("../../../components/Button"));
 const Input = lazy(() => import("../../../components/Input"));
@@ -29,10 +25,7 @@ const Forgot: React.FC = () => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  const dispatch = useAppDispatch();
-  const userLogin: any = useSelector(selectAuthUser);
-
+  
   const [errors, setErrors] = useState({
     type: "",
     error: "",
@@ -41,16 +34,9 @@ const Forgot: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const { validateEmail, validatePassword } = await import(
-      "../../../common/utils"
-    );
-
     if (formData.email === "") {
       setErrors({ type: "username", error: "Invalid user name address" });
     }
-    // else if (!validatePassword(formData.password)) {
-    //   setErrors({ type: "password", error: "Invalid password" });
-    // }
     else {
       setErrors({ type: "", error: "" });
       const req = {
