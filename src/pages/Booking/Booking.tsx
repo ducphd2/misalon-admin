@@ -57,9 +57,14 @@ export default function Booking() {
   const [modelConfirm, setShowModelConfirm] = useState(false);
   const pageSizeList = [10, 25, 50, 100];
   const [limit, setLimit] = useState(pageSizeList[0]);
+
   const [selected, setSelected] = useState<BookingRes>({
     id: '',
+    startTime: '',
+    bookingDate: '',
+    status: '',
   });
+
   const [sort, setSort] = useState<SortType>({ sortBy: '', type: '' });
   const [path, setPath] = useState<GetBookingReq>(initial);
   const [page, setPage] = useState<number>(1);
@@ -68,6 +73,7 @@ export default function Booking() {
   const loading = useAppSelector(selectLoadingBooking);
   const statusDelete = useAppSelector(selectStatusDeleteBooking);
   const totalBooking = useAppSelector(selectTotalBooking);
+
   const handleEditBooking = (e: BookingRes) => {
     setShow(true);
     newBooking.current = false;

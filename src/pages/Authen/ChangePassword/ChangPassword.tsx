@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import images from "../../../assets/images";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -8,19 +9,23 @@ import {
   getLoginUser,
   selectAccessToken,
 } from "../../../redux/slice/Authen/login";
-import { ILoginData } from "../../../redux/types/Login/login";
-import styles from "./SignIn.module.scss";
+import { IChangePassword, ILoginData } from "../../../redux/types/Login/login";
+import styles from "./ChangPassword.module.scss";
 import { selectAuthUser } from "../../../redux/slice/Authen/login";
+import MainLayout from "../../../components/MainLayout/MainLayout";
+import { httpService } from "../../../redux/service/httpService";
+import changePassword from "../../../redux/service/Authen/change-password";
 
 const Button = lazy(() => import("../../../components/Button"));
 const Input = lazy(() => import("../../../components/Input"));
 
-const Login: React.FC = () => {
+const ChangPassword: React.FC = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<ILoginData>({
-    email: "",
-    password: "",
+  const [formData, setFormData] = useState<IChangePassword>({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +48,8 @@ const Login: React.FC = () => {
       "../../../common/utils"
     );
 
-    if (formData.email === "") {
-      setErrors({ type: "username", error: "Invalid user name address" });
+    if (formData.currentPassword === "") {
+      setErrors({ type: "currentPassword", error: "This field is required" });
     }
     // else if (!validatePassword(formData.password)) {
     //   setErrors({ type: "password", error: "Invalid password" });
@@ -52,50 +57,65 @@ const Login: React.FC = () => {
     else {
       setErrors({ type: "", error: "" });
       const req = {
-        email: formData.email,
-        password: formData.password,
+        currentPassword: formData.currentPassword,
+        newPassword: formData.newPassword,
+        confirmPassword: formData.confirmPassword,
       };
-      dispatch(getLoginUser(req));
+      try {
+        const res = await changePassword.change(req);
+        if (res?.statusCode === 201) {
+          toast.success("Thay đổi mật khẩu thành công", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setFormData({
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+          });
+        }
+      } catch (error) {
+        throw error;
+      }
+
+      // dispatch(getLoginUser(req));
     }
   };
 
-  useEffect(() => {
-    if (userLogin) {
-      if (userLogin.role === 0) {
-        navigate("/");
-      } else if (userLogin.role != "") navigate("/dashboard");
-    }
-  }, [userLogin]);
+  // useEffect(() => {
+  //   if (userLogin) {
+  //     if (userLogin.role === 0) {
+  //       navigate("/");
+  //     } else if (userLogin.role != "") navigate("/dashboard");
+  //   }
+  // }, [userLogin]);
 
   return (
     <div className={cx("account-page")}>
       <div className={cx("account-wrapper")}>
-        <div className={cx("account-image")}>
-
-        </div>
         <div className={cx("account-box")}>
           <div className={cx("account-container")}>
-            <div className={cx("account-logo")}>
-              <img src={images.logoSm} alt="Aht Logo" className={cx("logo")} />
-            </div>
             <div className={cx("account-content")}>
               <div className={cx("content-inside")}>
-                <h3 className={cx("account-title")}>Đăng nhập</h3>
-                <p className={cx("account-subtitle")}>
-                  Truy cập vào hệ thống quản lý của bạn
-                </p>
+                <h3 className={cx("account-title")}>Thay đổi mật khẩu</h3>
                 <form onSubmit={handleSubmit}>
                   <div className={cx("label")}>
                     <Suspense fallback={<></>}>
                       <Input
-                        label="Email Address"
-                        type="text"
-                        name="email"
+                        label="Mật khẩu cũ"
+                        type="password"
+                        name="currentPassword"
                         errorMessage={
-                          errors.type === "email" ? errors.error : ""
+                          errors.type === "password" ? errors.error : ""
                         }
                         invalid
-                        value={formData.email}
+                        value={formData.currentPassword}
                         onChange={handleInputChange}
                         maxWidth="100%"
                       />
@@ -103,44 +123,45 @@ const Login: React.FC = () => {
                   </div>
 
                   <div className={cx("label")}>
-                    <div className={cx("account-password")}>
-                      <p>Mật khẩu</p>
-                    </div>
                     <Suspense fallback={<></>}>
                       <Input
+                        label="Mật khẩu mới"
                         type="password"
-                        name="password"
+                        name="newPassword"
                         errorMessage={
                           errors.type === "password" ? errors.error : ""
                         }
                         invalid
-                        value={formData.password}
+                        value={formData.newPassword}
                         onChange={handleInputChange}
                         maxWidth="100%"
                       />
                     </Suspense>
                   </div>
-                  <Link
-                        to={"/auth/forgot-password"}
-                        className={cx("forgot-password")}
-                        style={{
-                           marginBottom : '10px'
-                        }}
-                      >
-                        Quên mật khẩu?
-                      </Link>
-
+                  <div className={cx("label")}>
+                    <Suspense fallback={<></>}>
+                      <Input
+                        label="Nhập lại mật khẩu mới"
+                        type="password"
+                        name="confirmPassword"
+                        errorMessage={
+                          errors.type === "password" ? errors.error : ""
+                        }
+                        invalid
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        maxWidth="100%"
+                      />
+                    </Suspense>
+                  </div>
                   <Suspense fallback={<></>}>
                     <Button
                       type="submit"
-                      label="Login"
+                      label="Save"
                       classType={cx("btn-submit")}
                       maxWidth="100%"
                     />
                   </Suspense>
-                  <Link to={"/auth/signup"} className={cx("sign-up")}>
-                    Bạn chưa có tài khoản, đăng ký ngay
-                  </Link>
                 </form>
               </div>
             </div>
@@ -151,4 +172,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default ChangPassword;

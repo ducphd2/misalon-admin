@@ -1,18 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { CChart } from '@coreui/react-chartjs';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { faker } from '@faker-js/faker';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import 'react-datepicker/dist/react-datepicker.css';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -55,7 +52,7 @@ export default function Chart() {
       },
       title: {
         display: true,
-        text: 'Biểu đồ doanh thu theo tuần',
+        text: 'Biểu đồ thống kê tổng hợp theo tuần',
       },
     },
   };

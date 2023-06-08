@@ -145,7 +145,6 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
 
   const [isAccept, setIsAccept] = useState(1);
 
-
   const handleSetData = (data: any) => {
     setListSearchCustomer([]);
 

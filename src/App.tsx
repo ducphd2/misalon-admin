@@ -3,10 +3,14 @@ import { lazy, Suspense } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import PrivateRoute from './router/PrivateRoute/PrivateRoute';
+import Forgot from './pages/Authen/Forgot';
 const Protected = lazy(() => import('./components/Protected'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Authen/SignIn'));
 const SignUp = lazy(() => import('./pages/Authen/SignUp'));
+const ChangPassword = lazy(() => import('./pages/Authen/ChangePassword'));
+const NavigationPage = lazy(() => import('./pages/Authen/navigationPage'));
+
 function App() {
   return (
     <>
@@ -39,6 +43,22 @@ function App() {
               </Suspense>
             }
           />
+            <Route
+            path="/auth/forgot-password"
+            element={
+              <Suspense fallback={<></>}>
+                <Forgot />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/auth/navigation"
+            element={
+              <Suspense fallback={<></>}>
+                <NavigationPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/auth/login"
             element={
@@ -47,6 +67,14 @@ function App() {
               </Suspense>
             }
           />
+          {/* <Route
+            path="/change-password"
+            element={
+              <Suspense fallback={<></>}>
+                <ChangPassword />
+              </Suspense>
+            }
+          /> */}
           {/* <Route
             // path="/"
             path="/auth/home"
