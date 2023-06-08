@@ -1,5 +1,8 @@
 .form {
-  margin-top: 30px;
+  margin-top: 10px;
+}
+.form-group {
+  display: flex;
 }
 .form-controls {
   border-color: #e3e3e3;
@@ -12,11 +15,18 @@
     background-color: #fff;
   }
 }
+.label {
+  width: 150px;
+}
+.input-custom,
+.input-custom div,
+.input-custom div input {
+  width: 100%;
+}
 .submit-section {
-  margin-top: 40px;
 }
 .btn-submit {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   border-radius: 50px;
   font-size: 18px;
   font-weight: 600;
@@ -41,7 +51,7 @@
   margin-top: 8px;
 
   .error-message {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
@@ -52,9 +62,24 @@
     margin-top: 4px;
   }
 }
-.selectAccept{
+.selectAccept {
   margin: auto;
   padding: 8px 108px;
   border-radius: 10;
   outline: none;
+}
+
+.city-input {
+  width: 50%;
+  margin-right: 10px;
+}
+.district-input {
+  width: 50%;
+  margin-right: 10px;
+}
+.name-input {
+  margin-right: 10px;
+}
+.count-input {
+  width: 30%;
 }

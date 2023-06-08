@@ -56,7 +56,7 @@
   .sorting {
     &::before {
       right: 1em;
-      content: "\2191";
+      content: '\2191';
       position: absolute;
       display: block;
       opacity: 0.3;
@@ -64,7 +64,7 @@
 
     &::after {
       right: 0.5em;
-      content: "\2193";
+      content: '\2193';
       position: absolute;
       bottom: 0.6em;
       display: block;
@@ -87,7 +87,7 @@
   .sorting_ASC {
     &::before {
       right: 1em;
-      content: "\2191";
+      content: '\2191';
       position: absolute;
       display: block;
       opacity: 0.3;
@@ -95,7 +95,7 @@
 
     &::after {
       right: 0.5em;
-      content: "\2193";
+      content: '\2193';
       position: absolute;
       bottom: 0.6em;
       display: block;
@@ -106,7 +106,7 @@
   .sorting_DESC {
     &::before {
       right: 1em;
-      content: "\2191";
+      content: '\2191';
       position: absolute;
       display: block;
       opacity: 1;
@@ -114,7 +114,7 @@
 
     &::after {
       right: 0.5em;
-      content: "\2193";
+      content: '\2193';
       position: absolute;
       bottom: 0.6em;
       display: block;
@@ -162,8 +162,13 @@
 .total-page {
   margin-bottom: 15px;
 }
-.service-image{
+.service-image {
   width: 80px;
   height: 60px;
   object-fit: cover;
+}
+
+.bookingModalCustom {
+  width: 100%;
+  min-width: 900px;
 }
