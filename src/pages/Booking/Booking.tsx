@@ -103,9 +103,9 @@ export default function Booking() {
       dataIndex: 'bookingServices',
       key: 'bookingServices',
       render: (text: string, record: any) => {
-        const services = record.services.map((service: any) => (
-          <div key={service.id}>
-            {service.name} - {service.price}
+        const services = record.services && record.services?.length && record.services?.map((service: any) => (
+          <div key={service?.id}>
+            {service?.name} - {service?.price}
           </div>
         ));
         return <div>{services}</div>;
