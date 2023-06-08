@@ -71,7 +71,7 @@ function CardHome() {
   const [hasMore, setHasMore] = useState(true);
   const getServices = async () => {
     const res: any = await httpService.GET({
-      uri: "services",
+      uri: activeMenu == 1 ? "services" : "services/most-interested",
       params: {
         page: 1,
         limit: limit,
@@ -86,7 +86,7 @@ function CardHome() {
   };
   useEffect(() => {
     getServices();
-  }, [limit]);
+  }, [limit, activeMenu]);
 
   const handleViewMore = () => {
     setLimit(limit + 20);
@@ -113,9 +113,9 @@ function CardHome() {
           branchId: branchIdSelected,
         },
       });
-      if(res){
+      if (res) {
         toast.success("Tạo lịch hẹn thành công!");
-        setServiceSelected(undefined)
+        setServiceSelected(undefined);
       }
     }
   };
@@ -133,13 +133,19 @@ function CardHome() {
           <ul className={Styles.menuList}>
             <li
               className={`${activeMenu == 1 ? Styles.activeMenu : {}}`}
-              onClick={() => setActiveMenu(1)}
+              onClick={() => {
+                setHasMore(true);
+                setActiveMenu(1);
+              }}
             >
               Mới nhất
             </li>
             <li
               className={`${activeMenu == 2 ? Styles.activeMenu : {}}`}
-              onClick={() => setActiveMenu(2)}
+              onClick={() => {
+                setHasMore(true);
+                setActiveMenu(2);
+              }}
             >
               Quan tâm nhiều nhất
             </li>

@@ -103,7 +103,15 @@ export const loginSlice = createSlice({
 export const { resetLoginState, resetAuthUserState, logout } =
   loginSlice.actions;
 
-export const selectAuthUser = (state: RootState) => state.loginReducer.authUser;
+export const selectAuthUser = (state: RootState) => {
+  if (state.loginReducer.authUser?.role != "") {
+    return state.loginReducer.authUser;
+  } else {
+    const authUser = localStorage.getItem("authUser");
+    if (authUser) return JSON.parse(authUser);
+  }
+  return state.loginReducer.authUser;
+};
 export const selectAccessToken = (state: RootState) => {
   const accessToken =
     state.loginReducer.accessToken || localStorage.getItem("accessToken");
