@@ -11,6 +11,9 @@ export interface LoginReq {
   email: string;
   password: string;
 }
+export interface IForgot {
+  email: string;
+}
 
 export interface authUser {
   username: string;

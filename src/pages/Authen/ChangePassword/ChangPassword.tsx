@@ -157,7 +157,7 @@ const ChangPassword: React.FC = () => {
                   <Suspense fallback={<></>}>
                     <Button
                       type="submit"
-                      label="Save"
+                      label="Xác nhận"
                       classType={cx("btn-submit")}
                       maxWidth="100%"
                     />

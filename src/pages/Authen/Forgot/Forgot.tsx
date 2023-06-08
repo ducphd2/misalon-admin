@@ -10,6 +10,8 @@ import {
 
 import styles from "./Forgot.module.scss";
 import { selectAuthUser } from "../../../redux/slice/Authen/login";
+import changePassword from "../../../redux/service/Authen/change-password";
+import { toast } from "react-toastify";
 
 const Button = lazy(() => import("../../../components/Button"));
 const Input = lazy(() => import("../../../components/Input"));
@@ -54,8 +56,30 @@ const Forgot: React.FC = () => {
     else {
       setErrors({ type: "", error: "" });
       const req = {
-        email: formData.email
+        email: formData.email,
+        baseUrl: "http://localhost:3000" 
       };
+      try {
+        const res = await changePassword.forgot(req);
+        if (res?.statusCode === 201) {
+          toast.success(res?.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setFormData({
+            email: "",
+          });
+        }
+      } catch (error) {
+        throw error;
+      }
+      
     //   dispatch(getLoginUser(req));
     }
   };
