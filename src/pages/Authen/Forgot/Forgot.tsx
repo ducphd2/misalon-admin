@@ -6,21 +6,23 @@ import images from "../../../assets/images";
 import { useAppDispatch } from "../../../redux/hooks";
 import {
   getLoginUser,
-  selectAccessToken,
 } from "../../../redux/slice/Authen/login";
-import { ILoginData } from "../../../redux/types/Login/login";
-import styles from "./SignIn.module.scss";
+
+import styles from "./Forgot.module.scss";
 import { selectAuthUser } from "../../../redux/slice/Authen/login";
 
 const Button = lazy(() => import("../../../components/Button"));
 const Input = lazy(() => import("../../../components/Input"));
 
-const Login: React.FC = () => {
+export interface IForgotData {
+    email: string;
+  }
+
+const Forgot: React.FC = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<ILoginData>({
-    email: "",
-    password: "",
+  const [formData, setFormData] = useState<IForgotData>({
+    email: ""
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,20 +54,19 @@ const Login: React.FC = () => {
     else {
       setErrors({ type: "", error: "" });
       const req = {
-        email: formData.email,
-        password: formData.password,
+        email: formData.email
       };
-      dispatch(getLoginUser(req));
+    //   dispatch(getLoginUser(req));
     }
   };
 
-  useEffect(() => {
-    if (userLogin) {
-      if (userLogin.role === 0) {
-        navigate("/");
-      } else if (userLogin.role != "") navigate("/dashboard");
-    }
-  }, [userLogin]);
+//   useEffect(() => {
+//     if (userLogin) {
+//       if (userLogin.role === 0) {
+//         navigate("/");
+//       } else if (userLogin.role != "") navigate("/dashboard");
+//     }
+//   }, [userLogin]);
 
   return (
     <div className={cx("account-page")}>
@@ -80,15 +81,15 @@ const Login: React.FC = () => {
             </div>
             <div className={cx("account-content")}>
               <div className={cx("content-inside")}>
-                <h3 className={cx("account-title")}>Đăng nhập</h3>
+                <h3 className={cx("account-title")}>Quên mật khẩu</h3>
                 <p className={cx("account-subtitle")}>
-                  Truy cập vào hệ thống quản lý của bạn
+                  Nhập email của bạn để lấy mật khẩu mới
                 </p>
                 <form onSubmit={handleSubmit}>
                   <div className={cx("label")}>
                     <Suspense fallback={<></>}>
                       <Input
-                        label="Email Address"
+                        label="Email Address *"
                         type="text"
                         name="email"
                         errorMessage={
@@ -101,39 +102,10 @@ const Login: React.FC = () => {
                       />
                     </Suspense>
                   </div>
-
-                  <div className={cx("label")}>
-                    <div className={cx("account-password")}>
-                      <p>Mật khẩu</p>
-                    </div>
-                    <Suspense fallback={<></>}>
-                      <Input
-                        type="password"
-                        name="password"
-                        errorMessage={
-                          errors.type === "password" ? errors.error : ""
-                        }
-                        invalid
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        maxWidth="100%"
-                      />
-                    </Suspense>
-                  </div>
-                  <Link
-                        to={"/auth/forgot-password"}
-                        className={cx("forgot-password")}
-                        style={{
-                           marginBottom : '10px'
-                        }}
-                      >
-                        Quên mật khẩu?
-                      </Link>
-
                   <Suspense fallback={<></>}>
                     <Button
                       type="submit"
-                      label="Login"
+                      label="Xác nhận"
                       classType={cx("btn-submit")}
                       maxWidth="100%"
                     />
@@ -151,4 +123,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default Forgot;
