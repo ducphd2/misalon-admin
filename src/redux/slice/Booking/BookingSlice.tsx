@@ -98,12 +98,12 @@ export const bookingSlice = createSlice({
     });
     builder.addCase(addBooking.fulfilled, (state, action) => {
       state.loading = false;
-      const newObj = action?.payload.result.group;
-      state.listBookings.items = [
-        newObj,
-        ...state.listBookings.items,
-      ];
-      state.listBookings.meta.total++;
+      // const newObj = action?.payload.result.group;
+      // state.listBookings.items = [
+      //   newObj,
+      //   ...state.listBookings.items,
+      // ];
+      // state.listBookings.meta.total++;
       toast.success("Thêm cuộc hẹn thành công !", {
         position: "top-right",
       });

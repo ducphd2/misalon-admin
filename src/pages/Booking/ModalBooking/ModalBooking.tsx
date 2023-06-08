@@ -116,7 +116,6 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   };
 
   const today = new Date();
-  console.log('today.getDate() ',today )
   const handleSubmit = () => {
     const listIdService = serviceSelected && serviceSelected.length > 0 && serviceSelected.map((service:any)=>{
       return service.value
