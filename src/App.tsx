@@ -58,14 +58,14 @@ function App() {
               </Suspense>
             }
           />
-          <Route
+          {/* <Route
             path="/change-password"
             element={
               <Suspense fallback={<></>}>
                 <ChangPassword />
               </Suspense>
             }
-          />
+          /> */}
           {/* <Route
             // path="/"
             path="/auth/home"

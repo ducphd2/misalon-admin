@@ -2,6 +2,11 @@ export interface ILoginData {
   email: string;
   password: string;
 }
+export interface IChangePassword {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
 export interface LoginReq {
   email: string;
   password: string;

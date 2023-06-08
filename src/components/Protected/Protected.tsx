@@ -10,6 +10,7 @@ import Service from '../../pages/Service/Service';
 import Schedule from '../../pages/Shedule/Schedule';
 import UserManagement from '../../pages/UserManagement/UserManagement';
 import styles from './Protected.module.scss';
+import ChangPassword from '../../pages/Authen/ChangePassword';
 const Chat = lazy(() => import('../../pages/Chat'));
 const Header = lazy(() => import('../Header'));
 const Sidebar = lazy(() => import('../Sidebar'));
@@ -124,6 +125,14 @@ const Protected = (props: any) => {
               key={String(element.path)}
             />
           ))}
+          <Route
+            path="/change-password"
+            element={
+              <Suspense fallback={<></>}>
+                <ChangPassword />
+              </Suspense>
+            }
+          />
           {/* <Route path="/404" element={<PageNotFound />}></Route> */}
         </Routes>
       </div>
