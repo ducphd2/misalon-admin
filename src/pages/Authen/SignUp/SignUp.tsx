@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import images from "../../../assets/images";
 import { BASE_API_URL } from "../../../constants";
+import backgroundImage from "../../../assets/images/brooke-lark-kXQ3J7_2fpc-unsplash.jpg";
 
 import styles from "./SignUp.module.scss";
 import classNames from "classnames/bind";
@@ -191,51 +192,24 @@ const SignUp = () => {
           </div>
         </div>
       </ModalDesignation>
-      <SModal>
+      <SHeader>
         <SLogo>
           <img src={images.logoSm} alt="MiHealthCare Logo" />
         </SLogo>
+      </SHeader>
+      <SModal>
         <STitle>Đăng ký sử dụng dịch vụ</STitle>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ paddingRight: "20%" }}
+          style={{ padding: "0 60px" }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Vui lòng nhập vào email của bạn" },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Tên của bạn"
-            name="fullName"
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập vào của bạn",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Mật khẩu"
-            name="password"
-            rules={[{ required: true, message: "Vui lòng nhập vào mật khẩu" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item
-            label="Tên trung tâm"
+            // label="Tên trung tâm"
             name="merchantName"
             rules={[
               {
@@ -244,34 +218,14 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input />
+            <Input
+              placeholder="Tên trung tâm *"
+              style={{ height: "40px", width: "100%" }}
+            />
           </Form.Item>
+
           <Form.Item
-            label="Số điện thoại của cửa hàng"
-            name="merchantPhoneNumber"
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập vào số điện thoại của trung tâm",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Địa chỉ cửa hàng"
-            name="merchantAddress"
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập vào địa chỉ của trung tâm",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Chọn subdomain"
+            // label="Chọn subdomain"
             name="subdomain"
             rules={[
               {
@@ -280,11 +234,88 @@ const SignUp = () => {
               },
             ]}
           >
-            <Input />
+            <Input
+              placeholder="Chọn subdomain *"
+              style={{ height: "40px", width: "100%" }}
+            />
+          </Form.Item>
+          <div style={{ display: "flex", gap: "30px", width: "100%" }}>
+            <Form.Item
+              // label="Tên của bạn"
+              name="fullName"
+              style={{ flex: 1 }}
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập vào của bạn",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Tên của bạn *"
+                style={{ height: "40px", width: "100%" }}
+              />
+            </Form.Item>
+            <Form.Item
+              // label="Mật khẩu"
+              name="password"
+              style={{ flex: 1 }}
+              rules={[
+                { required: true, message: "Vui lòng nhập vào mật khẩu" },
+              ]}
+            >
+              <Input.Password
+                placeholder="Mật khẩu *"
+                style={{ height: "40px", width: "100%" }}
+              />
+            </Form.Item>
+          </div>
+          <div style={{ display: "flex", gap: "30px", width: "100%" }}>
+            <Form.Item
+              // label="Email"
+              name="email"
+              style={{ flex: 1 }}
+              rules={[
+                { required: true, message: "Vui lòng nhập vào email của bạn" },
+              ]}
+            >
+              <Input
+                placeholder="Email *"
+                style={{ height: "40px", width: "100%" }}
+              />
+            </Form.Item>
+            <Form.Item
+              // label="Số điện thoại của cửa hàng"
+              name="merchantPhoneNumber"
+              style={{ flex: 1 }}
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập vào số điện thoại của trung tâm",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Số điện thoại của cửa hàng *"
+                style={{ height: "40px", width: "100%" }}
+              />
+            </Form.Item>
+          </div>
+          <Form.Item
+            // label="Địa chỉ cửa hàng"
+            name="merchantAddress"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập vào địa chỉ của trung tâm",
+              },
+            ]}
+          >
+            <Input placeholder="Địa chỉ cửa hàng *" style={{ height: "40px", width: "100%" }}/>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="submit" label="Đăng ký" maxWidth="100%" />
+          <Form.Item style={{marginLeft : '40%'}}>
+            <Button type="submit" label="Đăng ký" maxWidth="40%"/>
           </Form.Item>
         </Form>
       </SModal>
@@ -295,22 +326,34 @@ const SignUp = () => {
 const SModal = styled.div`
   width: 860px;
   margin: auto;
+  margin-top: 30px;
   background-color: white;
   padding: 30px 0px;
+  .ant-row {
+     margin-bottom: 28px; 
+  }
+
+  .ant-input::placeholder {
+      color : #000;
+  }
 `;
 
 const SMain = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  height: 112vh;
+  background-image:  url(${backgroundImage});
+  background-repeat: no-repeat;
+  background-size:  cover;
+`;
+const SHeader = styled.div`
+  height: 86px;
+  background-color: #fff;
 `;
 
 const SLogo = styled.div`
   /* width: 100px; */
   img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   display: flex;
   align-items: center;
