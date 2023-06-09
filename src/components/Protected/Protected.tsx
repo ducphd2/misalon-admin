@@ -15,6 +15,7 @@ const Chat = lazy(() => import('../../pages/Chat'));
 const Header = lazy(() => import('../Header'));
 const Sidebar = lazy(() => import('../Sidebar'));
 const Branch = lazy(() => import('../../pages/Branch'));
+const ProfilePage = lazy(() => import("../../pages/profile"));
 
 function getWindowSize() {
   const { innerWidth, innerHeight } = window;
@@ -97,6 +98,11 @@ const Protected = (props: any) => {
       component: <BookingPayment />,
       isAdmin: false,
     },
+    {
+      path: '/employee-profile',
+      component: <ProfilePage />,
+      isAdmin: false,
+    },
   ];
   return (
     <div className={cx('wrapper')}>
@@ -118,7 +124,7 @@ const Protected = (props: any) => {
                   {!element.isAdmin ? (
                     element.component
                   ) : (
-                    <Navigate to="/employee-profile" />
+                    <Navigate to="/employee-profiles" />
                   )}
                 </Suspense>
               }
