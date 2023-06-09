@@ -144,12 +144,12 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
       {menuActive ? (
         <div className={cx('hide-menu')} onClick={onMenuClick}>
           <AiOutlineBars />
-          <span className={cx('hide-menu-text')}>HEALTH</span>
+          <span className={cx('hide-menu-text')}>MiHealthCare</span>
         </div>
       ) : (
         <div className={cx('hide-menu')} onClick={onMenuClick}>
           <AiOutlineBars />
-          <span className={cx('hide-menu-text')}>HEALTH</span>
+          <span className={cx('hide-menu-text')}>MiHealthCare</span>
         </div>
       )}
 

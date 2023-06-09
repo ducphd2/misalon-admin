@@ -316,7 +316,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                   name="startTime"
                   format="HH:mm"
                   minuteStep={15}
-                  value={moment(form.startTime)}
+                  value={form.startTime}
                   disabledTime={(date) => {
                     return {
                       disabledHours: () => {
@@ -333,7 +333,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                   onChange={(e: any, dateString) => {
                     setForm({
                       ...form,
-                      startTime: e ? e.format('HH:mm') : null,
+                      startTime: e,
                     });
                   }}
                 />
@@ -404,7 +404,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                     setForm({ ...form, branchId: e.target.value })
                   }
                 >
-                  <option disabled hidden>
+                  <option selected disabled hidden>
                     select
                   </option>
                   {listBranches &&
