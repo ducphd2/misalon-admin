@@ -1,36 +1,53 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { styled } from "styled-components";
-import { CheckIcon } from "../../../assets/Icons";
+import React from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { styled } from 'styled-components';
+import { CheckIcon } from '../../../assets/Icons';
 
 export const NavigationPage = () => {
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  console.log({ searchParams: searchParams.get('subDomain') });
 
   return (
     <NavigationPageStyled>
       <div className="container">
         <CheckIcon />
         <div className="description">
-          Chúc mừng! Bạn đã tạo tài khoản thành công, xin mời bấm vào tên miền
-          dưới đây để đăng nhập vào hệ thống và sử dụng.
+          Chúc mừng! Bạn đã tạo tài khoản thành công, xin mời bấm vào đây để
+          đăng nhập vào hệ thống và sử dụng.
         </div>
         <Link
-          to={"/auth/forgot-password"}
+          to={
+            // process.env.REACT_APP_DOMAIN
+            //   ? `https://${searchParams.get('subDomain')}.${
+            //       process.env.REACT_APP_DOMAIN
+            //     }`
+            //   : `ducph.info`
+            '/auth/login'
+          }
           className="button-navigate navigate-domain"
         >
-          https://huyenciu5.salonhero.vn
+          {/* https://{searchParams.get('subDomain')}.{process.env.REACT_APP_DOMAIN} */}
         </Link>
 
-        <button
-          onClick={() => navigate("/auth/sign-in")}
-          type="button"
-          className="btn btn-primary btn-lg"
+        <Link
+          to={
+            // process.env.REACT_APP_DOMAIN
+            //   ? `https://${searchParams.get('subDomain')}.${
+            //       process.env.REACT_APP_DOMAIN
+            //     }/auth/sign-in`
+            //   : '/auth/sign-in'
+            '/auth/login'
+          }
         >
-          Đăng nhập
-        </button>
+          <button type="button" className="btn btn-primary btn-lg">
+            Đăng nhập
+          </button>
+        </Link>
 
         <Link
-          to={"/auth/forgot-password"}
+          to={'/auth/forgot-password'}
           className="button-navigate navigate-home"
         >
           Quay về trang chủ
