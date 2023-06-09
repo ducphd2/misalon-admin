@@ -25,13 +25,17 @@
   justify-content: space-between;
   background-color: white;
   column-gap: 10px;
-  padding: 10px 18px;
+  padding: 10px 16px;
   cursor: pointer;
+  overflow: hidden;
   //   margin-bottom: 15px;
 }
 
 .nameUser {
-  flex: 1
+  flex: 1;
+  width: calc(100% - 40px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nameUser {
@@ -59,6 +63,10 @@
   padding-top: 20px;
 }
 
+.headerTabs {
+  margin: 0 20px;
+}
+
 .contentChat {
   height: calc(100vh - 156px);
   overflow-y: scroll;
@@ -77,7 +85,8 @@
   width: fit-content;
   padding: 10px 20px;
 }
-.itemImageMessage >img{
+
+.itemImageMessage>img {
   width: 150px;
   height: 100%;
 }
