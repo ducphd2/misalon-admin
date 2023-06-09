@@ -1,8 +1,5 @@
 .form {
   margin-top: 30px;
-
-
-
   .form-controls {
     border-color: #e3e3e3;
     box-shadow: none;
@@ -20,7 +17,7 @@
   }
 
   .btn-submit {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     border-radius: 50px;
     font-size: 18px;
     font-weight: 600;
@@ -47,7 +44,7 @@
     margin-top: 8px;
 
     .error-message {
-      font-family: "Roboto", sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-style: normal;
       font-weight: 500;
       font-size: 15px;

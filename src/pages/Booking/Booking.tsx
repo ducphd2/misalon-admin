@@ -1,13 +1,13 @@
-import { Table } from 'antd';
-import classNames from 'classnames/bind';
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { AiOutlineCreditCard, AiOutlineDelete } from 'react-icons/ai';
-import { FiEdit } from 'react-icons/fi';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { Table } from "antd";
+import classNames from "classnames/bind";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { AiOutlineCreditCard, AiOutlineDelete } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-import moment from 'moment';
+import moment from "moment";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import {
   deleteBooking,
   getBookings,
@@ -16,16 +16,16 @@ import {
   selectLoadingBooking,
   selectStatusDeleteBooking,
   selectTotalBooking,
-} from '../../redux/slice/Booking/BookingSlice';
-import { BookingRes, GetBookingReq } from '../../redux/types/Booking/booking';
-import styles from './Booking.module.scss';
-import ModalBooking from './ModalBooking/ModalBooking';
-import { formatPriceVietnam } from '../../common/helper';
+} from "../../redux/slice/Booking/BookingSlice";
+import { BookingRes, GetBookingReq } from "../../redux/types/Booking/booking";
+import styles from "./Booking.module.scss";
+import ModalBooking from "./ModalBooking/ModalBooking";
+import { formatPriceVietnam } from "../../common/helper";
 
-const MainLayout = lazy(() => import('../../components/MainLayout'));
-const Modal = lazy(() => import('../../components/Modal'));
-const Loading = lazy(() => import('../../components/Loading'));
-const ModalConfirm = lazy(() => import('../../components/ModalConfirm'));
+const MainLayout = lazy(() => import("../../components/MainLayout"));
+const Modal = lazy(() => import("../../components/Modal"));
+const Loading = lazy(() => import("../../components/Loading"));
+const ModalConfirm = lazy(() => import("../../components/ModalConfirm"));
 
 enum EBookingStatus {
   BOOKING_PENDING = 0 as any,
@@ -59,18 +59,17 @@ export default function Booking() {
   const [limit, setLimit] = useState(pageSizeList[0]);
 
   const [selected, setSelected] = useState<BookingRes>({
-    id: '',
-    startTime: '',
-    bookingDate: '',
-    status: '',
+    id: "",
+    startTime: "",
+    bookingDate: "",
+    status: "",
   });
 
-  const [sort, setSort] = useState<SortType>({ sortBy: '', type: '' });
+  const [sort, setSort] = useState<SortType>({ sortBy: "", type: "" });
   const [path, setPath] = useState<GetBookingReq>(initial);
   const [page, setPage] = useState<number>(1);
 
   const selectBookings = useAppSelector(selectBookingList);
-  console.log(selectBookings);
   const loading = useAppSelector(selectLoadingBooking);
   const statusDelete = useAppSelector(selectStatusDeleteBooking);
   const totalBooking = useAppSelector(selectTotalBooking);
@@ -100,83 +99,82 @@ export default function Booking() {
   };
   const columns: any = [
     {
-      title: 'STT',
-      dataIndex: 'name',
-      key: 'name',
+      title: "STT",
+      dataIndex: "name",
+      key: "name",
       render: (text: string, record: any, index: number) => <>{index + 1}</>,
     },
     {
-      title: 'Các dịch vụ sử dụng',
-      dataIndex: 'bookingServices',
-      key: 'bookingServices',
+      title: "Các dịch vụ sử dụng",
+      dataIndex: "bookingServices",
+      key: "bookingServices",
       render: (text: string, record: any) => {
-        const services = record.services.map((service: any) => (
-          <div key={service.id}>
-            {service.name} - {service.price}
-          </div>
-        ));
+        const services =
+          record.services &&
+          record.services?.length &&
+          record.services?.map((service: any) => (
+            <div key={service?.id}>
+              {service?.name} - {service?.price}
+            </div>
+          ));
         return <div>{services}</div>;
       },
     },
     {
-      title: 'Thời gian đặt lịch',
-      dataIndex: 'startTime',
-      key: 'startTime',
+      title: "Thời gian đặt lịch",
+      dataIndex: "startTime",
+      key: "startTime",
     },
     {
-      title: 'Ngày đặt lịch',
-      dataIndex: 'bookingDate',
-      key: 'bookingDate',
+      title: "Ngày đặt lịch",
+      dataIndex: "bookingDate",
+      key: "bookingDate",
     },
     {
-      title: 'Trạng thái',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
       render: (text: string, record: any) => {
         const status = EBookingStatus[record.status];
         return <div>{status}</div>;
       },
     },
     {
-      title: 'Tổng tiền',
-      dataIndex: 'bookingTotalPrice',
-      key: 'bookingTotalPrice',
+      title: "Tổng tiền",
+      dataIndex: "bookingTotalPrice",
+      key: "bookingTotalPrice",
       render: (text: string, record: any) => {
         const totalPrice = record.services.reduce((acc: any, curr: any) => {
-          return formatPriceVietnam(acc + curr.price);
+          return acc + curr.price;
         }, 0);
-        return <div>{totalPrice}</div>;
+        return <div>{formatPriceVietnam(totalPrice)}</div>;
       },
     },
     {
-      title: 'Ngày tạo',
-      key: 'createdAt',
-      dataIndex: 'createdAt',
+      title: "Ngày tạo",
+      key: "createdAt",
+      dataIndex: "createdAt",
       render: (text: string) =>
-        moment(new Date(text)).format('YYYY-MM-DD HH:mm:ss'),
+        moment(new Date(text)).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
-      title: 'Ngày cập nhật',
-      key: 'updatedAt',
-      dataIndex: 'updatedAt',
+      title: "Ngày cập nhật",
+      key: "updatedAt",
+      dataIndex: "updatedAt",
       render: (text: string) =>
-        moment(new Date(text)).format('YYYY-MM-DD HH:mm:ss'),
+        moment(new Date(text)).format("YYYY-MM-DD HH:mm:ss"),
     },
     {
-      title: 'Action',
-      key: 'actions',
+      title: "Action",
+      key: "actions",
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit
-            size={26}
-            color="#01C5FB"
-            onClick={() => handleEditBooking(record)}
-          />{' '}
-          <Link to={'/booking-payment/' + record.id}>
+          <FiEdit size={26} color="#01C5FB" />{" "}
+          <Link to={"/booking-payment/" + record.id}>
             <AiOutlineCreditCard
               size={26}
               color="green"
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             />
           </Link>
           <AiOutlineDelete
@@ -202,20 +200,19 @@ export default function Booking() {
   }, [page]);
 
   useEffect(() => {
-    if (sort.type !== '') {
+    if (sort.type !== "") {
       setPath({ ...path, sortOrder: sort.type });
     }
   }, [sort.type]);
 
   useEffect(() => {
-    if (sort.sortBy !== '') {
+    if (sort.sortBy !== "") {
       setPath({ ...path, sortBy: sort.sortBy });
     }
   }, [sort.sortBy]);
 
   useEffect(() => {
     if (path || statusDelete === true) {
-      console.log({ path });
       dispatch(getBookings(path));
     }
 
@@ -224,6 +221,16 @@ export default function Booking() {
     };
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
 
+  useEffect(() => {
+    const timeOut:any = setTimeout(() => {
+      if(!show)
+      dispatch(getBookings(path));
+    }, 1500);
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [show]);
+
   return (
     <Suspense fallback={<></>}>
       <MainLayout
@@ -231,7 +238,7 @@ export default function Booking() {
         titleButton="Create Booking"
         handleClickAdd={handleAddBooking}
       >
-        <div className={cx('skill-page')}>
+        <div className={cx("skill-page")}>
           {loading ? (
             <Loading height="500px" />
           ) : (
@@ -247,9 +254,10 @@ export default function Booking() {
           )}
           <Suspense>
             <Modal
+              customClass={cx("bookingModalCustom")}
               isModal={show}
               title={
-                newBooking.current ? 'Thêm cuộc hẹn' : 'Cập nhật trạng thái'
+                newBooking.current ? "Thêm cuộc hẹn" : "Cập nhật trạng thái"
               }
               setOpenModals={setShow}
             >
