@@ -59,7 +59,6 @@ export default function Dashboard() {
     <Suspense fallback={<></>}>
       <MainLayout title="Thống kê">
         <div className="dashboard">{renderStatCard()}</div>
-        <h3 className="titleChart">Biểu đồ doanh thu</h3>
         <div className="charts">
           <div className="years">
             <Chart />

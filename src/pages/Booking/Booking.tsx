@@ -1,14 +1,14 @@
-import React from 'react'
-import { Table } from "antd";
-import classNames from "classnames/bind";
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { AiOutlineCreditCard, AiOutlineDelete } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import React from 'react';
+import { Table } from 'antd';
+import classNames from 'classnames/bind';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { AiOutlineCreditCard, AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
-import moment from "moment";
+import moment from 'moment';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   deleteBooking,
   editBooking,
@@ -18,17 +18,17 @@ import {
   selectLoadingBooking,
   selectStatusDeleteBooking,
   selectTotalBooking,
-} from "../../redux/slice/Booking/BookingSlice";
-import { BookingRes, GetBookingReq } from "../../redux/types/Booking/booking";
-import styles from "./Booking.module.scss";
-import ModalBooking from "./ModalBooking/ModalBooking";
-import { formatPriceVietnam } from "../../common/helper";
-import Dropdown from "../../components/Dropdown/Dropdown";
+} from '../../redux/slice/Booking/BookingSlice';
+import { BookingRes, GetBookingReq } from '../../redux/types/Booking/booking';
+import styles from './Booking.module.scss';
+import ModalBooking from './ModalBooking/ModalBooking';
+import { formatPriceVietnam } from '../../common/helper';
+import Dropdown from '../../components/Dropdown/Dropdown';
 
-const MainLayout = lazy(() => import("../../components/MainLayout"));
-const Modal = lazy(() => import("../../components/Modal"));
-const Loading = lazy(() => import("../../components/Loading"));
-const ModalConfirm = lazy(() => import("../../components/ModalConfirm"));
+const MainLayout = lazy(() => import('../../components/MainLayout'));
+const Modal = lazy(() => import('../../components/Modal'));
+const Loading = lazy(() => import('../../components/Loading'));
+const ModalConfirm = lazy(() => import('../../components/ModalConfirm'));
 
 enum EBookingStatus {
   PENDING = 0 as any,
@@ -43,15 +43,15 @@ enum EBookingStatus {
 
 const statusData = [
   {
-    name: "PENDING",
+    name: 'PENDING',
     value: 0,
   },
   {
-    name: "APPROVE",
+    name: 'APPROVE',
     value: 1,
   },
   {
-    name: "REJECT",
+    name: 'REJECT',
     value: 3,
   },
 ];
@@ -77,13 +77,13 @@ export default function Booking() {
   const [limit, setLimit] = useState(pageSizeList[0]);
 
   const [selected, setSelected] = useState<BookingRes>({
-    id: "",
-    startTime: "",
-    bookingDate: "",
-    status: "",
+    id: '',
+    startTime: '',
+    bookingDate: '',
+    status: '',
   });
 
-  const [sort, setSort] = useState<SortType>({ sortBy: "", type: "" });
+  const [sort, setSort] = useState<SortType>({ sortBy: '', type: '' });
   const [path, setPath] = useState<GetBookingReq>(initial);
   const [page, setPage] = useState<number>(1);
 
@@ -95,7 +95,11 @@ export default function Booking() {
   const handleEditBooking = (e: BookingRes) => {
     setShow(true);
     newBooking.current = false;
-    setSelected(e);
+    setSelected({
+      ...e,
+      startTime: moment(e.startTime) as unknown as any,
+      bookingDate: moment(e.bookingDate) as unknown as any,
+    });
   };
 
   const handleAddBooking = () => {
@@ -116,7 +120,6 @@ export default function Booking() {
   };
 
   const handleUpdateStatus = () => {
-
     if (isShowConfirmStatus)
       dispatch(
         editBooking({
@@ -136,45 +139,43 @@ export default function Booking() {
   };
   const columns: any = [
     {
-      title: "STT",
-      dataIndex: "name",
-      key: "name",
+      title: 'STT',
+      dataIndex: 'name',
+      key: 'name',
       render: (text: string, record: any, index: number) => <>{index + 1}</>,
     },
     {
-      title: "Các dịch vụ sử dụng",
-      dataIndex: "bookingServices",
-      key: "bookingServices",
+      title: 'Các dịch vụ sử dụng',
+      dataIndex: 'bookingServices',
+      key: 'bookingServices',
       render: (text: string, record: any) => {
         const services =
           record.services &&
           record.services?.length &&
           record.services?.map((service: any) => (
-            <div key={service?.id}>
-              {service?.name} - {service?.price}
-            </div>
+            <div key={service?.id}>{service?.name}</div>
           ));
         return <div>{services}</div>;
       },
     },
     {
-      title: "Thời gian đặt lịch",
-      dataIndex: "startTime",
-      key: "startTime",
+      title: 'Thời gian đặt lịch',
+      dataIndex: 'startTime',
+      key: 'startTime',
     },
     {
-      title: "Ngày đặt lịch",
-      dataIndex: "bookingDate",
-      key: "bookingDate",
+      title: 'Ngày đặt lịch',
+      dataIndex: 'bookingDate',
+      key: 'bookingDate',
     },
     {
-      title: "Trạng thái",
-      dataIndex: "status",
-      key: "status",
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
       render: (text: string, record: any) => {
         const status = EBookingStatus[record.status];
         return (
-          <div className={cx("statusBooking")}>
+          <div className={cx('statusBooking')}>
             <Dropdown
               options={statusData || []}
               label="name"
@@ -188,9 +189,9 @@ export default function Booking() {
       },
     },
     {
-      title: "Tổng tiền",
-      dataIndex: "bookingTotalPrice",
-      key: "bookingTotalPrice",
+      title: 'Tổng tiền',
+      dataIndex: 'bookingTotalPrice',
+      key: 'bookingTotalPrice',
       render: (text: string, record: any) => {
         const totalPrice = record.services.reduce((acc: any, curr: any) => {
           return acc + curr.price;
@@ -199,30 +200,34 @@ export default function Booking() {
       },
     },
     {
-      title: "Ngày tạo",
-      key: "createdAt",
-      dataIndex: "createdAt",
+      title: 'Ngày tạo',
+      key: 'createdAt',
+      dataIndex: 'createdAt',
       render: (text: string) =>
-        moment(new Date(text)).format("YYYY-MM-DD HH:mm:ss"),
+        moment(new Date(text)).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: "Ngày cập nhật",
-      key: "updatedAt",
-      dataIndex: "updatedAt",
+      title: 'Ngày cập nhật',
+      key: 'updatedAt',
+      dataIndex: 'updatedAt',
       render: (text: string) =>
-        moment(new Date(text)).format("YYYY-MM-DD HH:mm:ss"),
+        moment(new Date(text)).format('YYYY-MM-DD HH:mm'),
     },
     {
-      title: "Action",
-      key: "actions",
+      title: 'Action',
+      key: 'actions',
       render: (text: string, record: any, index: number) => (
         <div>
-        <FiEdit size={26} color="#01C5FB" />{" "}
-          <Link to={"/booking-payment/" + record.id}>
+          <FiEdit
+            size={26}
+            color="#01C5FB"
+            onClick={() => handleEditBooking(record)}
+          />{' '}
+          <Link to={'/booking-payment/' + record.id}>
             <AiOutlineCreditCard
               size={26}
               color="green"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: 'pointer' }}
             />
           </Link>
           <AiOutlineDelete
@@ -248,13 +253,13 @@ export default function Booking() {
   }, [page]);
 
   useEffect(() => {
-    if (sort.type !== "") {
+    if (sort.type !== '') {
       setPath({ ...path, sortOrder: sort.type });
     }
   }, [sort.type]);
 
   useEffect(() => {
-    if (sort.sortBy !== "") {
+    if (sort.sortBy !== '') {
       setPath({ ...path, sortBy: sort.sortBy });
     }
   }, [sort.sortBy]);
@@ -287,7 +292,7 @@ export default function Booking() {
         titleButton="Create Booking"
         handleClickAdd={handleAddBooking}
       >
-        <div className={cx("skill-page")}>
+        <div className={cx('skill-page')}>
           {loading ? (
             <Loading height="500px" />
           ) : (
@@ -301,19 +306,17 @@ export default function Booking() {
               </Suspense>
             </>
           )}
-            <Modal
-             customClass={cx("bookingModalCustom")}
-              isModal={show}
-              title={
-                newBooking.current ? "Thêm cuộc hẹn" : "Cập nhật trạng thái"
-              }
-              setOpenModals={setShow}
-            >
-              <ModalBooking
-                onCloseModal={() => setShow(false)}
-                defaultValue={newBooking.current ? null : selected}
-              />
-            </Modal>
+          <Modal
+            customClass={cx('bookingModalCustom')}
+            isModal={show}
+            title={newBooking.current ? 'Thêm cuộc hẹn' : 'Cập nhật trạng thái'}
+            setOpenModals={setShow}
+          >
+            <ModalBooking
+              onCloseModal={() => setShow(false)}
+              defaultValue={newBooking.current ? null : selected}
+            />
+          </Modal>
           <Suspense>
             <ModalConfirm
               title="Xóa chi cuộc hẹn"
@@ -333,7 +336,7 @@ export default function Booking() {
             isModal={!!isShowConfirmStatus}
             title="Xác nhận thay đổi trạng thái"
             subTitle={
-              "Bạn muốn chuyển trạng thái của cuộc hẹn thành: " +
+              'Bạn muốn chuyển trạng thái của cuộc hẹn thành: ' +
               [EBookingStatus[isShowConfirmStatus.statusValue]]
             }
             onClick={handleUpdateStatus}
