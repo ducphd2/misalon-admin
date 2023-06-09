@@ -301,7 +301,6 @@ export default function Booking() {
               </Suspense>
             </>
           )}
-          <Suspense>
             <Modal
              customClass={cx("bookingModalCustom")}
               isModal={show}
@@ -315,7 +314,6 @@ export default function Booking() {
                 defaultValue={newBooking.current ? null : selected}
               />
             </Modal>
-          </Suspense>
           <Suspense>
             <ModalConfirm
               title="Xóa chi cuộc hẹn"

@@ -8,11 +8,13 @@ import {
 import { EditBookingReq } from "../../../redux/types/Booking/booking";
 import styles from "./ModalBooking.module.scss";
 
-
-
 import { default as ReactSelect } from "react-select";
 import Option from "../../../components/OptionSelect";
 import { httpService } from "../../../redux/service/httpService";
+import { DatePicker, TimePicker } from "antd";
+import moment from "moment";
+import type { Moment } from 'moment';
+import type { RangePickerProps } from "antd/es/date-picker";
 
 const Input = lazy(() => import("../../../components/Input"));
 const Button = lazy(() => import("../../../components/Button"));
@@ -27,19 +29,20 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   const [serviceSelected, setServiceSelected] = useState([]);
 
   const merchant = JSON.parse(localStorage.getItem("merchant") as any);
-  console.log('serviceSelected',serviceSelected)
   const [form, setForm] = useState({
     merchantId: merchant.id,
+    userId: null,
     sku: "",
     code: "",
     address: "",
     fullName: "",
-    branchId: '',
+    branchId: "",
     number: "",
     name: "",
     description: "",
     status: 1,
     startTime: null,
+    bookingDate: null,
   });
   useEffect(() => {
     if (!!defaultValue) {
@@ -48,7 +51,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   }, [defaultValue]);
 
   const handleGetListCustomer = (e: any) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e?.target?.name]: e.target.value });
     if (!e.target?.value) {
       setListSearchCustomer([]);
       return;
@@ -107,7 +110,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   useEffect(() => {
     handleGetService();
     handleGetBranches();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [errorsMessage, setErrorsMessage] = useState({} as any);
   const className = classNames.bind(styles);
@@ -117,24 +120,33 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
 
   const today = new Date();
   const handleSubmit = () => {
-    const listIdService = serviceSelected && serviceSelected.length > 0 && serviceSelected.map((service:any)=>{
-      return service.value
-    })
-    const {address,fullName,number,branchId} = form;
-    const bookingDate = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`
-    const startTime = `${today.getHours()}:${today.getMinutes()}`
+    const listIdService =
+      serviceSelected &&
+      serviceSelected.length > 0 &&
+      serviceSelected.map((service: any) => {
+        return service.value;
+      });
+    const { address, fullName, number, branchId,bookingDate, startTime,userId } = form;
+    // const bookingDate = `${today.getDate()}-${
+    //   today.getMonth() + 1
+    // }-${today.getFullYear()}`;
+    // const startTime = `${today.getHours()}:${today.getMinutes()}`;
     const dataPassApi = {
       serviceIds: listIdService,
       fullName,
+      userId,
       address,
-      branchId:Number(branchId),
-      phoneNumber : number,
-      startTime,
-      bookingDate,
-    }
+      branchId: Number(branchId),
+      phoneNumber: number,
+      startTime: moment(startTime).format('HH:mm'),
+      bookingDate: moment(bookingDate).format('DD-MM-YYYY'),
+    };
     if (!!defaultValue) {
       dispatch(
-        editBooking({ ...dataPassApi, status: isAccept } as unknown as EditBookingReq)
+        editBooking({
+          ...dataPassApi,
+          status: isAccept,
+        } as unknown as EditBookingReq)
       );
     } else {
       dispatch(addBooking(dataPassApi));
@@ -149,14 +161,17 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
 
     setForm({
       ...form,
+      userId: data?.id,
       name: data?.fullName,
       fullName: data?.fullName,
       address: data?.address,
       number: data?.phone,
     });
   };
-
-
+  const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+    // Can not select days before today and today
+    return current && current < moment().endOf("day");
+  };
 
   return (
     <div className={cx("form")}>
@@ -193,8 +208,9 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                       boxShadow: "0px 8px 10px -9px black",
                     }}
                   >
-                    {listsearchCustomer.map((res: any) => (
+                    {listsearchCustomer.map((res: any, index: number) => (
                       <div
+                        key={index}
                         style={{
                           height: "40px",
                           padding: "6px",
@@ -256,42 +272,54 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                 />
               </div>
             </div>
-            {/* <div className='col-sm-12'>
-              <Input
-                required={true}
-                name={'name'}
-                label={'Ngày bắt đầu'}
-                value={form.name}
-                className={className('form-group', 'input-custom')}
-                type={'text'}
-                onChange={(e) => onChange(e)}
-                errorMessage={errorsMessage['name']}
-              />
-
-              <TimePicker
-                name='startTime' // Set the name to identify the field in the form state
-                placeholder='Thời gian bắt đầu'
-                value={form.startTime}
-                className={className('form-group', 'input-custom')}
-                defaultValue={
-                  form.startTime ? moment(form.startTime, 'HH:mm') : moment()
-                }
-                format='HH:mm'
-                minuteStep={15}
-                disabledTime={() => ({
-                  disabledHours: () =>
-                    Array.from(Array(24).keys()).filter(
-                      (hour) => hour < 8 || hour > 20
-                    ),
-                })}
-                hideDisabledOptions={true}
-
-                // onChange={(value, dateString) => {
-                //   console.log('Time', value, dateString);
-                //   setTime(dateString);
-                // }}
-              />
-            </div> */}
+          </div>
+          <div className="row my-3">
+            <div
+              className="col-sm-12"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <label htmlFor="name">Chọn ngày</label>
+              <div className="col-sm-10 pl-3 pr-0">
+                <DatePicker
+                  format="DD-MM-YYYY"
+                  value={form.bookingDate}
+                  onChange={(e: any,dat) => {
+                    setForm({
+                    ...form,
+                    bookingDate: e
+                  })}}
+                  // defaultValue={
+                  //   form.bookingDate ? moment(form.bookingDate, 'dd-MM-YYYY') : moment()
+                  // }
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row my-3">
+            <div
+              className="col-sm-12"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <label htmlFor="name">Chọn thời gian</label>
+              <div className="col-sm-10 pl-3 pr-0">
+                <TimePicker
+                  className={className("form-group", "input-custom")}
+                  name="startTime"
+                  format='HH:mm'
+                  minuteStep={15}
+                  value={form.startTime}
+                  // defaultValue={
+                  //   form.startTime ? moment(form.startTime, 'HH:mm') : moment()
+                  // }
+                  onChange={(e: any,dateString)=>{
+                    setForm({
+                      ...form,
+                      startTime: e
+                    })
+                  }}
+                />
+              </div>
+            </div>
           </div>
           <div className="row my-3">
             <div
@@ -353,7 +381,9 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                     border: "1px solid #e3e3e3",
                     borderRadius: "4px",
                   }}
-                  onChange={(e) => setForm({...form,branchId:e.target.value})}
+                  onChange={(e) =>
+                    setForm({ ...form, branchId: e.target.value })
+                  }
                 >
                   <option selected disabled hidden>
                     select
@@ -398,7 +428,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                 components={{
                   Option,
                 }}
-                onChange={(e:any)=>setServiceSelected(e)}
+                onChange={(e: any) => setServiceSelected(e)}
                 // allowSelectAll={true}
                 // value={optionSelected}
               />

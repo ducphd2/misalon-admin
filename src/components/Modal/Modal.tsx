@@ -23,8 +23,8 @@ function ModalDesignation({
 }: ModalProps) {
   const cx = classNames.bind(styles)
   const modalRef = useRef<any>()
-  useClickOutside(modalRef,
-    () => setOpenModals(false))
+  // useClickOutside(modalRef,
+  //   () => setOpenModals(false))
 
   return isModal === true ? (
     <div className={`${cx("modal")} ${classType}`}>
