@@ -305,6 +305,8 @@ export default function Booking() {
             <Modal
              customClass={cx("bookingModalCustom")}
               isModal={show}
+              //Handle not close popup when chose date
+              isNotHide
               title={
                 newBooking.current ? "Thêm cuộc hẹn" : "Cập nhật trạng thái"
               }

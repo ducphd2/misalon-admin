@@ -7,6 +7,8 @@ import {
 } from "../../../redux/slice/Booking/BookingSlice";
 import { EditBookingReq } from "../../../redux/types/Booking/booking";
 import styles from "./ModalBooking.module.scss";
+import { DatePicker } from 'antd';
+import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
 
 
 
@@ -155,6 +157,19 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
       number: data?.phone,
     });
   };
+
+  const onChangeDate = (
+    value: DatePickerProps['value'] | RangePickerProps['value'],
+    dateString: [string, string] | string,
+  ) => {
+    console.log('Selected Time: ', value);
+    console.log('Formatted Selected Time: ', dateString);
+  };
+  
+  const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
+    console.log('onOk: ', value);
+  };
+  
 
 
 
@@ -342,6 +357,17 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
               className="col-sm-12"
               style={{ display: "flex", justifyContent: "space-between" }}
             >
+              <label htmlFor="name">Thời gian</label>
+              <div className="col-sm-10 pl-3 pr-0 d-flex justify-content-between align-items-center">
+                <DatePicker showTime onChange={onChangeDate} onOk={onOk} />
+              </div>
+            </div>
+          </div>
+          <div className="row my-3">
+            <div
+              className="col-sm-12"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
               <label htmlFor="name">Tại chi nhánh</label>
               <div className="col-sm-10 pl-3 pr-0 d-flex justify-content-between align-items-center">
                 <select
@@ -367,6 +393,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
               </div>
             </div>
           </div>
+          
           <div
             className="row py-3 mx-0"
             style={{

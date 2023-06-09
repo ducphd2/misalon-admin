@@ -11,6 +11,7 @@ interface ModalProps {
   children?: any;
   customClass?: string
   classType?: string;
+  isNotHide ?: boolean
 }
 
 function ModalDesignation({
@@ -20,11 +21,16 @@ function ModalDesignation({
   customClass,
   children,
   classType,
+  isNotHide
 }: ModalProps) {
   const cx = classNames.bind(styles)
   const modalRef = useRef<any>()
   useClickOutside(modalRef,
-    () => setOpenModals(false))
+    () => {
+       if(!isNotHide) {
+        setOpenModals(false)
+       }
+    })
 
   return isModal === true ? (
     <div className={`${cx("modal")} ${classType}`}>
