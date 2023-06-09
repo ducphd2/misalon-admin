@@ -2,7 +2,7 @@ import React from 'react'
 import { Table } from "antd";
 import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { AiOutlineCreditCard, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineCreditCard, AiOutlineDelete, AiFillEye } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
@@ -24,6 +24,7 @@ import styles from "./Booking.module.scss";
 import ModalBooking from "./ModalBooking/ModalBooking";
 import { formatPriceVietnam } from "../../common/helper";
 import Dropdown from "../../components/Dropdown/Dropdown";
+import ModalBookingDetail from './ModalBooking/ModalBookingDetail';
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
 const Modal = lazy(() => import("../../components/Modal"));
@@ -71,6 +72,10 @@ export default function Booking() {
 
   const newBooking = useRef(false);
   const [show, setShow] = useState(false);
+  const [showModalDetail, setShowModalDetail] = useState(false);
+  const [id, setId] = useState(0);
+
+  
   const [modelConfirm, setShowModelConfirm] = useState(false);
   const [isShowConfirmStatus, setIsShowConfirmStatus] = useState<any>();
   const pageSizeList = [10, 25, 50, 100];
@@ -125,6 +130,11 @@ export default function Booking() {
         })
       );
     setIsShowConfirmStatus(undefined);
+  };
+
+  const handleViewDetail = (id : number) => {
+    setShowModalDetail(true)
+    setId(id);
   };
 
   const confirmDelete = () => {
@@ -230,6 +240,11 @@ export default function Booking() {
             color="#e91e63"
             onClick={() => handleDelete(record)}
           />
+          <AiFillEye
+            size={26}
+            color="#e91e63"
+            onClick={() => handleViewDetail(record.id)}
+          />
         </div>
       ),
     },
@@ -315,6 +330,21 @@ export default function Booking() {
               <ModalBooking
                 onCloseModal={() => setShow(false)}
                 defaultValue={newBooking.current ? null : selected}
+              />
+            </Modal>
+          </Suspense>
+
+          {/* Modal detail */}
+          <Suspense>
+            <Modal
+             customClass={cx("bookingModalCustom")}
+              isModal={showModalDetail}
+              title="Xem chi tiết"
+              setOpenModals={setShowModalDetail}
+            >
+              <ModalBookingDetail
+                onCloseModal={() => setShowModalDetail(false)}
+                idBooking={id}
               />
             </Modal>
           </Suspense>
