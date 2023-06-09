@@ -10,6 +10,8 @@ const Login = lazy(() => import("./pages/Authen/SignIn"));
 const SignUp = lazy(() => import("./pages/Authen/SignUp"));
 const ChangPassword = lazy(() => import("./pages/Authen/ChangePassword"));
 const NavigationPage = lazy(() => import("./pages/Authen/navigationPage"));
+const ProfilePage = lazy(() => import("./pages/profile"));
+
 
 function App() {
   return (
@@ -72,6 +74,14 @@ function App() {
             element={
               <Suspense fallback={<></>}>
                 <Login />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/employee-profile"
+            element={
+              <Suspense fallback={<></>}>
+                <ProfilePage />
               </Suspense>
             }
           />

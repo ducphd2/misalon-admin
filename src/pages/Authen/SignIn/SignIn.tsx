@@ -11,6 +11,7 @@ import {
 import { ILoginData } from "../../../redux/types/Login/login";
 import styles from "./SignIn.module.scss";
 import { selectAuthUser } from "../../../redux/slice/Authen/login";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 const Button = lazy(() => import("../../../components/Button"));
 const Input = lazy(() => import("../../../components/Input"));
@@ -67,12 +68,12 @@ const Login: React.FC = () => {
     }
   }, [userLogin]);
 
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
+
   return (
     <div className={cx("account-page")}>
       <div className={cx("account-wrapper")}>
-        <div className={cx("account-image")}>
-
-        </div>
+        <div className={cx("account-image")}></div>
         <div className={cx("account-box")}>
           <div className={cx("account-container")}>
             <div className={cx("account-logo")}>
@@ -106,29 +107,45 @@ const Login: React.FC = () => {
                     <div className={cx("account-password")}>
                       <p>Mật khẩu</p>
                     </div>
-                    <Suspense fallback={<></>}>
-                      <Input
-                        type="password"
-                        name="password"
-                        errorMessage={
-                          errors.type === "password" ? errors.error : ""
-                        }
-                        invalid
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        maxWidth="100%"
-                      />
-                    </Suspense>
+                    <div style={{ position: "relative" }}>
+                      <Suspense fallback={<></>}>
+                        <Input
+                          type={passwordVisible ? "text" : "password"}
+                          name="password"
+                          errorMessage={
+                            errors.type === "password" ? errors.error : ""
+                          }
+                          invalid
+                          value={formData.password}
+                          onChange={handleInputChange}
+                          maxWidth="100%"
+                        />
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: '2px',
+                            right: "20px",
+                          }}
+                          onClick={() => setPasswordVisible(!passwordVisible)}
+                        >
+                          {passwordVisible ? (
+                            <EyeTwoTone />
+                            ) : (
+                            <EyeInvisibleOutlined />
+                          )}
+                        </div>
+                      </Suspense>
+                    </div>
                   </div>
                   <Link
-                        to={"/auth/forgot-password"}
-                        className={cx("forgot-password")}
-                        style={{
-                           marginBottom : '10px'
-                        }}
-                      >
-                        Quên mật khẩu?
-                      </Link>
+                    to={"/auth/forgot-password"}
+                    className={cx("forgot-password")}
+                    style={{
+                      marginBottom: "10px",
+                    }}
+                  >
+                    Quên mật khẩu?
+                  </Link>
 
                   <Suspense fallback={<></>}>
                     <Button

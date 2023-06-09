@@ -18,6 +18,8 @@ import DropMenu from "./DropdownMenu/DropMenu";
 import styles from "./Header.module.scss";
 import MenuItem from "./MenuItem";
 import { Image } from "antd";
+import ModalDesignation from "../Modal";
+import { EUserGender, EUserRole } from "../../common/constants";
 
 const cx = classNames.bind(styles);
 export type THeaderProps = {
@@ -30,6 +32,10 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
   const [isOpenLanguage, setOpenLanguage] = useState(false);
   const [isOpenMenu, setOpenMenu] = useState(false);
   const [textSearch, setTextSearch] = useState("");
+  const [infoUser, setInfoUser] = useState<any>();
+  const [infoShop, setInfoShop] = useState<any>();
+  const [openModal, setOpenModal] = useState<any>(false);
+
   const dispatch = useAppDispatch();
   const [authUser, setAuthUser] = useState<any>({
     createdAt: "",
@@ -66,13 +72,9 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
   };
 
   const listMenu = [
-    { name: "Thông tin cá nhân", path: "/employee-profile" },
+    { name: "Thông tin cá nhân", path: false },
     { name: "Cài đặt", path: "/setting" },
     { name: "Đăng xuất", path: "/auth/login" },
-  ];
-  const listLanguage = [
-    { id: 0, name: "Vietnameses" },
-    { id: 1, name: "English" },
   ];
 
   const routes = ["/change-password", "/profile", "/preferences"];
@@ -80,13 +82,58 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
   const navigate = useNavigate();
   const handleItemClick = (path: string) => {
     const firstRoute = routes[0];
-    if (path === "/setting") {
-      navigate(firstRoute);
-    } else if (path === "/auth/login") {
-      navigate(path);
-      dispatch(logout());
-    } else {
-      navigate(path);
+    if (path) {
+      if (path === "/setting") {
+        navigate(firstRoute);
+      } else if (path === "/auth/login") {
+        navigate(path);
+        dispatch(logout());
+      } else {
+        navigate(path);
+      }
+      return;
+    }
+    setOpenModal(true);
+  };
+
+  // const handleConvertArray = ()=>{
+  // }
+  useEffect(() => {
+    // const array = JSON.parse((localStorage as any).getItem('persist:root'))?.auth && JSON.parse?.(JSON.parse((localStorage as any).getItem('persist:root'))?.auth)?.userInfo
+    const arrayCart =
+      (localStorage as any).getItem("merchant") &&
+      JSON.parse?.((localStorage as any).getItem("merchant"));
+
+    setInfoShop(arrayCart);
+  }, []);
+
+  const roleUser = (role: any) => {
+    switch (role) {
+      case EUserRole.ADMIN:
+        return "admin";
+      case EUserRole.USER:
+        return "user";
+      case EUserRole.SUPER_ADMIN:
+        return "supper admin";
+      case EUserRole.MASTER_WORKER:
+        return "master";
+      case EUserRole.ASSISTANT_WORKER:
+        return "worker";
+      default:
+        return "";
+    }
+  };
+
+  const genderUser = (gender: any) => {
+    switch (gender) {
+      case EUserGender.MALE:
+        return "male";
+      case EUserGender.FEMALE:
+        return "female";
+      case EUserGender.OTHER:
+        return "other";
+      default:
+        return "";
     }
   };
 
@@ -110,28 +157,57 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
         <img className={cx("logo-mobile")} src={images.logoSm} alt="" />
       </div>
       <div className={cx("user-menu")}>
-        {/* <MenuItem noHover>
-          <button
-            className={cx("search-btn-tablet")}
-            onClick={() => setOpenSearch(!isOpenSearch)}
-          >
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </button>
-          <div className={cx("top-nav-search")}>
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                value={textSearch}
-                onChange={handleInputChange}
-                className={cx("form-control")}
-                placeholder="Search here"
-              />
-              <button type="submit" className={cx("search-btn")}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </button>
-            </form>
+        <ModalDesignation
+          title="Chi tiết tài khoản"
+          isModal={openModal}
+          setOpenModals={setOpenModal}
+        >
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>Tên:</div>
+            <div>{authUser?.fullName}</div>
           </div>
-        </MenuItem> */}
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>Email:</div>
+            <div>{authUser?.email}</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>Giới tính:</div>
+            <div>{genderUser(authUser?.gender)}</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>SDT:</div>
+            <div>{authUser?.phoneNumber}</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>Vai trò:</div>
+            <div>{roleUser(authUser?.role)}</div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: "24px",
+              borderBottom: "1px solid black",
+            }}
+          >
+            <div>Địa chỉ:</div>
+            <div>{authUser?.address}</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px", marginTop: "16px" }}>
+            <h4>Cửa hàng:</h4>
+          </div>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>Tên:</div>
+            <div>{infoShop?.name}</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>Địa chỉ:</div>
+            <div>{infoShop?.address}</div>
+          </div>
+          <div style={{ display: "flex", gap: "24px" }}>
+            <div>SDT:</div>
+            <div>{infoShop?.phone}</div>
+          </div>
+        </ModalDesignation>
 
         <div className={cx("language")} style={{ marginRight: "20px" }}>
           {/* <AiOutlineWechat size={25} color="rgb(146, 147, 148)" /> */}
@@ -148,7 +224,7 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
                     height: "50px",
                     borderRadius: "50%",
                     overflow: "hidden",
-                    border : '1px solid #ccc'
+                    border: "1px solid #ccc",
                   }}
                 >
                   <Image
@@ -164,7 +240,7 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
             </div>
             <div className={cx("username")}>
               <p className={cx("name")}>{authUser?.fullName}</p>
-              <p style={{ marginBottom : 0, color : '#999'}}>Xin chào !</p>
+              <p style={{ marginBottom: 0, color: "#999" }}>Xin chào !</p>
               {/* <span className={cx("role")}>{authUser?.role}</span> */}
             </div>
             <DropMenu
