@@ -13,22 +13,24 @@ import { toast } from "react-toastify";
 const Button = lazy(() => import("../../../components/Button"));
 const Input = lazy(() => import("../../../components/Input"));
 
-export interface IForgotData {
-    email: string;
-  }
+export interface IResetData {
+  password: string;
+  confirm_password: string;
+}
 
-const Forgot: React.FC = () => {
+const Reset: React.FC = () => {
   const cx = classNames.bind(styles);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<IForgotData>({
-    email: ""
+  const [formData, setFormData] = useState<IResetData>({
+    password: "",
+    confirm_password: "",
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-  
+
   const [errors, setErrors] = useState({
     type: "",
     error: "",
@@ -37,54 +39,58 @@ const Forgot: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (formData.email === "") {
-      setErrors({ type: "username", error: "Invalid user name address" });
-    }
-    else {
+    const { validatePassword } = await import("../../../common/utils");
+
+    if (formData.password === "") {
+      setErrors({ type: "password", error: "Invalid user name address" });
+    } else if (!validatePassword(formData.password)) {
+      setErrors({ type: "password", error: "Invalid new password" });
+    }  else if (formData.confirm_password !== formData.password) {
+      setErrors({ type: "confirm", error: "Passwords are not the same" });
+    } else {
       setErrors({ type: "", error: "" });
       const req = {
-        email: formData.email,
-        baseUrl: "http://localhost:3000" 
+        password: formData.password,
+        baseUrl: "http://localhost:3000",
       };
       try {
-        const res = await changePassword.forgot(req);
-        if (res?.statusCode === 201) {
-          toast.success(res?.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          setFormData({
-            email: "",
-          });
-        }
+        //Handle call API
+        // const res = await changePassword.forgot(req);
+        // if (res?.statusCode === 201) {
+        //   toast.success(res?.message, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: "light",
+        //   });
+        //   setFormData({
+        //     password: "",
+        //   });
+        // }
       } catch (error) {
         throw error;
       }
-      
-    //   dispatch(getLoginUser(req));
+
+      //   dispatch(getLoginUser(req));
     }
   };
 
-//   useEffect(() => {
-//     if (userLogin) {
-//       if (userLogin.role === 0) {
-//         navigate("/");
-//       } else if (userLogin.role != "") navigate("/dashboard");
-//     }
-//   }, [userLogin]);
+  //   useEffect(() => {
+  //     if (userLogin) {
+  //       if (userLogin.role === 0) {
+  //         navigate("/");
+  //       } else if (userLogin.role != "") navigate("/dashboard");
+  //     }
+  //   }, [userLogin]);
 
   return (
     <div className={cx("account-page")}>
       <div className={cx("account-wrapper")}>
-        <div className={cx("account-image")}>
-
-        </div>
+        <div className={cx("account-image")}></div>
         <div className={cx("account-box")}>
           <div className={cx("account-container")}>
             <div className={cx("account-logo")}>
@@ -94,20 +100,36 @@ const Forgot: React.FC = () => {
               <div className={cx("content-inside")}>
                 <h3 className={cx("account-title")}>Quên mật khẩu</h3>
                 <p className={cx("account-subtitle")}>
-                  Nhập email của bạn và link đặt lại mật khẩu sẽ được gửi cho bạn
+                   Nhập lại mật khẩu mới
                 </p>
                 <form onSubmit={handleSubmit}>
                   <div className={cx("label")}>
                     <Suspense fallback={<></>}>
                       <Input
-                        label="Email Address *"
-                        type="text"
-                        name="email"
+                        type="password"
+                        name="password"
+                        label="Mật khẩu mới"
                         errorMessage={
-                          errors.type === "email" ? errors.error : ""
+                          errors.type === "password" ? errors.error : ""
                         }
                         invalid
-                        value={formData.email}
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        maxWidth="100%"
+                      />
+                    </Suspense>
+                  </div>
+                  <div className={cx("label")}>
+                    <Suspense fallback={<></>}>
+                      <Input
+                        type="password"
+                        name="confirm"
+                        label="Nhập lại mật khẩu"
+                        errorMessage={
+                          errors.type === "confirm" ? errors.error : ""
+                        }
+                        invalid
+                        value={formData.confirm_password}
                         onChange={handleInputChange}
                         maxWidth="100%"
                       />
@@ -134,4 +156,4 @@ const Forgot: React.FC = () => {
   );
 };
 
-export default Forgot;
+export default Reset;

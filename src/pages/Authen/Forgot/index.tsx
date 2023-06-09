@@ -1,3 +1,5 @@
 import Forgot from "./Forgot";
 
-export default Forgot;
+import Reset from "./Reset";
+
+export  {Forgot , Reset};
