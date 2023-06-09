@@ -99,17 +99,15 @@ export default function Header({ menuActive, onMenuClick }: THeaderProps) {
   // const handleConvertArray = ()=>{
   // }
   useEffect(()=>{
-    const array = JSON.parse(JSON.parse((localStorage as any).getItem('persist:root')).auth).userInfo
-    const arrayCart = JSON.parse((localStorage as any).getItem('merchant'))
+    const array = JSON.parse((localStorage as any).getItem('persist:root'))?.auth && JSON.parse?.(JSON.parse((localStorage as any).getItem('persist:root'))?.auth)?.userInfo
+    const arrayCart = (localStorage as any).getItem('merchant') && JSON.parse?.((localStorage as any).getItem('merchant'))
 
     console.log('arrayCart',arrayCart)
     setInfoShop(arrayCart)
     setInfoUser(array)
   },[])
 
-  console.log('infoUser',infoUser)
 
-  // console.log('localStorage',JSON.parse(JSON.parse(localStorage.getItem('persist:root')).auth));
 
   return (
     <header
