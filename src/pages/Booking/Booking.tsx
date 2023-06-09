@@ -1,3 +1,4 @@
+import React from 'react'
 import { Table } from "antd";
 import classNames from "classnames/bind";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
@@ -10,6 +11,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import {
   deleteBooking,
+  editBooking,
   getBookings,
   resetStatusDeleteBooking,
   selectBookingList,
@@ -21,6 +23,7 @@ import { BookingRes, GetBookingReq } from "../../redux/types/Booking/booking";
 import styles from "./Booking.module.scss";
 import ModalBooking from "./ModalBooking/ModalBooking";
 import { formatPriceVietnam } from "../../common/helper";
+import Dropdown from "../../components/Dropdown/Dropdown";
 
 const MainLayout = lazy(() => import("../../components/MainLayout"));
 const Modal = lazy(() => import("../../components/Modal"));
@@ -28,16 +31,30 @@ const Loading = lazy(() => import("../../components/Loading"));
 const ModalConfirm = lazy(() => import("../../components/ModalConfirm"));
 
 enum EBookingStatus {
-  BOOKING_PENDING = 0 as any,
-  BOOKING_APPROVE = 1 as any,
-  BOOKING_CANCELLED = 2 as any,
-  BOOKING_REJECT = 3 as any,
-  BOOKING_FINISHED = 4 as any,
-  BOOKING_PAYMENT_PENDING = 5 as any,
-  BOOKING_PAYMENT_FINISHED = 6 as any,
-  BOOKING_PAYMENT_FAILED = 7 as any,
+  PENDING = 0 as any,
+  APPROVE = 1 as any,
+  CANCELLED = 2 as any,
+  REJECT = 3 as any,
+  FINISHED = 4 as any,
+  PAYMENT_PENDING = 5 as any,
+  PAYMENT_FINISHED = 6 as any,
+  PAYMENT_FAILED = 7 as any,
 }
 
+const statusData = [
+  {
+    name: "PENDING",
+    value: 0,
+  },
+  {
+    name: "APPROVE",
+    value: 1,
+  },
+  {
+    name: "REJECT",
+    value: 3,
+  },
+];
 interface SortType {
   sortBy: string;
   type: string;
@@ -55,6 +72,7 @@ export default function Booking() {
   const newBooking = useRef(false);
   const [show, setShow] = useState(false);
   const [modelConfirm, setShowModelConfirm] = useState(false);
+  const [isShowConfirmStatus, setIsShowConfirmStatus] = useState<any>();
   const pageSizeList = [10, 25, 50, 100];
   const [limit, setLimit] = useState(pageSizeList[0]);
 
@@ -88,6 +106,25 @@ export default function Booking() {
   const handleDelete = (e: BookingRes) => {
     setShowModelConfirm(true);
     setSelected(e);
+  };
+
+  const handleChangeStatus = (record: any, e: number) => {
+    setIsShowConfirmStatus({
+      record: record,
+      statusValue: e,
+    });
+  };
+
+  const handleUpdateStatus = () => {
+
+    if (isShowConfirmStatus)
+      dispatch(
+        editBooking({
+          id: isShowConfirmStatus.record.id,
+          status: isShowConfirmStatus.statusValue,
+        })
+      );
+    setIsShowConfirmStatus(undefined);
   };
 
   const confirmDelete = () => {
@@ -136,7 +173,18 @@ export default function Booking() {
       key: "status",
       render: (text: string, record: any) => {
         const status = EBookingStatus[record.status];
-        return <div>{status}</div>;
+        return (
+          <div className={cx("statusBooking")}>
+            <Dropdown
+              options={statusData || []}
+              label="name"
+              value="value"
+              valueChosen=""
+              setValueChosen={(e) => handleChangeStatus(record, e)}
+              title={status}
+            />
+          </div>
+        );
       },
     },
     {
@@ -169,7 +217,7 @@ export default function Booking() {
       key: "actions",
       render: (text: string, record: any, index: number) => (
         <div>
-          <FiEdit size={26} color="#01C5FB" />{" "}
+        <FiEdit size={26} color="#01C5FB" />{" "}
           <Link to={"/booking-payment/" + record.id}>
             <AiOutlineCreditCard
               size={26}
@@ -222,14 +270,15 @@ export default function Booking() {
   }, [path.page, path.limit, path.sortBy, path.sortOrder, statusDelete]);
 
   useEffect(() => {
-    const timeOut:any = setTimeout(() => {
-      if(!show)
-      dispatch(getBookings(path));
-    }, 1500);
+    const timeOut = setTimeout(() => {
+      if (!isShowConfirmStatus) {
+        dispatch(getBookings(path));
+      }
+    }, 500);
     return () => {
       clearTimeout(timeOut);
     };
-  }, [show]);
+  }, [isShowConfirmStatus]);
 
   return (
     <Suspense fallback={<></>}>
@@ -254,7 +303,7 @@ export default function Booking() {
           )}
           <Suspense>
             <Modal
-              customClass={cx("bookingModalCustom")}
+             customClass={cx("bookingModalCustom")}
               isModal={show}
               title={
                 newBooking.current ? "Thêm cuộc hẹn" : "Cập nhật trạng thái"
@@ -279,6 +328,20 @@ export default function Booking() {
             />
           </Suspense>
         </div>
+        {isShowConfirmStatus && (
+          <ModalConfirm
+            cancelText="Hủy"
+            confirmText="Xác nhận"
+            isModal={!!isShowConfirmStatus}
+            title="Xác nhận thay đổi trạng thái"
+            subTitle={
+              "Bạn muốn chuyển trạng thái của cuộc hẹn thành: " +
+              [EBookingStatus[isShowConfirmStatus.statusValue]]
+            }
+            onClick={handleUpdateStatus}
+            setOpenModals={setIsShowConfirmStatus}
+          />
+        )}
       </MainLayout>
     </Suspense>
   );

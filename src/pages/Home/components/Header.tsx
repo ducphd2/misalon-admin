@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FiUser } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Styles from "./style.module.scss";
@@ -15,6 +15,14 @@ function HeaderHome() {
     dispatch(logout());
     navigate('/auth/login')
   };
+
+  useEffect(()=>{
+    if (userLogin) {
+      if (userLogin.role === 1) {
+        navigate("/dashboard");
+      }
+    }
+  },[userLogin])
   return (
     <div style={{ height: "72px", width: "100%", padding: "20px 5%" }}>
       <div className={Styles.flexCenterBetween}>
