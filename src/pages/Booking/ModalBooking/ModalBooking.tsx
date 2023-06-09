@@ -1,23 +1,22 @@
-import classNames from "classnames/bind";
-import { Suspense, lazy, useEffect, useState } from "react";
-import { useAppDispatch } from "../../../redux/hooks";
+import classNames from 'classnames/bind';
+import { Suspense, lazy, useEffect, useState } from 'react';
+import { useAppDispatch } from '../../../redux/hooks';
 import {
   addBooking,
   editBooking,
-} from "../../../redux/slice/Booking/BookingSlice";
-import { EditBookingReq } from "../../../redux/types/Booking/booking";
-import styles from "./ModalBooking.module.scss";
+} from '../../../redux/slice/Booking/BookingSlice';
+import { EditBookingReq } from '../../../redux/types/Booking/booking';
+import styles from './ModalBooking.module.scss';
 
-import { default as ReactSelect } from "react-select";
-import Option from "../../../components/OptionSelect";
-import { httpService } from "../../../redux/service/httpService";
-import { DatePicker, TimePicker } from "antd";
-import moment from "moment";
-import type { Moment } from 'moment';
-import type { RangePickerProps } from "antd/es/date-picker";
+import { DatePicker, TimePicker } from 'antd';
+import type { RangePickerProps } from 'antd/es/date-picker';
+import moment from 'moment';
+import { default as ReactSelect } from 'react-select';
+import Option from '../../../components/OptionSelect';
+import { httpService } from '../../../redux/service/httpService';
 
-const Input = lazy(() => import("../../../components/Input"));
-const Button = lazy(() => import("../../../components/Button"));
+const Input = lazy(() => import('../../../components/Input'));
+const Button = lazy(() => import('../../../components/Button'));
 
 export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   const dispatch = useAppDispatch();
@@ -28,18 +27,18 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
   const [selectedOptionService, setSelectedOptionService] = useState([]);
   const [serviceSelected, setServiceSelected] = useState([]);
 
-  const merchant = JSON.parse(localStorage.getItem("merchant") as any);
+  const merchant = JSON.parse(localStorage.getItem('merchant') as any);
   const [form, setForm] = useState({
     merchantId: merchant.id,
     userId: null,
-    sku: "",
-    code: "",
-    address: "",
-    fullName: "",
-    branchId: "",
-    number: "",
-    name: "",
-    description: "",
+    sku: '',
+    code: '',
+    address: '',
+    fullName: '',
+    branchId: '',
+    number: '',
+    name: '',
+    description: '',
     status: 1,
     startTime: null,
     bookingDate: null,
@@ -126,7 +125,15 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
       serviceSelected.map((service: any) => {
         return service.value;
       });
-    const { address, fullName, number, branchId,bookingDate, startTime,userId } = form;
+    const {
+      address,
+      fullName,
+      number,
+      branchId,
+      bookingDate,
+      startTime,
+      userId,
+    } = form;
     // const bookingDate = `${today.getDate()}-${
     //   today.getMonth() + 1
     // }-${today.getFullYear()}`;
@@ -168,52 +175,52 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
       number: data?.phone,
     });
   };
-  const disabledDate: RangePickerProps["disabledDate"] = (current) => {
-    // Can not select days before today and today
-    return current && current < moment().endOf("day");
+
+  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+    return current && current < moment().startOf('day');
   };
 
   return (
-    <div className={cx("form")}>
+    <div className={cx('form')}>
       <div className="row">
         <div className="col-sm-12">
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Tên khách hàng</label>
               <div
                 className="col-sm-10 pl-3 pr-0"
-                style={{ position: "relative" }}
+                style={{ position: 'relative' }}
               >
                 <Input
                   required={true}
-                  name={"name"}
+                  name={'name'}
                   value={form.name}
-                  className={className("form-group", "input-custom")}
-                  type={"text"}
+                  className={className('form-group', 'input-custom')}
+                  type={'text'}
                   onChange={(e) => handleGetListCustomer(e)}
-                  errorMessage={errorsMessage["name"]}
+                  errorMessage={errorsMessage['name']}
                 />
                 {listsearchCustomer && listsearchCustomer.length > 0 && (
                   <div
                     style={{
-                      position: "absolute",
-                      backgroundColor: "#f6f4f4",
-                      maxHeight: "50px",
-                      width: "40%",
-                      zIndex: "10",
-                      borderRadius: "4px",
-                      boxShadow: "0px 8px 10px -9px black",
+                      position: 'absolute',
+                      backgroundColor: '#f6f4f4',
+                      maxHeight: '100vh',
+                      width: '40%',
+                      zIndex: '10',
+                      borderRadius: '4px',
+                      boxShadow: '0px 8px 10px -9px black',
                     }}
                   >
                     {listsearchCustomer.map((res: any, index: number) => (
                       <div
                         key={index}
                         style={{
-                          height: "40px",
-                          padding: "6px",
+                          height: '40px',
+                          padding: '6px',
                         }}
                         onClick={() => handleSetData(res)}
                       >
@@ -228,18 +235,18 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Khách hàng</label>
-              <div className="col-sm-10 pl-3 pr-0" style={{ display: "flex" }}>
+              <div className="col-sm-10 pl-3 pr-0" style={{ display: 'flex' }}>
                 <select
                   name=""
                   id=""
                   style={{
-                    width: "40%",
-                    marginRight: "10px",
-                    border: "1px solid #e3e3e3",
-                    borderRadius: "4px",
+                    width: '40%',
+                    marginRight: '10px',
+                    border: '1px solid #e3e3e3',
+                    borderRadius: '4px',
                   }}
                 >
                   <option>Nam</option>
@@ -248,27 +255,27 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                 </select>
                 <Input
                   required={true}
-                  name={"fullName"}
+                  name={'fullName'}
                   placeholder="Họ và tên"
                   value={form.fullName}
                   className={className(
-                    "form-group",
-                    "input-custom",
-                    "name-input"
+                    'form-group',
+                    'input-custom',
+                    'name-input'
                   )}
-                  type={"text"}
+                  type={'text'}
                   onChange={(e) => onChange(e)}
-                  errorMessage={errorsMessage["name"]}
+                  errorMessage={errorsMessage['name']}
                 />
                 <Input
                   required={true}
-                  name={"number"}
+                  name={'number'}
                   placeholder="Điện thoại"
                   value={form.number}
-                  className={className("form-group", "input-custom")}
-                  type={"text"}
+                  className={className('form-group', 'input-custom')}
+                  type={'text'}
                   onChange={(e) => onChange(e)}
-                  errorMessage={errorsMessage["name"]}
+                  errorMessage={errorsMessage['name']}
                 />
               </div>
             </div>
@@ -276,18 +283,20 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Chọn ngày</label>
               <div className="col-sm-10 pl-3 pr-0">
                 <DatePicker
                   format="DD-MM-YYYY"
                   value={form.bookingDate}
-                  onChange={(e: any,dat) => {
+                  onChange={(e: any, dat) => {
                     setForm({
-                    ...form,
-                    bookingDate: e
-                  })}}
+                      ...form,
+                      bookingDate: e,
+                    });
+                  }}
+                  disabledDate={(date) => disabledDate(date)}
                   // defaultValue={
                   //   form.bookingDate ? moment(form.bookingDate, 'dd-MM-YYYY') : moment()
                   // }
@@ -298,24 +307,34 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Chọn thời gian</label>
               <div className="col-sm-10 pl-3 pr-0">
                 <TimePicker
-                  className={className("form-group", "input-custom")}
+                  className={className('form-group', 'input-custom')}
                   name="startTime"
-                  format='HH:mm'
+                  format="HH:mm"
                   minuteStep={15}
-                  value={form.startTime}
+                  value={moment(form.startTime)}
+                  disabledTime={(date) => {
+                    return {
+                      disabledHours: () => {
+                        return Array.from(Array(24).keys()).filter(
+                          (hour) => hour < 8 || hour > 20
+                        );
+                      },
+                    };
+                  }}
+                  hideDisabledOptions={true}
                   // defaultValue={
                   //   form.startTime ? moment(form.startTime, 'HH:mm') : moment()
                   // }
-                  onChange={(e: any,dateString)=>{
+                  onChange={(e: any, dateString) => {
                     setForm({
                       ...form,
-                      startTime: e
-                    })
+                      startTime: e ? e.format('HH:mm') : null,
+                    });
                   }}
                 />
               </div>
@@ -324,22 +343,22 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Địa chỉ</label>
               <div
                 className="col-sm-10 pl-3 pr-0"
-                style={{ display: "flex", justifyContent: "space-between" }}
+                style={{ display: 'flex', justifyContent: 'space-between' }}
               >
                 <Input
                   required={true}
-                  name={"address"}
+                  name={'address'}
                   value={form.address}
                   placeholder="Địa chỉ"
-                  className={className("form-group", "input-custom")}
-                  type={"text"}
+                  className={className('form-group', 'input-custom')}
+                  type={'text'}
                   onChange={(e) => onChange(e)}
-                  errorMessage={errorsMessage["name"]}
+                  errorMessage={errorsMessage['name']}
                 />
               </div>
             </div>
@@ -347,7 +366,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Ghi chú</label>
               <div className="col-sm-10 pl-3 pr-0">
@@ -356,10 +375,10 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                   id=""
                   rows={2}
                   style={{
-                    width: "100%",
-                    padding: "5px",
-                    border: "1px solid #e3e3e3",
-                    borderRadius: "4px",
+                    width: '100%',
+                    padding: '5px',
+                    border: '1px solid #e3e3e3',
+                    borderRadius: '4px',
                   }}
                 ></textarea>
               </div>
@@ -368,7 +387,7 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div className="row my-3">
             <div
               className="col-sm-12"
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <label htmlFor="name">Tại chi nhánh</label>
               <div className="col-sm-10 pl-3 pr-0 d-flex justify-content-between align-items-center">
@@ -376,22 +395,26 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
                   name=""
                   id=""
                   style={{
-                    width: "40%",
-                    height: "36px",
-                    border: "1px solid #e3e3e3",
-                    borderRadius: "4px",
+                    width: '40%',
+                    height: '36px',
+                    border: '1px solid #e3e3e3',
+                    borderRadius: '4px',
                   }}
                   onChange={(e) =>
                     setForm({ ...form, branchId: e.target.value })
                   }
                 >
-                  <option selected disabled hidden>
+                  <option disabled hidden>
                     select
                   </option>
                   {listBranches &&
                     listBranches.length > 0 &&
                     listBranches.map((branch: any) => {
-                      return <option value={branch.id}>{branch?.name}</option>;
+                      return (
+                        <option value={branch.id} key={branch.id}>
+                          {branch?.name}
+                        </option>
+                      );
                     })}
                 </select>
               </div>
@@ -400,8 +423,8 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
           <div
             className="row py-3 mx-0"
             style={{
-              borderTop: "1px solid #e0d1d1",
-              color: "#333",
+              borderTop: '1px solid #e0d1d1',
+              color: '#333',
               fontWeight: 500,
             }}
           >
@@ -466,16 +489,16 @@ export default function ModalBooking({ onCloseModal, defaultValue }: any) {
       </div>
       <div
         className="row d-flex justify-content-end pt-4 mt-5"
-        style={{ margin: "0px", borderTop: "1px solid #e0d1d1" }}
+        style={{ margin: '0px', borderTop: '1px solid #e0d1d1' }}
       >
-        <div className={cx("submit-section")}>
+        <div className={cx('submit-section')}>
           <Suspense>
             <Button
               label="Submit"
               disabled={isUploading}
               type="submit"
               onClick={handleSubmit}
-              classType={cx("btn-submit")}
+              classType={cx('btn-submit')}
             />
           </Suspense>
         </div>
