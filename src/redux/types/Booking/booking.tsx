@@ -50,6 +50,7 @@ export interface EditBookingReq {
   name?: string;
   description?: string;
   image?: string;
+  status?: number;
 }
 export interface EditBookingName {
   name: string;
