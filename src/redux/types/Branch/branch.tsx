@@ -51,6 +51,7 @@ export interface EditBranchReq {
   name?: string | undefined;
   phone?: string | undefined;
   address?: string | undefined;
+  description?: string | undefined;
   merchantId?: number | undefined;
   cityCode?: number | undefined;
   districtCode?: number | undefined;
