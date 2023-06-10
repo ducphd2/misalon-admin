@@ -125,12 +125,6 @@ export default function Branch() {
       ),
     },
     {
-      title: 'Mô tả',
-      dataIndex: 'description',
-      key: 'description',
-      render: (text) => <a>{text}</a>,
-    },
-    {
       title: 'Điện thoại',
       dataIndex: 'phone',
       key: 'phone',
