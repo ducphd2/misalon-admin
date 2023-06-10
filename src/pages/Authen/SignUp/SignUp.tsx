@@ -33,8 +33,8 @@ const SignUp = () => {
           const result = response.data.result.user;
           console.log('response', response);
           setShowModelVerify(true);
-          setShowDataUser({ userId: result.id, email: 'test@test.vn' });
-          toast.success('Đăng ký thành công, vui lòng đăng nhập', {
+          setShowDataUser({ userId: result.id, email: result.email });
+          toast.success('Đăng ký thành công', {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,
@@ -89,9 +89,9 @@ const SignUp = () => {
         isModal={modelVerify}
         setOpenModals={setShowModelVerify}
       >
-        <div className='container height-100 d-flex justify-content-center align-items-center'>
-          <div className='position-relative'>
-            <div className='card p-2 text-center'>
+        <div className="container height-100 d-flex justify-content-center align-items-center">
+          <div className="position-relative">
+            <div className="card p-2 text-center">
               <h4>
                 Vui lòng nhập mật khẩu một lần để xác minh tài khoản của bạn
               </h4>
@@ -102,11 +102,11 @@ const SignUp = () => {
                 </span>{' '}
               </div>
               <div
-                id='otp'
-                className='inputs d-flex flex-row justify-content-center mt-2'
+                id="otp"
+                className="inputs d-flex flex-row justify-content-center mt-2"
               >
                 <Form
-                  name='basic'
+                  name="basic"
                   labelCol={{ span: 8 }}
                   wrapperCol={{ span: 16 }}
                   style={{
@@ -119,53 +119,53 @@ const SignUp = () => {
                   initialValues={{ remember: true }}
                   onFinish={handleVerify}
                   onFinishFailed={onFinishFailed}
-                  autoComplete='off'
+                  autoComplete="off"
                 >
-                  <Form.Item name='pin_1'>
+                  <Form.Item name="pin_1">
                     <input
-                      className='m-2 text-center form-control rounded'
-                      type='text'
-                      id='first'
+                      className="m-2 text-center form-control rounded"
+                      type="text"
+                      id="first"
                       maxLength={1}
                     />
                   </Form.Item>
-                  <Form.Item name='pin_2'>
+                  <Form.Item name="pin_2">
                     <input
-                      className='m-2 text-center form-control rounded'
-                      type='text'
-                      id='second'
+                      className="m-2 text-center form-control rounded"
+                      type="text"
+                      id="second"
                       maxLength={1}
                     />
                   </Form.Item>
-                  <Form.Item name='pin_3'>
+                  <Form.Item name="pin_3">
                     <input
-                      className='m-2 text-center form-control rounded'
-                      type='text'
-                      id='third'
+                      className="m-2 text-center form-control rounded"
+                      type="text"
+                      id="third"
                       maxLength={1}
                     />
                   </Form.Item>
-                  <Form.Item name='pin_4'>
+                  <Form.Item name="pin_4">
                     <input
-                      className='m-2 text-center form-control rounded'
-                      type='text'
-                      id='fourth'
+                      className="m-2 text-center form-control rounded"
+                      type="text"
+                      id="fourth"
                       maxLength={1}
                     />
                   </Form.Item>
-                  <Form.Item name='pin_5'>
+                  <Form.Item name="pin_5">
                     <input
-                      className='m-2 text-center form-control rounded'
-                      type='text'
-                      id='fifth'
+                      className="m-2 text-center form-control rounded"
+                      type="text"
+                      id="fifth"
                       maxLength={1}
                     />
                   </Form.Item>
-                  <Form.Item name='pin_6'>
+                  <Form.Item name="pin_6">
                     <input
-                      className='m-2 text-center form-control rounded'
-                      type='text'
-                      id='sixth'
+                      className="m-2 text-center form-control rounded"
+                      type="text"
+                      id="sixth"
                       maxLength={1}
                     />
                   </Form.Item>
@@ -175,18 +175,18 @@ const SignUp = () => {
                       position: 'absolute',
                       bottom: '8px',
                     }}
-                    className='btn btn-danger px-4 validate'
+                    className="btn btn-danger px-4 validate"
                   >
                     Nhập
                   </button>{' '}
                 </Form>
               </div>
             </div>
-            <div className='card-2'>
-              <div className='content d-flex justify-content-center align-items-center'>
+            <div className="card-2">
+              <div className="content d-flex justify-content-center align-items-center">
                 {' '}
                 <span>Không nhận được mã</span>{' '}
-                <a href='#' className='text-decoration-none ms-3'>
+                <a href="#" className="text-decoration-none ms-3">
                   {' '}
                   Gửi lại
                 </a>{' '}
@@ -197,23 +197,23 @@ const SignUp = () => {
       </ModalDesignation>
       <SHeader>
         <SLogo>
-          <img src={images.logoSm} alt='MiHealthCare Logo' />
+          <img src={images.logoSm} alt="MiHealthCare Logo" />
         </SLogo>
       </SHeader>
       <SModal>
         <STitle>Đăng ký sử dụng dịch vụ</STitle>
         <Form
-          name='basic'
+          name="basic"
           labelCol={{ span: 8 }}
           style={{ padding: '0 60px' }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete='off'
+          autoComplete="off"
         >
           <Form.Item
             // label="Tên trung tâm"
-            name='merchantName'
+            name="merchantName"
             rules={[
               {
                 required: true,
@@ -222,14 +222,14 @@ const SignUp = () => {
             ]}
           >
             <Input
-              placeholder='Tên trung tâm *'
+              placeholder="Tên trung tâm *"
               style={{ height: '40px', width: '100%' }}
             />
           </Form.Item>
 
           <Form.Item
             // label="Chọn subdomain"
-            name='subdomain'
+            name="subdomain"
             rules={[
               {
                 required: true,
@@ -238,14 +238,14 @@ const SignUp = () => {
             ]}
           >
             <Input
-              placeholder='Chọn subdomain *'
+              placeholder="Chọn subdomain *"
               style={{ height: '40px', width: '100%' }}
             />
           </Form.Item>
           <div style={{ display: 'flex', gap: '30px', width: '100%' }}>
             <Form.Item
               // label="Tên của bạn"
-              name='fullName'
+              name="fullName"
               style={{ flex: 1 }}
               rules={[
                 {
@@ -255,20 +255,20 @@ const SignUp = () => {
               ]}
             >
               <Input
-                placeholder='Tên của bạn *'
+                placeholder="Tên của bạn *"
                 style={{ height: '40px', width: '100%' }}
               />
             </Form.Item>
             <Form.Item
               // label="Mật khẩu"
-              name='password'
+              name="password"
               style={{ flex: 1 }}
               rules={[
                 { required: true, message: 'Vui lòng nhập vào mật khẩu' },
               ]}
             >
               <Input.Password
-                placeholder='Mật khẩu *'
+                placeholder="Mật khẩu *"
                 style={{ height: '40px', width: '100%' }}
               />
             </Form.Item>
@@ -276,20 +276,20 @@ const SignUp = () => {
           <div style={{ display: 'flex', gap: '30px', width: '100%' }}>
             <Form.Item
               // label="Email"
-              name='email'
+              name="email"
               style={{ flex: 1 }}
               rules={[
                 { required: true, message: 'Vui lòng nhập vào email của bạn' },
               ]}
             >
               <Input
-                placeholder='Email *'
+                placeholder="Email *"
                 style={{ height: '40px', width: '100%' }}
               />
             </Form.Item>
             <Form.Item
               // label="Số điện thoại của cửa hàng"
-              name='merchantPhoneNumber'
+              name="merchantPhoneNumber"
               style={{ flex: 1 }}
               rules={[
                 {
@@ -299,14 +299,14 @@ const SignUp = () => {
               ]}
             >
               <Input
-                placeholder='Số điện thoại của cửa hàng *'
+                placeholder="Số điện thoại của cửa hàng *"
                 style={{ height: '40px', width: '100%' }}
               />
             </Form.Item>
           </div>
           <Form.Item
             // label="Địa chỉ cửa hàng"
-            name='merchantAddress'
+            name="merchantAddress"
             rules={[
               {
                 required: true,
@@ -315,13 +315,13 @@ const SignUp = () => {
             ]}
           >
             <Input
-              placeholder='Địa chỉ cửa hàng *'
+              placeholder="Địa chỉ cửa hàng *"
               style={{ height: '40px', width: '100%' }}
             />
           </Form.Item>
 
           <Form.Item style={{ marginLeft: '40%' }}>
-            <Button type='submit' label='Đăng ký' maxWidth='40%' />
+            <Button type="submit" label="Đăng ký" maxWidth="40%" />
           </Form.Item>
         </Form>
       </SModal>
